@@ -52,7 +52,7 @@ def MakeUniformPrior(t, num_points, label, spread=3.0):
     pmf = _04_Pmf.Pmf(name=label)
     for m in ms:
         for s in ss:
-            pmf.Set((m, s), 1)
+            pmf._set((m, s), 1)
     return ms, ss, pmf
 
 
@@ -67,10 +67,10 @@ def LogUpdate(suite, evidence):
         suite:    Pmf object
         evidence: whatever kind of object Likelihood expects
     """
-    for hypo in suite.Values():
+    for hypo in suite._values():
         likelihood = LogLikelihood(evidence, hypo)
-        suite.Incr(hypo, likelihood)
-    print(suite.Total())
+        suite._incr(hypo, likelihood)
+    print(suite._total())
 
 
 def LogLikelihood(evidence, hypo):
@@ -125,10 +125,10 @@ def EstimateParameters(t, label, num_points=31):
     """
     xs, ys, suite = MakeUniformPrior(t, num_points, label)
 
-    suite.Log()
+    suite._log()
     LogUpdate(suite, tuple(t))
-    suite.Exp()
-    suite.Normalize()
+    suite._exp()
+    suite._normalize()
 
     return xs, ys, suite
 
@@ -143,9 +143,9 @@ def ComputeMarginals(suite):
     """
     pmf_m = _04_Pmf.Pmf()
     pmf_s = _04_Pmf.Pmf()
-    for (m, s), p in suite.Items():
-        pmf_m.Incr(m, p)
-        pmf_s.Incr(s, p)
+    for (m, s), p in suite._items():
+        pmf_m._incr(m, p)
+        pmf_s._incr(s, p)
     return pmf_m, pmf_s
 
 
@@ -158,16 +158,16 @@ def ComputeCoefVariation(suite):
     Returns: Pmf object for CV.
     """
     pmf = _04_Pmf.Pmf()
-    for (m, s), p in suite.Items():
-        pmf.Incr(s / m, p)
+    for (m, s), p in suite._items():
+        pmf._incr(s / m, p)
     return pmf
 
 
 def ProbBigger(pmf1, pmf2):
     """Returns the probability that a value from one pmf exceeds another."""
     total = 0.0
-    for v1, p1 in pmf1.Items():
-        for v2, p2 in pmf2.Items():
+    for v1, p1 in pmf1._items():
+        for v2, p2 in pmf2._items():
             if v1 > v2:
                 total += p1 * p2
     return total
@@ -182,7 +182,7 @@ def PlotPosterior(xs, ys, suite, pcolor=False, contour=True):
     suite: Pmf that maps (x, y) to z
     """
     X, Y = numpy.meshgrid(xs, ys)
-    func = lambda x, y: suite.Prob((x, y))
+    func = lambda x, y: suite._prob((x, y))
     prob = numpy.vectorize(func)
     Z = prob(X, Y)
 

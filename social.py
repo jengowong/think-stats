@@ -36,16 +36,16 @@ def BiasPmf(pmf, name, invert=False):
      Returns:
        Pmf object
     """
-    new_pmf = pmf.Copy()
+    new_pmf = pmf._copy()
     new_pmf.name = name
 
-    for x, p in pmf.Items():
+    for x, p in pmf._items():
         if invert:
-            new_pmf.Mult(x, 1.0 / x)
+            new_pmf._mult(x, 1.0 / x)
         else:
-            new_pmf.Mult(x, x)
+            new_pmf._mult(x, x)
 
-    new_pmf.Normalize()
+    new_pmf._normalize()
     return new_pmf
 
 
@@ -88,11 +88,11 @@ def Summarize(srcs):
 
 def MakePmfs(lens):
     """Computes the PMF of the given list and the biased PMF."""
-    pmf = _04_Pmf.MakePmfFromList(lens, 'slashdot')
-    print('unbiased mean', pmf.Mean())
+    pmf = _04_Pmf._make_pmf_from_list(lens, 'slashdot')
+    print('unbiased mean', pmf._mean())
 
     biased_pmf = BiasPmf(pmf, 'biased')
-    print('biased mean', biased_pmf.Mean())
+    print('biased mean', biased_pmf._mean())
 
     return pmf, biased_pmf
 
@@ -101,8 +101,8 @@ def MakeFigures(pmf, biased_pmf):
     """Makes figures showing the CDF of the biased and unbiased PMFs"""
     cdf = _13_Cdf.MakeCdfFromPmf(pmf, 'unbiased')
     print('unbiased median', cdf.Percentile(50))
-    print('percent < 100', cdf.Prob(100))
-    print('percent < 1000', cdf.Prob(1000))
+    print('percent < 100', cdf._prob(100))
+    print('percent < 1000', cdf._prob(1000))
 
     biased_cdf = _13_Cdf.MakeCdfFromPmf(biased_pmf, 'biased')
     print('biased median', biased_cdf.Percentile(50))
@@ -146,8 +146,8 @@ def PmfProbLess(pmf1, pmf2):
         float
     """
     total = 0.0
-    for v1, p1 in pmf1.Items():
-        for v2, p2 in pmf2.Items():
+    for v1, p1 in pmf1._items():
+        for v2, p2 in pmf2._items():
             if v1 < v2:
                 total += p1 * p2
     return total

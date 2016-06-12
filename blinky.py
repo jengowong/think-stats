@@ -43,7 +43,7 @@ def MakeUniformSuite(low, high, steps, name=''):
         Pmf object
     """
     hypos = [low + (high - low) * i / (steps - 1.0) for i in range(steps)]
-    pmf = _04_Pmf.MakePmfFromList(hypos, name=name)
+    pmf = _04_Pmf._make_pmf_from_list(hypos, name=name)
     return pmf
 
 
@@ -57,10 +57,10 @@ def Update(suite, evidence):
         suite:    Pmf object
         evidence: whatever kind of object Likelihood expects
     """
-    for hypo in suite.Values():
+    for hypo in suite._values():
         likelihood = Likelihood(evidence, hypo)
-        suite.Mult(hypo, likelihood)
-    suite.Normalize()
+        suite._mult(hypo, likelihood)
+    suite._normalize()
 
 
 def Likelihood(evidence, hypo):
@@ -90,8 +90,8 @@ def TotalProbability(pmf1, pmf2, func):
     func: a callable that takes a value from each Pmf and returns probability.
     """
     total = 0.0
-    for x, px in pmf1.Items():
-        for y, py in pmf2.Items():
+    for x, px in pmf1._items():
+        for y, py in pmf2._items():
             if px and py:
                 total += px * py * func(x, y)
     return total

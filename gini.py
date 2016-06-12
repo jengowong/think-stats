@@ -15,7 +15,7 @@ import _23_irs
 
 def PmfMean(pmf):
     total = 0.0
-    for val, p in pmf.Items():
+    for val, p in pmf._items():
         total += p * val
     return total
 
@@ -25,7 +25,7 @@ def PmfMoment(pmf, mean=None, exponent=2):
         mean = PmfMean(pmf)
 
     total = 0.0
-    for val, p in pmf.Items():
+    for val, p in pmf._items():
         total += p * (val - mean) ** exponent
     return total
 
@@ -35,9 +35,9 @@ def RelativeMeanDifference(pmf, mean=None):
         mean = PmfMean(pmf)
 
     diff = _04_Pmf.Pmf()
-    for v1, p1 in pmf.Items():
-        for v2, p2 in pmf.Items():
-            diff.Incr(abs(v1 - v2), p1 * p2)
+    for v1, p1 in pmf._items():
+        for v2, p2 in pmf._items():
+            diff._incr(abs(v1 - v2), p1 * p2)
 
     print(PmfMean(diff), mean)
 
@@ -51,7 +51,7 @@ def SummarizeData(pmf, cdf):
     median = cdf.Percentile(50)
     print('median:', median)
 
-    fraction_below_mean = cdf.Prob(mean)
+    fraction_below_mean = cdf._prob(mean)
     print('fraction below mean:', fraction_below_mean)
 
     m2 = PmfMoment(pmf, mean, 2)

@@ -49,7 +49,7 @@ def MakeUniformSuite(low, high, steps):
         Pmf object
     """
     hypos = [low + (high - low) * i / (steps - 1.0) for i in range(steps)]
-    pmf = _04_Pmf.MakePmfFromList(hypos)
+    pmf = _04_Pmf._make_pmf_from_list(hypos)
     return pmf
 
 
@@ -64,11 +64,11 @@ def Update(suite, evidence):
         suite:    Pmf object
         evidence: whatever kind of object Likelihood expects
     """
-    for hypo in suite.Values():
+    for hypo in suite._values():
         likelihood = Likelihood(evidence, hypo)
         print(hypo, likelihood)
-        suite.Mult(hypo, likelihood)
-    suite.Normalize()
+        suite._mult(hypo, likelihood)
+    suite._normalize()
 
 
 def Likelihood(evidence, hypo):

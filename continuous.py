@@ -132,7 +132,7 @@ def MakeNormalModel(weights):
 
     # plot the data
     cdf = _13_Cdf.MakeCdfFromList(weights)
-    xs, ps = cdf.Render()
+    xs, ps = cdf._render()
     pyplot.plot(xs, ps, label='data', linewidth=2, color='blue')
 
     _05_myplot.Save('nsfg_birthwgt_model',

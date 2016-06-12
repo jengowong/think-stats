@@ -181,7 +181,7 @@ class _DictWrapper(object):
 
         values: Pmf object
         """
-        for value, prob in values.Items():
+        for value, prob in values._items():
             self.Set(value, prob)
 
     def InitFailure(self, values):
@@ -227,7 +227,7 @@ class _DictWrapper(object):
         new.d.clear()
 
         for val, prob in self.Items():
-            new.Set(val * factor, prob)
+            new._set(val * factor, prob)
         return new
 
     def Log(self, m=None):
@@ -382,13 +382,13 @@ class Hist(_DictWrapper):
     def IsSubset(self, other):
         """Checks whether the values in this histogram are a subset of the values in the given histogram."""
         for val, freq in self.Items():
-            if freq > other.Freq(val):
+            if freq > other._freq(val):
                 return False
         return True
 
     def Subtract(self, other):
         """Subtracts the values in the given histogram from this histogram."""
-        for val, freq in other.Items():
+        for val, freq in other._items():
             self.Incr(val, -freq)
 
 
@@ -634,7 +634,7 @@ class Pmf(_DictWrapper):
         """
         pmf = Pmf()
         for v1, p1 in self.Items():
-            for v2, p2 in other.Items():
+            for v2, p2 in other._items():
                 pmf.Incr(v1 + v2, p1 * p2)
         return pmf
 
@@ -661,7 +661,7 @@ class Pmf(_DictWrapper):
         """
         pmf = Pmf()
         for v1, p1 in self.Items():
-            for v2, p2 in other.Items():
+            for v2, p2 in other._items():
                 pmf.Incr(v1 - v2, p1 * p2)
         return pmf
 
@@ -756,8 +756,8 @@ def MakeJoint(pmf1, pmf2):
         Joint pmf of value pairs
     """
     joint = Joint()
-    for v1, p1 in pmf1.Items():
-        for v2, p2 in pmf2.Items():
+    for v1, p1 in pmf1._items():
+        for v2, p2 in pmf2._items():
             joint.Set((v1, v2), p1 * p2)
     return joint
 
@@ -804,7 +804,7 @@ def MakePmfFromList(t, name=''):
         Pmf object
     """
     hist = MakeHistFromList(t)
-    d = hist.GetDict()
+    d = hist._get_dict()
     pmf = Pmf(d, name)
     pmf.Normalize()
     return pmf
@@ -857,7 +857,7 @@ def MakePmfFromHist(hist, name=None):
         name = hist.name
 
     # make a copy of the dictionary
-    d = dict(hist.GetDict())
+    d = dict(hist._get_dict())
     pmf = Pmf(d, name)
     pmf.Normalize()
     return pmf
@@ -880,7 +880,7 @@ def MakePmfFromCdf(cdf, name=None):
     pmf = Pmf(name=name)
 
     prev = 0.0
-    for val, prob in cdf.Items():
+    for val, prob in cdf._items():
         pmf.Incr(val, prob - prev)
         prev = prob
 
@@ -898,8 +898,8 @@ def MakeMixture(metapmf, name='mix'):
     Returns: Pmf object.
     """
     mix = Pmf(name=name)
-    for pmf, p1 in metapmf.Items():
-        for x, p2 in pmf.Items():
+    for pmf, p1 in metapmf._items():
+        for x, p2 in pmf._items():
             mix.Incr(x, p1 * p2)
     return mix
 
@@ -1182,7 +1182,7 @@ def MakeCdfFromHist(hist, name=''):
     Returns:
         Cdf object
     """
-    return MakeCdfFromItems(hist.Items(), name)
+    return MakeCdfFromItems(hist._items(), name)
 
 
 def MakeCdfFromPmf(pmf, name=None):
@@ -1198,7 +1198,7 @@ def MakeCdfFromPmf(pmf, name=None):
     """
     if name == None:
         name = pmf.name
-    return MakeCdfFromItems(pmf.Items(), name)
+    return MakeCdfFromItems(pmf._items(), name)
 
 
 def MakeCdfFromList(seq, name=''):
@@ -1338,7 +1338,7 @@ def MakeSuiteFromList(t, name=''):
         Suite object
     """
     hist = MakeHistFromList(t)
-    d = hist.GetDict()
+    d = hist._get_dict()
     return MakeSuiteFromDict(d)
 
 
@@ -1357,7 +1357,7 @@ def MakeSuiteFromHist(hist, name=None):
         name = hist.name
 
     # make a copy of the dictionary
-    d = dict(hist.GetDict())
+    d = dict(hist._get_dict())
     return MakeSuiteFromDict(d, name)
 
 
@@ -1395,7 +1395,7 @@ def MakeSuiteFromCdf(cdf, name=None):
     suite = Suite(name=name)
 
     prev = 0.0
-    for val, prob in cdf.Items():
+    for val, prob in cdf._items():
         suite.Incr(val, prob - prev)
         prev = prob
 
@@ -1483,7 +1483,7 @@ def Percentile(pmf, percentage):
     """
     p = percentage / 100.0
     total = 0
-    for val, prob in pmf.Items():
+    for val, prob in pmf._items():
         total += prob
         if total >= p:
             return val
@@ -1520,8 +1520,8 @@ def PmfProbLess(pmf1, pmf2):
         float probability
     """
     total = 0.0
-    for v1, p1 in pmf1.Items():
-        for v2, p2 in pmf2.Items():
+    for v1, p1 in pmf1._items():
+        for v2, p2 in pmf2._items():
             if v1 < v2:
                 total += p1 * p2
     return total
@@ -1539,8 +1539,8 @@ def PmfProbGreater(pmf1, pmf2):
         float probability
     """
     total = 0.0
-    for v1, p1 in pmf1.Items():
-        for v2, p2 in pmf2.Items():
+    for v1, p1 in pmf1._items():
+        for v2, p2 in pmf2._items():
             if v1 > v2:
                 total += p1 * p2
     return total
@@ -1558,8 +1558,8 @@ def PmfProbEqual(pmf1, pmf2):
         float probability
     """
     total = 0.0
-    for v1, p1 in pmf1.Items():
-        for v2, p2 in pmf2.Items():
+    for v1, p1 in pmf1._items():
+        for v2, p2 in pmf2._items():
             if v1 == v2:
                 total += p1 * p2
     return total
@@ -1573,7 +1573,7 @@ def RandomSum(dists):
 
     returns: numerical sum
     """
-    total = sum(dist.Random() for dist in dists)
+    total = sum(dist._random() for dist in dists)
     return total
 
 

@@ -23,8 +23,8 @@ def Process(table, name):
     table.var = _03_thinkstats._var(table.lengths, table.mu)
     table.trim = _03_thinkstats._trimmed_mean(table.lengths)
 
-    table.hist = _04_Pmf.MakeHistFromList(table.lengths, name=name)
-    table.pmf = _04_Pmf.MakePmfFromHist(table.hist)
+    table.hist = _04_Pmf._make_hist_from_list(table.lengths, name=name)
+    table.pmf = _04_Pmf._make_pmf_from_hist(table.hist)
 
 
 def PoolRecords(*tables):
@@ -78,7 +78,7 @@ def Summarize(pool, firsts, others):
     print(firsts.mu, others.mu)
     print(firsts.trim, others.trim)
 
-    live_lengths = pool.hist.GetDict().items()
+    live_lengths = pool.hist._get_dict().items()
     live_lengths.sort()
     print('Shortest lengths:')
     for weeks, count in live_lengths[:10]:
@@ -133,7 +133,7 @@ def Hists(hists):
 
     pyplot.clf()
     for i, hist in enumerate(hists):
-        xs, fs = hist.Render()
+        xs, fs = hist._render()
         xs = Shift(xs, shifts[i])
         pyplot.bar(xs, fs, label=hist.name, width=width, **option_list[i])
 
@@ -158,8 +158,8 @@ def MakeDiffFigure(firsts, others):
     weeks = range(35, 46)
     diffs = []
     for week in weeks:
-        p1 = firsts.pmf.Prob(week)
-        p2 = others.pmf.Prob(week)
+        p1 = firsts.pmf._prob(week)
+        p2 = others.pmf._prob(week)
         diff = 100 * (p1 - p2)
         diffs.append(diff)
 

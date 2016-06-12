@@ -45,7 +45,7 @@ class Respondents(_19_brfss.Respondents):
         xs, ps = continuous.RenderNormalCdf(mu, sigma, xmax)
         pyplot.plot(xs, ps, label='model', linewidth=4, color='0.7')
 
-        xs, ps = cdf.Render()
+        xs, ps = cdf._render()
         pyplot.plot(xs, ps, label='data', linewidth=2, color='blue')
 
         _05_myplot.Save(root,

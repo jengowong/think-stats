@@ -85,19 +85,19 @@ def ReverseScale(pmf, scale):
         Pmf of raw scores
     """
     new = _04_Pmf.Pmf()
-    for val, prob in pmf.Items():
+    for val, prob in pmf._items():
         raw = scale._reverse(val)
-        new.Incr(raw, prob)
+        new._incr(raw, prob)
     return new
 
 
 def DivideValues(pmf, denom):
     """Divides the values in a PMF by denom.  Returns a new PMF."""
     new = _04_Pmf.Pmf()
-    for val, prob in pmf.Items():
+    for val, prob in pmf._items():
         if val >= 0:
             x = 1.0 * val / denom
-            new.Incr(x, prob)
+            new._incr(x, prob)
     return new
 
 
@@ -114,10 +114,10 @@ class Exam:
         scores = ReadRanks()
 
         # hist is the histogram of scaled scores
-        hist = _04_Pmf.MakeHistFromDict(dict(scores))
+        hist = _04_Pmf._make_hist_from_dict(dict(scores))
 
         # scaled is the PMF of scaled scores
-        self.scaled = _04_Pmf.MakePmfFromHist(hist)
+        self.scaled = _04_Pmf._make_pmf_from_hist(hist)
 
         # scale is an Interpolator from raw scores to scaled scores
         self.scale = ReadScale()
@@ -126,7 +126,7 @@ class Exam:
         self.raw = ReverseScale(self.scaled, self.scale)
 
         # max_score is the highest raw score
-        self.max_score = max(self.raw.Values())
+        self.max_score = max(self.raw._values())
 
     def GetRawScore(self, scaled_score):
         """Looks up a scaled score and returns a raw score."""

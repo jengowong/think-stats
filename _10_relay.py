@@ -71,7 +71,7 @@ def GetSpeeds(results, column=5):
 def main():
     results = ReadResults()
     speeds = GetSpeeds(results)
-    pmf = _04_Pmf.MakePmfFromList(speeds, 'speeds')
+    pmf = _04_Pmf._make_pmf_from_list(speeds, 'speeds')
     _05_myplot.Pmf(pmf)
     _05_myplot.Show(title='PMF of running speed',
                     xlabel='speed (mph)',

@@ -33,7 +33,7 @@ def MakeUniformSuite(low, high, steps):
         Pmf object
     """
     hypos = [low + (high - low) * i / (steps - 1.0) for i in range(steps)]
-    pmf = _04_Pmf.MakePmfFromList(hypos)
+    pmf = _04_Pmf._make_pmf_from_list(hypos)
     return pmf
 
 
@@ -47,10 +47,10 @@ def Update(suite, evidence):
         suite:    Pmf object
         evidence: whatever kind of object Likelihood expects
     """
-    for hypo in suite.Values():
+    for hypo in suite._values():
         likelihood = Likelihood(evidence, hypo)
-        suite.Mult(hypo, likelihood)
-    suite.Normalize()
+        suite._mult(hypo, likelihood)
+    suite._normalize()
 
 
 def Likelihood(evidence, hypo):
@@ -85,7 +85,7 @@ def CredibleInterval(pmf, percentage):
     Returns:
         sequence of two floats, low and high
     """
-    cdf = _13_Cdf.MakeCdfFromDict(pmf.GetDict())
+    cdf = _13_Cdf.MakeCdfFromDict(pmf._get_dict())
     prob = (1 - percentage / 100.0) / 2
     interval = [cdf.Value(p) for p in [prob, 1 - prob]]
     return interval
@@ -97,7 +97,7 @@ def main():
     prior.name = 'prior'
 
     evidence = 60
-    posterior = prior.Copy()
+    posterior = prior._copy()
     Update(posterior, evidence)
     posterior.name = 'posterior'
 

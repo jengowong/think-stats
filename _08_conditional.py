@@ -25,13 +25,13 @@ def ConditionPmf(pmf, filter_func, name='conditional'):
     Returns:
         new Pmf object
     """
-    cond_pmf = pmf.Copy(name)
+    cond_pmf = pmf._copy(name)
 
-    vals = [val for val in pmf.Values() if filter_func(val)]
+    vals = [val for val in pmf._values() if filter_func(val)]
     for val in vals:
-        cond_pmf.Remove(val)
+        cond_pmf._remove(val)
 
-    cond_pmf.Normalize()
+    cond_pmf._normalize()
     return cond_pmf
 
 
@@ -67,7 +67,7 @@ def MakeFigure(firsts, others):
         probs[name] = []
         for week in weeks:
             cond = ConditionOnWeeks(table.pmf, week)
-            prob = cond.Prob(week)
+            prob = cond._prob(week)
             print(week, prob, table.pmf.name)
             probs[name].append(prob)
 

@@ -29,8 +29,8 @@ def ChiSquared(expected, observed):
       float chi-squared statistic
     """
     total = 0.0
-    for x, exp in expected.Items():
-        obs = observed.Freq(x)
+    for x, exp in expected._items():
+        obs = observed._freq(x)
         total += (obs - exp) ** 2 / exp
     return total
 
@@ -56,7 +56,7 @@ def Simulate(pa, q, n):
     for i in range(1, n + 1):
         version = Flip(pa, 'A', 'B')
         outcome = Flip(q, 'Y', 'N')
-        hist.Incr((version, outcome))
+        hist._incr((version, outcome))
 
         expected = Expected(pa, q, i)
         try:
@@ -83,8 +83,8 @@ def ComputeRates(hist):
     """Returns a sequence of success rates, one for each version."""
     rates = []
     for version in ['A', 'B']:
-        hits = hist.Freq((version, 'Y'))
-        misses = hist.Freq((version, 'N'))
+        hits = hist._freq((version, 'Y'))
+        misses = hist._freq((version, 'N'))
         rate = float(hits) / (hits + misses)
         rates.append(rate)
 
@@ -103,13 +103,13 @@ def Expected(pa, q, n):
       hist that maps (version, outcome) to expected number, where version
       is string A or B and outcome is string Y or N.
     """
-    versions = _04_Pmf.MakePmfFromDict(dict(A=pa, B=1 - pa))
-    outcomes = _04_Pmf.MakePmfFromDict(dict(Y=q, N=1 - q))
+    versions = _04_Pmf._make_pmf_from_dict(dict(A=pa, B=1 - pa))
+    outcomes = _04_Pmf._make_pmf_from_dict(dict(Y=q, N=1 - q))
 
     hist = _04_Pmf.Hist()
-    for version, pp in versions.Items():
-        for outcome, qq in outcomes.Items():
-            hist.Incr((version, outcome), pp * qq * n)
+    for version, pp in versions._items():
+        for outcome, qq in outcomes._items():
+            hist._incr((version, outcome), pp * qq * n)
     return hist
 
 
@@ -183,7 +183,7 @@ def SimulateChi2(pa=0.5, q=0.5, n=100):
     for i in range(1, n + 1):
         version = Flip(pa, 'A', 'B')
         outcome = Flip(q, 'Y', 'N')
-        simulated.Incr((version, outcome))
+        simulated._incr((version, outcome))
 
     chi2 = ChiSquared(expected, simulated)
     return chi2

@@ -214,7 +214,7 @@ def Pmf(pmf, **options):
       pmf:     Hist or Pmf object
       options: keyword args passed to pyplot.plot
     """
-    xs, ps = pmf.Render()
+    xs, ps = pmf._render()
     if pmf.name:
         options = Underride(options, label=pmf.name)
     Plot(xs, ps, **options)
@@ -244,7 +244,7 @@ def Hist(hist, **options):
       options: keyword args passed to pyplot.bar
     """
     # find the minimum distance between adjacent values
-    xs, fs = hist.Render()
+    xs, fs = hist._render()
     width = min(Diff(xs))
 
     if hist.name:
@@ -300,7 +300,7 @@ def Cdf(cdf, complement=False, transform=None, **options):
     Returns:
       dictionary with the scale options that should be passed to myplot.Save or myplot.Show
     """
-    xs, ps = cdf.Render()
+    xs, ps = cdf._render()
     scale = dict(xscale='linear', yscale='linear')
 
     for s in ['xscale', 'yscale']:
@@ -363,7 +363,7 @@ def Contour(obj, pcolor=False, contour=True, imshow=False, **options):
     options: keyword args passed to pyplot.pcolor and/or pyplot.contour
     """
     try:
-        d = obj.GetDict()
+        d = obj._get_dict()
     except AttributeError:
         d = obj
 

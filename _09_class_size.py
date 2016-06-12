@@ -31,16 +31,16 @@ def BiasPmf(pmf, name, invert=False):
      Returns:
        Pmf object
     """
-    new_pmf = pmf.Copy()
+    new_pmf = pmf._copy()
     new_pmf.name = name
 
-    for x, p in pmf.Items():
+    for x, p in pmf._items():
         if invert:
-            new_pmf.Mult(x, 1.0 / x)
+            new_pmf._mult(x, 1.0 / x)
         else:
-            new_pmf.Mult(x, x)
+            new_pmf._mult(x, x)
 
-    new_pmf.Normalize()
+    new_pmf._normalize()
     return new_pmf
 
 
@@ -73,19 +73,19 @@ def ClassSizes():
     }
 
     # form the pmf
-    pmf = _04_Pmf.MakePmfFromDict(d, 'actual')
-    print('mean', pmf.Mean())
-    print('var', pmf.Var())
+    pmf = _04_Pmf._make_pmf_from_dict(d, 'actual')
+    print('mean', pmf._mean())
+    print('var', pmf._var())
 
     # compute the biased pmf
     biased_pmf = BiasPmf(pmf, 'observed')
-    print('mean', biased_pmf.Mean())
-    print('var', biased_pmf.Var())
+    print('mean', biased_pmf._mean())
+    print('var', biased_pmf._var())
 
     # unbias the biased pmf
     unbiased_pmf = UnbiasPmf(biased_pmf, 'unbiased')
-    print('mean', unbiased_pmf.Mean())
-    print('var', unbiased_pmf.Var())
+    print('mean', unbiased_pmf._mean())
+    print('var', unbiased_pmf._var())
 
     # plot the Pmfs
     _05_myplot.Pmfs([pmf, biased_pmf])

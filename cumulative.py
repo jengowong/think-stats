@@ -30,7 +30,7 @@ def Process(table, name):
     _06_descriptive.Process(table, name)
 
     table.weights = [p.totalwgt_oz for p in table.records if p.totalwgt_oz != 'NA']
-    table.weight_pmf = _04_Pmf.MakePmfFromList(table.weights, table.name)
+    table.weight_pmf = _04_Pmf._make_pmf_from_list(table.weights, table.name)
     table.weight_cdf = _13_Cdf.MakeCdfFromList(table.weights, table.name)
 
 

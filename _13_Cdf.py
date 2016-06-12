@@ -213,7 +213,7 @@ def MakeCdfFromHist(hist, name=''):
     Returns:
         Cdf object
     """
-    return MakeCdfFromItems(hist.Items(), name)
+    return MakeCdfFromItems(hist._items(), name)
 
 
 def MakeCdfFromPmf(pmf, name=None):
@@ -229,7 +229,7 @@ def MakeCdfFromPmf(pmf, name=None):
     """
     if name == None:
         name = pmf.name
-    return MakeCdfFromItems(pmf.Items(), name)
+    return MakeCdfFromItems(pmf._items(), name)
 
 
 def MakeCdfFromList(seq, name=''):
@@ -243,5 +243,5 @@ def MakeCdfFromList(seq, name=''):
     Returns:
        Cdf object
     """
-    hist = _04_Pmf.MakeHistFromList(seq)
+    hist = _04_Pmf._make_hist_from_list(seq)
     return MakeCdfFromHist(hist, name)

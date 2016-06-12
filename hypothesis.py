@@ -146,8 +146,8 @@ def PValue(model1, model2, n, m, delta, iters=1000):
     cdf = _13_Cdf.MakeCdfFromList(deltas)
 
     # compute the two tail probabilities
-    left = cdf.Prob(-delta)
-    right = 1.0 - cdf.Prob(delta)
+    left = cdf._prob(-delta)
+    right = 1.0 - cdf._prob(delta)
 
     pvalue = left + right
     print('Tails (left, right, total):', left, right, left + right)
@@ -174,7 +174,7 @@ def PlotCdf(root, cdf, delta):
     VertLine(-delta)
     VertLine(delta)
 
-    xs, ys = cdf.Render()
+    xs, ys = cdf._render()
     pyplot.subplots_adjust(bottom=0.11)
     pyplot.plot(xs, ys, linewidth=2, color='blue')
 

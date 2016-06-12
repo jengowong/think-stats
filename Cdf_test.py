@@ -25,13 +25,13 @@ class Test(unittest.TestCase):
         t = [2, 1, 3, 2, 5]
         cdf = _13_Cdf.MakeCdfFromList(t, 'bob')
 
-        self.assertEqual(cdf.Prob(-1), 0.0)
-        self.assertEqual(cdf.Prob(1), 0.2)
-        self.assertEqual(cdf.Prob(2), 0.6)
-        self.assertEqual(cdf.Prob(2.5), 0.6)
-        self.assertEqual(cdf.Prob(4), 0.8)
-        self.assertEqual(cdf.Prob(5), 1.0)
-        self.assertEqual(cdf.Prob(7), 1.0)
+        self.assertEqual(cdf._prob(-1), 0.0)
+        self.assertEqual(cdf._prob(1), 0.2)
+        self.assertEqual(cdf._prob(2), 0.6)
+        self.assertEqual(cdf._prob(2.5), 0.6)
+        self.assertEqual(cdf._prob(4), 0.8)
+        self.assertEqual(cdf._prob(5), 1.0)
+        self.assertEqual(cdf._prob(7), 1.0)
 
     def testValue(self):
         t = [2, 1, 3, 2, 5]
@@ -54,13 +54,13 @@ class Test(unittest.TestCase):
     def testMean(self):
         t = [2, 1, 3, 2, 5]
         cdf = _13_Cdf.MakeCdfFromList(t, 'bob')
-        self.assertAlmostEqual(cdf.Mean(), 13.0 / 5.0)
+        self.assertAlmostEqual(cdf._mean(), 13.0 / 5.0)
 
     def testItems(self):
         t = [2, 1, 3, 2, 5]
         cdf = _13_Cdf.MakeCdfFromList(t, 'bob')
 
-        items = cdf.Items()
+        items = cdf._items()
         expected = [(1, 0.2), (2, 0.6), (3, 0.8), (5, 1.0)]
         for p1, p2 in zip(items, expected):
             for x1, x2 in zip(p1, p2):
@@ -70,7 +70,7 @@ class Test(unittest.TestCase):
         t = [2, 1, 3, 2, 5]
         cdf = _13_Cdf.MakeCdfFromList(t, 'bob')
 
-        vs, ps = cdf.Render()
+        vs, ps = cdf._render()
         self.assertEqual(vs, [1, 1, 2, 2, 3, 3, 5, 5])
         for got, expected in zip(ps, [0.0, 0.2, 0.2, 0.6, 0.6, 0.8, 0.8, 1.0]):
             self.assertAlmostEqual(got, expected)

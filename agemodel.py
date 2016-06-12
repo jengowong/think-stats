@@ -88,7 +88,7 @@ def Process(table, name):
     cumulative.Process(table, name)
 
     table.ages = [p.agepreg for p in table.records if p.agepreg != 'NA']
-    table.age_pmf = _04_Pmf.MakePmfFromList(table.ages, table.name)
+    table.age_pmf = _04_Pmf._make_pmf_from_list(table.ages, table.name)
     table.age_cdf = _13_Cdf.MakeCdfFromList(table.ages, table.name)
 
     table.weights = [p.totalwgt_oz for p in table.records if p.totalwgt_oz != 'NA']

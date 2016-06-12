@@ -28,11 +28,11 @@ class _DictWrapper(object):
         self.d = d
         self.name = name
 
-    def GetDict(self):
+    def _get_dict(self):
         """Gets the dictionary."""
         return self.d
 
-    def Values(self):
+    def _values(self):
         """
         Gets an unsorted sequence of values.
 
@@ -42,25 +42,25 @@ class _DictWrapper(object):
         """
         return self.d.keys()
 
-    def Items(self):
+    def _items(self):
         """Gets an unsorted sequence of (value, freq/prob) pairs."""
         return self.d.items()
 
-    def Render(self):
+    def _render(self):
         """
         Generates a sequence of points suitable for plotting.
 
         Returns:
             tuple of (sorted value sequence, freq/prob sequence)
         """
-        return zip(*sorted(self.Items()))
+        return zip(*sorted(self._items()))
 
-    def Print(self):
+    def _print(self):
         """Prints the values and freqs/probs in ascending order."""
         for val, prob in sorted(self.d.iteritems()):
             print(val, prob)
 
-    def Set(self, x, y=0):
+    def _set(self, x, y=0):
         """
         Sets the freq/prob associated with the value x.
 
@@ -70,7 +70,7 @@ class _DictWrapper(object):
         """
         self.d[x] = y
 
-    def Incr(self, x, term=1):
+    def _incr(self, x, term=1):
         """
         Increments the freq/prob associated with the value x.
 
@@ -80,7 +80,7 @@ class _DictWrapper(object):
         """
         self.d[x] = self.d.get(x, 0) + term
 
-    def Mult(self, x, factor):
+    def _mult(self, x, factor):
         """
         Scales the freq/prob associated with the value x.
 
@@ -90,7 +90,7 @@ class _DictWrapper(object):
         """
         self.d[x] = self.d.get(x, 0) * factor
 
-    def Remove(self, x):
+    def _remove(self, x):
         """
         Removes a value.
 
@@ -101,12 +101,12 @@ class _DictWrapper(object):
         """
         del self.d[x]
 
-    def Total(self):
+    def _total(self):
         """Returns the total of the frequencies/probabilities in the map."""
         total = sum(self.d.itervalues())
         return total
 
-    def MaxLike(self):
+    def _max_like(self):
         """Returns the largest frequency/probability in the map."""
         return max(self.d.itervalues())
 
@@ -118,7 +118,7 @@ class Hist(_DictWrapper):
     Values can be any hashable type; frequencies are integer counters.
     """
 
-    def Copy(self, name=None):
+    def _copy(self, name=None):
         """
         Returns a copy of this Hist.
 
@@ -129,7 +129,7 @@ class Hist(_DictWrapper):
             name = self.name
         return Hist(dict(self.d), name)
 
-    def Freq(self, x):
+    def _freq(self, x):
         """
         Gets the frequency associated with the value x.
 
@@ -141,21 +141,21 @@ class Hist(_DictWrapper):
         """
         return self.d.get(x, 0)
 
-    def Freqs(self):
+    def _freqs(self):
         """Gets an unsorted sequence of frequencies."""
         return self.d.values()
 
-    def IsSubset(self, other):
+    def _is_subset(self, other):
         """Checks whether the values in this histogram are a subset of the values in the given histogram."""
-        for val, freq in self.Items():
-            if freq > other.Freq(val):
+        for val, freq in self._items():
+            if freq > other._freq(val):
                 return False
         return True
 
-    def Subtract(self, other):
+    def _subtract(self, other):
         """Subtracts the values in the given histogram from this histogram."""
-        for val, freq in other.Items():
-            self.Incr(val, -freq)
+        for val, freq in other._items():
+            self._incr(val, -freq)
 
 
 class Pmf(_DictWrapper):
@@ -166,7 +166,7 @@ class Pmf(_DictWrapper):
     Pmfs are not necessarily normalized.
     """
 
-    def Copy(self, name=None):
+    def _copy(self, name=None):
         """
         Returns a copy of this Pmf.
 
@@ -177,7 +177,7 @@ class Pmf(_DictWrapper):
             name = self.name
         return Pmf(dict(self.d), name)
 
-    def Prob(self, x, default=0):
+    def _prob(self, x, default=0):
         """
         Gets the probability associated with the value x.
 
@@ -190,18 +190,18 @@ class Pmf(_DictWrapper):
         """
         return self.d.get(x, default)
 
-    def Probs(self):
+    def _probs(self):
         """Gets an unsorted sequence of probabilities."""
         return self.d.values()
 
-    def Normalize(self, fraction=1.0):
+    def _normalize(self, fraction=1.0):
         """
         Normalizes this PMF so the sum of all probs is 1.
 
         Args:
             fraction: what the total should be after normalization
         """
-        total = self.Total()
+        total = self._total()
         if total == 0.0:
             raise ValueError('total probability is zero.')
             logging.warning('Normalize: total probability is zero.')
@@ -211,7 +211,7 @@ class Pmf(_DictWrapper):
         for x in self.d:
             self.d[x] *= factor
 
-    def Random(self):
+    def _random(self):
         """
         Chooses a random element from this PMF.
 
@@ -231,7 +231,7 @@ class Pmf(_DictWrapper):
         # we shouldn't get here
         assert False
 
-    def Mean(self):
+    def _mean(self):
         """
         Computes the mean of a PMF.
 
@@ -243,7 +243,7 @@ class Pmf(_DictWrapper):
             mu += p * x
         return mu
 
-    def Var(self, mu=None):
+    def _var(self, mu=None):
         """
         Computes the variance of a PMF.
 
@@ -254,27 +254,27 @@ class Pmf(_DictWrapper):
             float variance
         """
         if mu is None:
-            mu = self.Mean()
+            mu = self._mean()
 
         var = 0.0
         for x, p in self.d.iteritems():
             var += p * (x - mu) ** 2
         return var
 
-    def Log(self):
+    def _log(self):
         """Log transforms the probabilities."""
-        m = self.MaxLike()
+        m = self._max_like()
         for x, p in self.d.iteritems():
-            self.Set(x, math.log(p / m))
+            self._set(x, math.log(p / m))
 
-    def Exp(self):
+    def _exp(self):
         """Exponentiates the probabilities."""
-        m = self.MaxLike()
+        m = self._max_like()
         for x, p in self.d.iteritems():
-            self.Set(x, math.exp(p - m))
+            self._set(x, math.exp(p - m))
 
 
-def MakeHistFromList(t, name=''):
+def _make_hist_from_list(t, name=''):
     """
     Makes a histogram from an unsorted sequence of values.
 
@@ -286,11 +286,11 @@ def MakeHistFromList(t, name=''):
         Hist object
     """
     hist = Hist(name=name)
-    [hist.Incr(x) for x in t]
+    [hist._incr(x) for x in t]
     return hist
 
 
-def MakeHistFromDict(d, name=''):
+def _make_hist_from_dict(d, name=''):
     """
     Makes a histogram from a map from values to frequencies.
 
@@ -304,7 +304,7 @@ def MakeHistFromDict(d, name=''):
     return Hist(d, name)
 
 
-def MakePmfFromList(t, name=''):
+def _make_pmf_from_list(t, name=''):
     """
     Makes a PMF from an unsorted sequence of values.
 
@@ -315,11 +315,11 @@ def MakePmfFromList(t, name=''):
     Returns:
         Pmf object
     """
-    hist = MakeHistFromList(t, name)
-    return MakePmfFromHist(hist)
+    hist = _make_hist_from_list(t, name)
+    return _make_pmf_from_hist(hist)
 
 
-def MakePmfFromDict(d, name=''):
+def _make_pmf_from_dict(d, name=''):
     """
     Makes a PMF from a map from values to probabilities.
 
@@ -331,11 +331,11 @@ def MakePmfFromDict(d, name=''):
         Pmf object
     """
     pmf = Pmf(d, name)
-    pmf.Normalize()
+    pmf._normalize()
     return pmf
 
 
-def MakePmfFromHist(hist, name=None):
+def _make_pmf_from_hist(hist, name=None):
     """
     Makes a normalized PMF from a Hist object.
 
@@ -350,13 +350,13 @@ def MakePmfFromHist(hist, name=None):
         name = hist.name
 
     # make a copy of the dictionary
-    d = dict(hist.GetDict())
+    d = dict(hist._get_dict())
     pmf = Pmf(d, name)
-    pmf.Normalize()
+    pmf._normalize()
     return pmf
 
 
-def MakePmfFromCdf(cdf, name=None):
+def _make_pmf_from_cdf(cdf, name=None):
     """
     Makes a normalized Pmf from a Cdf object.
 
@@ -373,14 +373,14 @@ def MakePmfFromCdf(cdf, name=None):
     pmf = Pmf(name=name)
 
     prev = 0.0
-    for val, prob in cdf.Items():
-        pmf.Incr(val, prob - prev)
+    for val, prob in cdf._items():
+        pmf._incr(val, prob - prev)
         prev = prob
 
     return pmf
 
 
-def MakeMixture(pmfs, name='mix'):
+def _make_mixture(pmfs, name='mix'):
     """
     Make a mixture distribution.
 
@@ -391,7 +391,7 @@ def MakeMixture(pmfs, name='mix'):
     Returns: Pmf object.
     """
     mix = Pmf(name=name)
-    for pmf, prob in pmfs.Items():
-        for x, p in pmf.Items():
-            mix.Incr(x, p * prob)
+    for pmf, prob in pmfs._items():
+        for x, p in pmf._items():
+            mix._incr(x, p * prob)
     return mix

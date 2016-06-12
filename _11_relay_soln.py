@@ -27,11 +27,11 @@ def BiasPmf(pmf, speed, name=None):
     Returns:
         Pmf object
     """
-    new = pmf.Copy(name=name)
-    for val, prob in new.Items():
+    new = pmf._copy(name=name)
+    for val, prob in new._items():
         diff = abs(val - speed)
-        new.Mult(val, diff)
-    new.Normalize()
+        new._mult(val, diff)
+    new._normalize()
     return new
 
 
@@ -40,7 +40,7 @@ def main():
     speeds = _10_relay.GetSpeeds(results)
 
     # plot the distribution of actual speeds
-    pmf = _04_Pmf.MakePmfFromList(speeds, 'actual speeds')
+    pmf = _04_Pmf._make_pmf_from_list(speeds, 'actual speeds')
 
     # myplot.Clf()
     # myplot.Hist(pmf)

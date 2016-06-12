@@ -28,7 +28,7 @@ def CalcTimeInterval():
 
 def CdfTimeInterval():
     timeInterval = CalcTimeInterval()
-    pmf = _04_Pmf.MakePmfFromList(timeInterval, 'baby birth interval')
+    pmf = _04_Pmf._make_pmf_from_list(timeInterval, 'baby birth interval')
     _05_myplot.Clf()
     _05_myplot.Hist(pmf)
     _05_myplot.Save(root='baby_birth_interval_pmf',
@@ -48,7 +48,7 @@ def CdfTimeInterval():
 
 def LogCCdfTimeIntervel():
     timeInterval = CalcTimeInterval()
-    pmf = _04_Pmf.MakePmfFromList(timeInterval, 'baby birth interval')
+    pmf = _04_Pmf._make_pmf_from_list(timeInterval, 'baby birth interval')
     cdf = _13_Cdf.MakeCdfFromPmf(pmf, 'baby birth interval')
     _05_myplot.Clf()
     _05_myplot.Cdf(cdf, complement=True, xscale='linear', yscale='log')

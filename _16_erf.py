@@ -79,7 +79,7 @@ def MakeNormalPmf(low=-spread, high=spread, digits=2):
         digits:
     """
     cdf = MakeNormalCdf(low, high, digits)
-    pmf = _04_Pmf.MakePmfFromCdf(cdf)
+    pmf = _04_Pmf._make_pmf_from_cdf(cdf)
     return pmf
 
 
@@ -109,15 +109,15 @@ class FixedPointNormalPmf(_04_Pmf.Pmf):
 
         for x in xs:
             p = StandardNormalCdf(x + gap) - StandardNormalCdf(x - gap)
-            self.Set(round(x, self.digits), p)
+            self._set(round(x, self.digits), p)
 
         # save the last (smallest) probability as the default for
         # values beyond the spread
         self.default = p
 
-        self.Normalize()
+        self._normalize()
         if log:
-            self.Log()
+            self._log()
             self.default = math.log(self.default)
 
     def NormalProb(self, x):

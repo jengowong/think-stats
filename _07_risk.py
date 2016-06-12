@@ -24,7 +24,7 @@ def ProbRange(pmf, low, high):
     """
     total = 0.0
     for week in range(low, high + 1):
-        total += pmf.Prob(week)
+        total += pmf._prob(week)
     return total
 
 

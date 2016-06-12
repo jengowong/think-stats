@@ -39,9 +39,9 @@ def IntegrateLikelihood(evidence, suite, step):
       float
     """
     total = 0.0
-    for hypo in suite.Values():
+    for hypo in suite._values():
         likelihood = Likelihood(evidence, hypo)
-        total += likelihood * suite.Prob(hypo)
+        total += likelihood * suite._prob(hypo)
 
     return total
 
