@@ -4,3 +4,5 @@ target
 logs
 .DS_Store
 *.pyc
+*.swp
+__pycache__/
