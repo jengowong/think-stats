@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: _01_survey.py
 """
 
 import sys
@@ -32,7 +34,7 @@ class Table(object):
     def __len__(self):
         return len(self.records)
 
-    def ReadFile(self, data_dir, filename, fields, constructor, n=None):
+    def _read_file(self, data_dir, filename, fields, constructor, n=None):
         """
         Reads a compressed data file builds one object per record.
 
@@ -52,11 +54,12 @@ class Table(object):
         for i, line in enumerate(fp):
             if i == n:
                 break
-            record = self.MakeRecord(line, fields, constructor)
-            self.AddRecord(record)
+            record = self._make_record(line, fields, constructor)
+            self._add_record(record)
         fp.close()
 
-    def MakeRecord(self, line, fields, constructor):
+    @staticmethod
+    def _make_record(line, fields, constructor):
         """
         Scans a line and returns an object with the appropriate fields.
 
@@ -83,7 +86,7 @@ class Table(object):
             setattr(obj, field, val)
         return obj
 
-    def AddRecord(self, record):
+    def _add_record(self, record):
         """
         Adds a record to this table.
 
@@ -92,7 +95,7 @@ class Table(object):
         """
         self.records.append(record)
 
-    def ExtendRecords(self, records):
+    def _extend_records(self, records):
         """
         Adds records to this table.
 
@@ -101,7 +104,7 @@ class Table(object):
         """
         self.records.extend(records)
 
-    def Recode(self):
+    def _recode(self):
         """Child classes can override this to recode values."""
         pass
 
@@ -109,15 +112,17 @@ class Table(object):
 class Respondents(Table):
     """Represents the respondent table."""
 
-    def ReadRecords(self, data_dir='.', n=None):
-        filename = self.GetFilename()
-        self.ReadFile(data_dir, filename, self.GetFields(), Respondent, n)
-        self.Recode()
+    def _read_records(self, data_dir='.', n=None):
+        filename = self._get_filename()
+        self._read_file(data_dir, filename, self._get_fields(), Respondent, n)
+        self._recode()
 
-    def GetFilename(self):
+    @staticmethod
+    def _get_filename():
         return '2002FemResp.dat.gz'
 
-    def GetFields(self):
+    @staticmethod
+    def _get_fields():
         """
         Returns a tuple specifying the fields to extract.
 
@@ -135,15 +140,17 @@ class Respondents(Table):
 class Pregnancies(Table):
     """Contains survey data about a Pregnancy."""
 
-    def ReadRecords(self, data_dir='.', n=None):
-        filename = self.GetFilename()
-        self.ReadFile(data_dir, filename, self.GetFields(), Pregnancy, n)
-        self.Recode()
+    def _read_records(self, data_dir='.', n=None):
+        filename = self._get_filename()
+        self._read_file(data_dir, filename, self._get_fields(), Pregnancy, n)
+        self._recode()
 
-    def GetFilename(self):
+    @staticmethod
+    def _get_filename():
         return '2002FemPreg.dat.gz'
 
-    def GetFields(self):
+    @staticmethod
+    def _get_fields():
         """
         Gets information about the fields to extract from the survey data.
 
@@ -166,7 +173,7 @@ class Pregnancies(Table):
             ('finalwgt', 423, 440, float),
         ]
 
-    def Recode(self):
+    def _recode(self):
         for rec in self.records:
 
             # divide mother's age by 100
@@ -181,8 +188,10 @@ class Pregnancies(Table):
             # that are almost certainly errors, but for now I am not
             # filtering
             try:
-                if (rec.birthwgt_lb != 'NA' and rec.birthwgt_lb < 20 and
-                            rec.birthwgt_oz != 'NA' and rec.birthwgt_oz <= 16):
+                if (rec.birthwgt_lb != 'NA' and
+                            rec.birthwgt_lb < 20 and
+                            rec.birthwgt_oz != 'NA' and
+                            rec.birthwgt_oz <= 16):
                     rec.totalwgt_oz = rec.birthwgt_lb * 16 + rec.birthwgt_oz
                 else:
                     rec.totalwgt_oz = 'NA'
@@ -192,11 +201,11 @@ class Pregnancies(Table):
 
 def main(name, data_dir='.'):
     resp = Respondents()
-    resp.ReadRecords(data_dir)
+    resp._read_records(data_dir)
     print('Number of respondents', len(resp.records))
 
     preg = Pregnancies()
-    preg.ReadRecords(data_dir)
+    preg._read_records(data_dir)
     print('Number of pregnancies', len(preg.records))
 
 

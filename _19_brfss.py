@@ -17,12 +17,12 @@ class Respondents(_01_survey.Table):
 
     def ReadRecords(self, data_dir='.', n=None):
         filename = self.GetFilename()
-        self.ReadFile(data_dir,
-                      filename,
-                      self.GetFields(),
-                      _01_survey.Respondent,
-                      n)
-        self.Recode()
+        self._read_file(data_dir,
+                        filename,
+                        self.GetFields(),
+                        _01_survey.Respondent,
+                        n)
+        self._recode()
 
     def GetFilename(self):
         """
@@ -57,8 +57,8 @@ class Respondents(_01_survey.Table):
             ('sex', 143, 143, int),
         ]
 
-    def Recode(self):
-        """Recode variables that need cleaning."""
+    def _recode(self):
+        """_recode variables that need cleaning."""
 
         def CleanWeight(weight):
             if weight in [7777, 9999]:

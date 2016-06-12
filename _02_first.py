@@ -43,9 +43,9 @@ def PartitionRecords(table):
             continue
 
         if p.birthord == 1:
-            firsts.AddRecord(p)
+            firsts._add_record(p)
         else:
-            others.AddRecord(p)
+            others._add_record(p)
 
     return firsts, others
 
@@ -65,7 +65,7 @@ def Process(table):
 def MakeTables(data_dir='.'):
     """Reads survey data and returns tables for first babies and others."""
     table = _01_survey.Pregnancies()
-    table.ReadRecords(data_dir)
+    table._read_records(data_dir)
 
     firsts, others = PartitionRecords(table)
 

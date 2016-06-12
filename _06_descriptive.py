@@ -41,7 +41,7 @@ def PoolRecords(*tables):
     """
     pool = _01_survey.Pregnancies()
     for table in tables:
-        pool.ExtendRecords(table.records)
+        pool._extend_records(table.records)
     return pool
 
 
