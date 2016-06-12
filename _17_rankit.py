@@ -52,7 +52,7 @@ def EstimateRankits(n=6, m=1000):
     """
     t = Samples(n, m)
     t = zip(*t)
-    means = [_03_thinkstats.Mean(x) for x in t]
+    means = [_03_thinkstats._mean(x) for x in t]
     return means
 
 

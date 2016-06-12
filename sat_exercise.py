@@ -86,7 +86,7 @@ def ReverseScale(pmf, scale):
     """
     new = _04_Pmf.Pmf()
     for val, prob in pmf.Items():
-        raw = scale.Reverse(val)
+        raw = scale._reverse(val)
         new.Incr(raw, prob)
     return new
 
@@ -130,7 +130,7 @@ class Exam:
 
     def GetRawScore(self, scaled_score):
         """Looks up a scaled score and returns a raw score."""
-        return self.scale.Reverse(scaled_score)
+        return self.scale._reverse(scaled_score)
 
     def GetPrior(self):
         """Returns a new PMF of p, which is (raw_score / max_score)."""

@@ -33,7 +33,7 @@ def MakeUniformPrior(t, num_points, label, spread=3.0):
     """
     # estimate mean and stddev of t
     n = len(t)
-    xbar, S2 = _03_thinkstats.MeanVar(t)
+    xbar, S2 = _03_thinkstats._mean_var(t)
     sighat = math.sqrt(S2)
 
     print(xbar, sighat, sighat / xbar)

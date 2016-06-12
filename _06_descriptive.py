@@ -20,8 +20,8 @@ def Process(table, name):
     _02_first._process(table)
     table.name = name
 
-    table.var = _03_thinkstats.Var(table.lengths, table.mu)
-    table.trim = _03_thinkstats.TrimmedMean(table.lengths)
+    table.var = _03_thinkstats._var(table.lengths, table.mu)
+    table.trim = _03_thinkstats._trimmed_mean(table.lengths)
 
     table.hist = _04_Pmf.MakeHistFromList(table.lengths, name=name)
     table.pmf = _04_Pmf.MakePmfFromHist(table.hist)

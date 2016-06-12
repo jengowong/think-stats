@@ -119,7 +119,7 @@ def MakeNormalModel(weights):
     """Plot the CDF of birthweights with a normal model."""
 
     # estimate parameters: trimming outliers yields a better fit
-    mu, var = _03_thinkstats.TrimmedMeanVar(weights, p=0.01)
+    mu, var = _03_thinkstats._trimmed_mean_var(weights, p=0.01)
     print('Mean, Var', mu, var)
 
     # plot the model

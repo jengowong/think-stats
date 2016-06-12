@@ -86,8 +86,8 @@ class Test(unittest.TestCase):
 
     def testMeanAndVar(self):
         t = [1, 2, 2, 3, 5]
-        mu = _03_thinkstats.Mean(t)
-        var = _03_thinkstats.Var(t, mu)
+        mu = _03_thinkstats._mean(t)
+        var = _03_thinkstats._var(t, mu)
 
         pmf = _04_Pmf.MakePmfFromList(t)
         mu2 = pmf.Mean()

@@ -100,7 +100,7 @@ class Respondents(_01_survey.Table):
         print('Height (cm):')
         print('key n     mean     var    sigma     cv')
         for key, t in d.iteritems():
-            mu, var = _03_thinkstats.TrimmedMeanVar(t)
+            mu, var = _03_thinkstats._trimmed_mean_var(t)
             sigma = math.sqrt(var)
             cv = sigma / mu
             print(key, len(t), mu, var, sigma, cv)
@@ -118,7 +118,7 @@ class Respondents(_01_survey.Table):
         print('Weight (kg):')
         print('key n     mean     var    sigma     cv')
         for key, t in d.iteritems():
-            mu, var = _03_thinkstats.TrimmedMeanVar(t)
+            mu, var = _03_thinkstats._trimmed_mean_var(t)
             sigma = math.sqrt(var)
             cv = sigma / mu
             print(key, len(t), mu, var, sigma, cv)
@@ -130,7 +130,7 @@ class Respondents(_01_survey.Table):
 
         changes = [(curr - prev) for curr, prev in data]
 
-        print('Mean change', _03_thinkstats.Mean(changes))
+        print('Mean change', _03_thinkstats._mean(changes))
 
 
 def main(name, data_dir='.'):

@@ -38,9 +38,9 @@ def RunTest(root,
         pool.sort()
         actual1.sort()
         actual2.sort()
-        pool = _03_thinkstats.Trim(pool)
-        actual1 = _03_thinkstats.Trim(actual1)
-        actual2 = _03_thinkstats.Trim(actual2)
+        pool = _03_thinkstats._trim(pool)
+        actual1 = _03_thinkstats._trim(actual1)
+        actual2 = _03_thinkstats._trim(actual2)
 
     if partition:
         n = len(actual1)
@@ -119,8 +119,8 @@ def DifferenceInMean(actual1, actual2):
     Returns:
         tuple of (mu1, mu2, mu1-mu2)
     """
-    mu1 = _03_thinkstats.Mean(actual1)
-    mu2 = _03_thinkstats.Mean(actual2)
+    mu1 = _03_thinkstats._mean(actual1)
+    mu2 = _03_thinkstats._mean(actual2)
     delta = mu1 - mu2
     return mu1, mu2, delta
 
@@ -140,7 +140,7 @@ def PValue(model1, model2, n, m, delta, iters=1000):
         iters:  how many samples to generate
     """
     deltas = [Resample(model1, model2, n, m) for i in range(iters)]
-    mean_var = _03_thinkstats.MeanVar(deltas)
+    mean_var = _03_thinkstats._mean_var(deltas)
     print('(Mean, Var) of resampled deltas', mean_var)
 
     cdf = _13_Cdf.MakeCdfFromList(deltas)
@@ -252,7 +252,7 @@ def main():
 
     # get the data
     pool, firsts, others = cumulative.MakeTables()
-    mean_var = _03_thinkstats.MeanVar(pool.lengths)
+    mean_var = _03_thinkstats._mean_var(pool.lengths)
     print('(Mean, Var) of pooled data', mean_var)
 
     # run the test

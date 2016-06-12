@@ -37,7 +37,7 @@ def Test(actual1, actual2, model, iters=1000):
     print('delta', delta)
 
     # compute the expected distribution of differences in sample mean
-    mu_pooled, var_pooled = _03_thinkstats.MeanVar(model)
+    mu_pooled, var_pooled = _03_thinkstats._mean_var(model)
     print('(Mean, Var) of pooled data', mu_pooled, var_pooled)
 
     f = 1.0 / n + 1.0 / m
@@ -54,7 +54,7 @@ def Test(actual1, actual2, model, iters=1000):
 
     # compare the mean and variance of resamples differences
     deltas = [hypothesis.Resample(model, model, n, m) for i in range(iters)]
-    mean_var = _03_thinkstats.MeanVar(deltas)
+    mean_var = _03_thinkstats._mean_var(deltas)
     print('(Mean, Var) of resampled deltas', mean_var)
 
     return pvalue

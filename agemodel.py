@@ -147,7 +147,7 @@ def Partition(ages, weights, bin_size=2):
 
     for bin, bin_weights in weight_dict.iteritems():
         try:
-            mean = _03_thinkstats.Mean(bin_weights)
+            mean = _03_thinkstats._mean(bin_weights)
         except ZeroDivisionError:
             continue
 
@@ -207,10 +207,10 @@ def DifferenceInMeans(firsts, others, attr):
 
     Prints summary statistics.
     """
-    firsts_mean = _03_thinkstats.Mean(getattr(firsts, attr))
+    firsts_mean = _03_thinkstats._mean(getattr(firsts, attr))
     print('First babies, %s, trimmed mean:' % attr, firsts_mean)
 
-    others_mean = _03_thinkstats.Mean(getattr(others, attr))
+    others_mean = _03_thinkstats._mean(getattr(others, attr))
     print('Other babies, %s, trimmed mean:' % attr, others_mean)
 
     diff = others_mean - firsts_mean
@@ -281,7 +281,7 @@ def MakeLinePlot(age_bins):
     ys = []
     for bin, weights in sorted(age_bins.iteritems()):
         xs.append(bin)
-        ys.append(_03_thinkstats.Mean(weights))
+        ys.append(_03_thinkstats._mean(weights))
 
     _05_myplot.Plot(xs, ys, 'bs-')
     _05_myplot.Save(root='agemodel_line',

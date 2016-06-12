@@ -25,9 +25,9 @@ def Cov(xs, ys, mux=None, muy=None):
         Cov(X, Y)
     """
     if mux is None:
-        mux = _03_thinkstats.Mean(xs)
+        mux = _03_thinkstats._mean(xs)
     if muy is None:
-        muy = _03_thinkstats.Mean(ys)
+        muy = _03_thinkstats._mean(ys)
 
     total = 0.0
     for x, y in zip(xs, ys):
@@ -47,8 +47,8 @@ def Corr(xs, ys):
     Returns:
         Corr(X, Y)
     """
-    xbar, varx = _03_thinkstats.MeanVar(xs)
-    ybar, vary = _03_thinkstats.MeanVar(ys)
+    xbar, varx = _03_thinkstats._mean_var(xs)
+    ybar, vary = _03_thinkstats._mean_var(ys)
 
     corr = Cov(xs, ys, xbar, ybar) / math.sqrt(varx * vary)
 
@@ -87,8 +87,8 @@ def LeastSquares(xs, ys):
     Returns:
         tuple of (intercept, slope)
     """
-    xbar, varx = _03_thinkstats.MeanVar(xs)
-    ybar, vary = _03_thinkstats.MeanVar(ys)
+    xbar, varx = _03_thinkstats._mean_var(xs)
+    ybar, vary = _03_thinkstats._mean_var(ys)
 
     slope = Cov(xs, ys, xbar, ybar) / varx
     inter = ybar - slope * xbar
@@ -137,8 +137,8 @@ def CoefDetermination(ys, res):
     Returns:
         float coefficient of determination
     """
-    ybar, vary = _03_thinkstats.MeanVar(ys)
-    resbar, varres = _03_thinkstats.MeanVar(res)
+    ybar, vary = _03_thinkstats._mean_var(ys)
+    resbar, varres = _03_thinkstats._mean_var(res)
     return 1 - varres / vary
 
 

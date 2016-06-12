@@ -36,7 +36,7 @@ class Respondents(_19_brfss.Respondents):
 
         t = weights[:]
         t.sort()
-        mu, var = _03_thinkstats.TrimmedMeanVar(t)
+        mu, var = _03_thinkstats._trimmed_mean_var(t)
         print('n, Mean, Var', len(weights), mu, var)
 
         sigma = math.sqrt(var)

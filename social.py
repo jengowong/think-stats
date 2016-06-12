@@ -81,7 +81,7 @@ def ReadFile(filename='soc-Slashdot0902.txt.gz', n=None):
 def Summarize(srcs):
     """Computes the number of edges for each source."""
     lens = [len(t) for t in srcs.itervalues()]
-    mu, sigma2 = _03_thinkstats.MeanVar(lens)
+    mu, sigma2 = _03_thinkstats._mean_var(lens)
     print(mu, math.sqrt(sigma2))
     return lens
 
