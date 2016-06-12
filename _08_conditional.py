@@ -101,7 +101,7 @@ def RelativeRisk(first, others, week=38):
 
 
 def main():
-    pool, firsts, others = _06_descriptive.MakeTables()
+    pool, firsts, others = _06_descriptive._make_tables()
     RelativeRisk(firsts, others)
     MakeFigure(firsts, others)
 

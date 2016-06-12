@@ -6,3 +6,5 @@ logs
 *.pyc
 *.swp
 __pycache__/
+*.eps
+*.pdf

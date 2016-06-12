@@ -27,7 +27,7 @@ def Process(table, name):
         weight_cdf: Cdf object
         oz_pmf:     Pmf of just the ounce field
     """
-    _06_descriptive.Process(table, name)
+    _06_descriptive._process(table, name)
 
     table.weights = [p.totalwgt_oz for p in table.records if p.totalwgt_oz != 'NA']
     table.weight_pmf = _04_Pmf._make_pmf_from_list(table.weights, table.name)
@@ -37,7 +37,7 @@ def Process(table, name):
 def MakeTables(data_dir='.'):
     """Reads survey data and returns a tuple of Tables"""
     table, firsts, others = _02_first._make_tables(data_dir)
-    pool = _06_descriptive.PoolRecords(firsts, others)
+    pool = _06_descriptive._pool_records(firsts, others)
 
     Process(pool, 'live births')
     Process(firsts, 'first babies')

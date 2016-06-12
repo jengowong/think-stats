@@ -15,7 +15,7 @@ import _04_Pmf
 import _05_myplot
 
 
-def Process(table, name):
+def _process(table, name):
     """Runs various analyses on this table."""
     _02_first._process(table)
     table.name = name
@@ -27,7 +27,7 @@ def Process(table, name):
     table.pmf = _04_Pmf._make_pmf_from_hist(table.hist)
 
 
-def PoolRecords(*tables):
+def _pool_records(*tables):
     """
     Construct a table with records from all tables.
     
@@ -45,19 +45,19 @@ def PoolRecords(*tables):
     return pool
 
 
-def MakeTables(data_dir='.'):
+def _make_tables(data_dir='.'):
     """Reads survey data and returns a tuple of Tables"""
     table, firsts, others = _02_first._make_tables(data_dir)
-    pool = PoolRecords(firsts, others)
+    pool = _pool_records(firsts, others)
 
-    Process(pool, 'live births')
-    Process(firsts, 'first babies')
-    Process(others, 'others')
+    _process(pool, 'live births')
+    _process(firsts, 'first babies')
+    _process(others, 'others')
 
     return pool, firsts, others
 
 
-def Summarize(pool, firsts, others):
+def _summarize(pool, firsts, others):
     """Print various summary statistics."""
 
     print
@@ -78,8 +78,10 @@ def Summarize(pool, firsts, others):
     print(firsts.mu, others.mu)
     print(firsts.trim, others.trim)
 
-    live_lengths = pool.hist._get_dict().items()
-    live_lengths.sort()
+    # live_lengths = pool.hist._get_dict().items()
+    live_lengths = list(pool.hist._get_dict().items())
+    # live_lengths.sort()
+    sorted(live_lengths)
     print('Shortest lengths:')
     for weeks, count in live_lengths[:10]:
         print(weeks, count)
@@ -89,7 +91,7 @@ def Summarize(pool, firsts, others):
         print(weeks, count)
 
 
-def MakeFigures(firsts, others):
+def _make_figures(firsts, others):
     """Plot Hists and Pmfs for the pregnancy length."""
 
     # bar options is a list of option dictionaries to be passed to myplot.bar
@@ -100,7 +102,7 @@ def MakeFigures(firsts, others):
 
     # make the histogram
     axis = [23, 46, 0, 2700]
-    Hists([firsts.hist, others.hist])
+    _hists([firsts.hist, others.hist])
     _05_myplot._save(root='nsfg_hist',
                      title='Histogram',
                      xlabel='weeks',
@@ -109,7 +111,7 @@ def MakeFigures(firsts, others):
 
     # make the PMF
     axis = [23, 46, 0, 0.6]
-    Hists([firsts.pmf, others.pmf])
+    _hists([firsts.pmf, others.pmf])
     _05_myplot._save(root='nsfg_pmf',
                      title='PMF',
                      xlabel='weeks',
@@ -117,7 +119,7 @@ def MakeFigures(firsts, others):
                      axis=axis)
 
 
-def Hists(hists):
+def _hists(hists):
     """
     Plot two histograms on the same axes.
 
@@ -134,25 +136,25 @@ def Hists(hists):
     pyplot.clf()
     for i, hist in enumerate(hists):
         xs, fs = hist._render()
-        xs = Shift(xs, shifts[i])
+        xs = _shift(xs, shifts[i])
         pyplot.bar(xs, fs, label=hist.name, width=width, **option_list[i])
 
 
-def Shift(xs, shift):
+def _shift(xs, shift):
     """
     Adds a constant to a sequence of values.
 
     Args:
-      xs:    sequence of values
-      shift: value to add
+        xs:    sequence of values
+        shift: value to add
 
     Returns:
-      sequence of numbers
+        sequence of numbers
     """
     return [x + shift for x in xs]
 
 
-def MakeDiffFigure(firsts, others):
+def _make_diff_figure(firsts, others):
     """Plot the difference between the PMFs."""
 
     weeks = range(35, 46)
@@ -173,10 +175,10 @@ def MakeDiffFigure(firsts, others):
 
 
 def main(name, data_dir=''):
-    pool, firsts, others = MakeTables(data_dir)
-    Summarize(pool, firsts, others)
-    MakeFigures(firsts, others)
-    MakeDiffFigure(firsts, others)
+    pool, firsts, others = _make_tables(data_dir)
+    _summarize(pool, firsts, others)
+    _make_figures(firsts, others)
+    _make_diff_figure(firsts, others)
 
 
 if __name__ == '__main__':

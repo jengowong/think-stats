@@ -141,7 +141,7 @@ def Test(pool, firsts, others, num_trials=1000):
 
 def main():
     # get the data
-    pool, firsts, others = _06_descriptive.MakeTables()
+    pool, firsts, others = _06_descriptive._make_tables()
     Test(pool, firsts, others, num_trials=1000)
 
 

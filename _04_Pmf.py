@@ -57,7 +57,8 @@ class _DictWrapper(object):
 
     def _print(self):
         """Prints the values and freqs/probs in ascending order."""
-        for val, prob in sorted(self.d.iteritems()):
+        # for val, prob in sorted(self.d.iteritems()):
+        for val, prob in sorted(self.d.items()):
             print(val, prob)
 
     def _set(self, x, y=0):
@@ -103,12 +104,14 @@ class _DictWrapper(object):
 
     def _total(self):
         """Returns the total of the frequencies/probabilities in the map."""
-        total = sum(self.d.itervalues())
+        # total = sum(self.d.itervalues())
+        total = sum(self.d.values())
         return total
 
     def _max_like(self):
         """Returns the largest frequency/probability in the map."""
-        return max(self.d.itervalues())
+        # return max(self.d.itervalues())
+        return max(self.d.values())
 
 
 class Hist(_DictWrapper):
@@ -223,7 +226,8 @@ class Pmf(_DictWrapper):
 
         target = random.random()
         total = 0.0
-        for x, p in self.d.iteritems():
+        # for x, p in self.d.iteritems():
+        for x, p in self.d.items():
             total += p
             if total >= target:
                 return x
@@ -239,7 +243,8 @@ class Pmf(_DictWrapper):
             float mean
         """
         mu = 0.0
-        for x, p in self.d.iteritems():
+        # for x, p in self.d.iteritems():
+        for x, p in self.d.items():
             mu += p * x
         return mu
 
@@ -257,20 +262,23 @@ class Pmf(_DictWrapper):
             mu = self._mean()
 
         var = 0.0
-        for x, p in self.d.iteritems():
+        # for x, p in self.d.iteritems():
+        for x, p in self.d.items():
             var += p * (x - mu) ** 2
         return var
 
     def _log(self):
         """Log transforms the probabilities."""
         m = self._max_like()
-        for x, p in self.d.iteritems():
+        # for x, p in self.d.iteritems():
+        for x, p in self.d.items():
             self._set(x, math.log(p / m))
 
     def _exp(self):
         """Exponentiates the probabilities."""
         m = self._max_like()
-        for x, p in self.d.iteritems():
+        # for x, p in self.d.iteritems():
+        for x, p in self.d.items():
             self._set(x, math.exp(p - m))
 
 

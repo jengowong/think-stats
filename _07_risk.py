@@ -95,7 +95,7 @@ def ComputeRelativeRisk(first_pmf, other_pmf):
 
 
 def main():
-    pool, firsts, others = _06_descriptive.MakeTables()
+    pool, firsts, others = _06_descriptive._make_tables()
     ComputeRelativeRisk(firsts.pmf, others.pmf)
 
 
