@@ -17,7 +17,7 @@ import _05_myplot
 
 def Process(table, name):
     """Runs various analyses on this table."""
-    _02_first.Process(table)
+    _02_first._process(table)
     table.name = name
 
     table.var = _03_thinkstats.Var(table.lengths, table.mu)
@@ -47,7 +47,7 @@ def PoolRecords(*tables):
 
 def MakeTables(data_dir='.'):
     """Reads survey data and returns a tuple of Tables"""
-    table, firsts, others = _02_first.MakeTables(data_dir)
+    table, firsts, others = _02_first._make_tables(data_dir)
     pool = PoolRecords(firsts, others)
 
     Process(pool, 'live births')

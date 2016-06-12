@@ -12,7 +12,7 @@ import _01_survey
 # copying Mean from _03_thinkstats.py so we don't have to deal with
 # importing anything in Chapter 1
 
-def Mean(t):
+def _mean(t):
     """
     Computes the mean of a sequence of numbers.
 
@@ -25,7 +25,7 @@ def Mean(t):
     return float(sum(t)) / len(t)
 
 
-def PartitionRecords(table):
+def _partition_records(table):
     """
     Divides records into two lists: first babies and others.
 
@@ -50,7 +50,7 @@ def PartitionRecords(table):
     return firsts, others
 
 
-def Process(table):
+def _process(table):
     """
     Runs analysis on the given table.
     
@@ -59,20 +59,20 @@ def Process(table):
     """
     table.lengths = [p.prglength for p in table.records]
     table.n = len(table.lengths)
-    table.mu = Mean(table.lengths)
+    table.mu = _mean(table.lengths)
 
 
-def MakeTables(data_dir='.'):
+def _make_tables(data_dir='.'):
     """Reads survey data and returns tables for first babies and others."""
     table = _01_survey.Pregnancies()
     table._read_records(data_dir)
 
-    firsts, others = PartitionRecords(table)
+    firsts, others = _partition_records(table)
 
     return table, firsts, others
 
 
-def ProcessTables(*tables):
+def _process_tables(*tables):
     """
     Processes a list of tables
     
@@ -80,18 +80,18 @@ def ProcessTables(*tables):
         tables: gathered argument tuple of Tuples
     """
     for table in tables:
-        Process(table)
+        _process(table)
 
 
-def Summarize(data_dir):
+def _summarize(data_dir):
     """
     Prints summary statistics for first babies and others.
     
     Returns:
         tuple of Tables
     """
-    table, firsts, others = MakeTables(data_dir)
-    ProcessTables(firsts, others)
+    table, firsts, others = _make_tables(data_dir)
+    _process_tables(firsts, others)
 
     print('Number of first babies', firsts.n)
     print('Number of others', others.n)
@@ -106,7 +106,7 @@ def Summarize(data_dir):
 
 
 def main(name, data_dir='.'):
-    Summarize(data_dir)
+    _summarize(data_dir)
 
 
 if __name__ == '__main__':

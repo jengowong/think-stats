@@ -97,7 +97,7 @@ def Process(table, name):
 
 def MakeTables(data_dir='.'):
     """Reads survey data and returns a tuple of Tables"""
-    table, firsts, others = _02_first.MakeTables(data_dir)
+    table, firsts, others = _02_first._make_tables(data_dir)
     pool = _06_descriptive.PoolRecords(firsts, others)
 
     Process(pool, 'live births')
