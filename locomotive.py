@@ -107,11 +107,11 @@ def main():
     pyplot.subplots_adjust(wspace=0.4, left=0.15)
     plot_options = dict(linewidth=2)
 
-    _05_myplot.Pmf(posterior, **plot_options)
-    _05_myplot.Save(root='locomotive',
-                    title='Locomotive problem',
-                    xlabel='Number of trains',
-                    ylabel='Posterior probability')
+    _05_myplot._pmf(posterior, **plot_options)
+    _05_myplot._save(root='locomotive',
+                     title='Locomotive problem',
+                     xlabel='Number of trains',
+                     ylabel='Posterior probability')
 
 
 if __name__ == '__main__':

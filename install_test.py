@@ -45,14 +45,14 @@ def main():
     d = dict(shrink=0.05)
     pyplot.annotate(s, [127, 0.02], xytext=[80, 0.05], arrowprops=d)
 
-    _05_myplot.Plot(xs,
-                    ys,
-                    clf=False,
-                    show=True,
-                    title='Distribution of IQ',
-                    xlabel='IQ',
-                    ylabel='PDF',
-                    legend=False)
+    _05_myplot._plot(xs,
+                     ys,
+                     clf=False,
+                     show=True,
+                     title='Distribution of IQ',
+                     xlabel='IQ',
+                     ylabel='PDF',
+                     legend=False)
 
 
 if __name__ == "__main__":

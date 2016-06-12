@@ -43,19 +43,19 @@ class Respondents(_19_brfss.Respondents):
 
     def ScatterPlot(self, root, heights, weights, alpha=1.0):
         pyplot.scatter(heights, weights, alpha=alpha, edgecolors='none')
-        _05_myplot.Save(root=root,
-                        xlabel='Height (cm)',
-                        ylabel='Weight (kg)',
-                        axis=[140, 210, 20, 200],
-                        legend=False)
+        _05_myplot._save(root=root,
+                         xlabel='Height (cm)',
+                         ylabel='Weight (kg)',
+                         axis=[140, 210, 20, 200],
+                         legend=False)
 
     def HexBin(self, root, heights, weights, cmap=matplotlib.cm.Blues):
         pyplot.hexbin(heights, weights, cmap=cmap)
-        _05_myplot.Save(root=root,
-                        xlabel='Height (cm)',
-                        ylabel='Weight (kg)',
-                        axis=[140, 210, 20, 200],
-                        legend=False)
+        _05_myplot._save(root=root,
+                         xlabel='Height (cm)',
+                         ylabel='Weight (kg)',
+                         axis=[140, 210, 20, 200],
+                         legend=False)
 
 
 def MakeFigures():

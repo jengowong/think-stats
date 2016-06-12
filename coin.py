@@ -96,10 +96,10 @@ def main():
     suite.name = 'posterior'
 
     # plot the posterior distributions
-    _05_myplot.Pmf(suite)
-    _05_myplot.Show(title='Biased coin',
-                    xlabel='P(heads)',
-                    ylabel='Posterior probability')
+    _05_myplot._pmf(suite)
+    _05_myplot._show(title='Biased coin',
+                     xlabel='P(heads)',
+                     ylabel='Posterior probability')
 
 
 if __name__ == '__main__':

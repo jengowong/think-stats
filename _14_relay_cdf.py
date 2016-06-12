@@ -18,11 +18,11 @@ def main():
     # plot the distribution of actual speeds
     cdf = _13_Cdf.MakeCdfFromList(speeds, 'speeds')
 
-    _05_myplot.Cdf(cdf)
-    _05_myplot.Save(root='relay_cdf',
-                    title='CDF of running speed',
-                    xlabel='speed (mph)',
-                    ylabel='probability')
+    _05_myplot._cdf(cdf)
+    _05_myplot._save(root='relay_cdf',
+                     title='CDF of running speed',
+                     xlabel='speed (mph)',
+                     ylabel='probability')
 
 
 if __name__ == '__main__':

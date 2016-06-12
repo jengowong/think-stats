@@ -36,32 +36,32 @@ def MakeFigures():
 
     cdf = _13_Cdf.MakeCdfFromList(pops, 'populations')
 
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf)
-    _05_myplot.Save(root='populations',
-                    title='City/Town Populations',
-                    xlabel='population',
-                    ylabel='CDF',
-                    legend=False)
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf)
+    _05_myplot._save(root='populations',
+                     title='City/Town Populations',
+                     xlabel='population',
+                     ylabel='CDF',
+                     legend=False)
 
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf)
-    _05_myplot.Save(root='populations_logx',
-                    title='City/Town Populations',
-                    xlabel='population',
-                    ylabel='CDF',
-                    xscale='log',
-                    legend=False)
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf)
+    _05_myplot._save(root='populations_logx',
+                     title='City/Town Populations',
+                     xlabel='population',
+                     ylabel='CDF',
+                     xscale='log',
+                     legend=False)
 
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf, complement=True)
-    _05_myplot.Save(root='populations_loglog',
-                    title='City/Town Populations',
-                    xlabel='population',
-                    ylabel='Complementary CDF',
-                    yscale='log',
-                    xscale='log',
-                    legend=False)
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf, complement=True)
+    _05_myplot._save(root='populations_loglog',
+                     title='City/Town Populations',
+                     xlabel='population',
+                     ylabel='Complementary CDF',
+                     yscale='log',
+                     xscale='log',
+                     legend=False)
 
     t = [math.log(x) for x in pops]
     t.sort()

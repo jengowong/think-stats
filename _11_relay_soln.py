@@ -52,21 +52,21 @@ def main():
     # plot the biased distribution seen by the observer
     biased = BiasPmf(pmf, 7.5, name='observed speeds')
 
-    _05_myplot.Clf()
-    _05_myplot.Hist(biased)
-    _05_myplot.Save(root='observed_speeds',
-                    title='PMF of running speed',
-                    xlabel='speed (mph)',
-                    ylabel='probability')
+    _05_myplot._clf()
+    _05_myplot._hist(biased)
+    _05_myplot._save(root='observed_speeds',
+                     title='PMF of running speed',
+                     xlabel='speed (mph)',
+                     ylabel='probability')
 
     cdf = _13_Cdf.MakeCdfFromPmf(biased)
 
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf)
-    _05_myplot.Save(root='observed_speeds_cdf',
-                    title='CDF of running speed',
-                    xlabel='speed (mph)',
-                    ylabel='cumulative probability')
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf)
+    _05_myplot._save(root='observed_speeds_cdf',
+                     title='CDF of running speed',
+                     xlabel='speed (mph)',
+                     ylabel='cumulative probability')
 
 
 if __name__ == '__main__':

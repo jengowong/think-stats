@@ -48,11 +48,11 @@ def MakeExpoCdf():
 
     pyplot.clf()
     pyplot.plot(xs, ps, linewidth=2)
-    _05_myplot.Save('expo_cdf',
-                    title='Exponential CDF',
-                    xlabel='x',
-                    ylabel='CDF',
-                    legend=False)
+    _05_myplot._save('expo_cdf',
+                     title='Exponential CDF',
+                     xlabel='x',
+                     ylabel='CDF',
+                     legend=False)
 
 
 def MakeParetoCdf():
@@ -68,11 +68,11 @@ def MakeParetoCdf():
 
     pyplot.clf()
     pyplot.plot(xs, ps, linewidth=2)
-    _05_myplot.Save('pareto_cdf',
-                    title='Pareto CDF',
-                    xlabel='x',
-                    ylabel='CDF',
-                    legend=False)
+    _05_myplot._save('pareto_cdf',
+                     title='Pareto CDF',
+                     xlabel='x',
+                     ylabel='CDF',
+                     legend=False)
 
 
 def MakeParetoCdf2():
@@ -88,11 +88,11 @@ def MakeParetoCdf2():
 
     pyplot.clf()
     pyplot.plot(xs, ps, linewidth=2)
-    _05_myplot.Save('pareto_height',
-                    title='Pareto CDF',
-                    xlabel='height (cm)',
-                    ylabel='CDF',
-                    legend=False)
+    _05_myplot._save('pareto_height',
+                     title='Pareto CDF',
+                     xlabel='height (cm)',
+                     ylabel='CDF',
+                     legend=False)
 
 
 def RenderNormalCdf(mu, sigma, max, n=50):
@@ -108,11 +108,11 @@ def MakeNormalCdf():
 
     pyplot.clf()
     pyplot.plot(xs, ps, linewidth=2)
-    _05_myplot.Save('normal_cdf',
-                    title='Normal CDF',
-                    xlabel='x',
-                    ylabel='CDF',
-                    legend=False)
+    _05_myplot._save('normal_cdf',
+                     title='Normal CDF',
+                     xlabel='x',
+                     ylabel='CDF',
+                     legend=False)
 
 
 def MakeNormalModel(weights):
@@ -135,10 +135,10 @@ def MakeNormalModel(weights):
     xs, ps = cdf._render()
     pyplot.plot(xs, ps, label='data', linewidth=2, color='blue')
 
-    _05_myplot.Save('nsfg_birthwgt_model',
-                    title='Birth weights',
-                    xlabel='birth weight (oz)',
-                    ylabel='CDF')
+    _05_myplot._save('nsfg_birthwgt_model',
+                     title='Birth weights',
+                     xlabel='birth weight (oz)',
+                     ylabel='CDF')
 
 
 def MakeNormalPlot(weights):

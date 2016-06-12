@@ -192,10 +192,10 @@ def PlotPosterior(xs, ys, suite, pcolor=False, contour=True):
     if contour:
         pyplot.contour(X, Y, Z)
 
-    _05_myplot.Save(root='bayes_height_posterior_%s' % suite.name,
-                    title='Posterior joint distribution',
-                    xlabel='Mean height (cm)',
-                    ylabel='Stddev (cm)')
+    _05_myplot._save(root='bayes_height_posterior_%s' % suite.name,
+                     title='Posterior joint distribution',
+                     xlabel='Mean height (cm)',
+                     ylabel='Stddev (cm)')
 
 
 def PlotCoefVariation(suites):
@@ -210,14 +210,14 @@ def PlotCoefVariation(suites):
     for label, suite in suites.iteritems():
         pmf = ComputeCoefVariation(suite)
         cdf = _13_Cdf.MakeCdfFromPmf(pmf, label)
-        _05_myplot.Cdf(cdf)
+        _05_myplot._cdf(cdf)
 
         pmfs[label] = pmf
 
-    _05_myplot.Save(root='bayes_height_cv',
-                    title='Coefficient of variation',
-                    xlabel='cv',
-                    ylabel='CDF')
+    _05_myplot._save(root='bayes_height_cv',
+                     title='Coefficient of variation',
+                     xlabel='cv',
+                     ylabel='CDF')
 
     print('female bigger', ProbBigger(pmfs['female'], pmfs['male']))
     print('male bigger', ProbBigger(pmfs['male'], pmfs['female']))
@@ -232,12 +232,12 @@ def PlotCdfs(samples):
         cdf = _13_Cdf.MakeCdfFromList(outliers, label)
         cdfs.append(cdf)
 
-    _05_myplot.Clf()
-    _05_myplot.Cdfs(cdfs)
-    _05_myplot.Save(root='bayes_height_cdfs',
-                    title='CDF of height',
-                    xlabel='Reported height (cm)',
-                    ylabel='CDF')
+    _05_myplot._clf()
+    _05_myplot._cdfs(cdfs)
+    _05_myplot._save(root='bayes_height_cdfs',
+                     title='CDF of height',
+                     xlabel='Reported height (cm)',
+                     ylabel='CDF')
 
 
 def NormalProbPlot(samples):
@@ -249,11 +249,11 @@ def NormalProbPlot(samples):
     for label, sample in samples.iteritems():
         NormalPlot(sample, label, markers[label], jitter=0.0)
 
-    _05_myplot.Save(show=True,
-                    # root='bayes_height_normal',
+    _05_myplot._save(show=True,
+                     # root='bayes_height_normal',
                     title='Normal probability plot',
-                    xlabel='Standard normal',
-                    ylabel='Reported height (cm)')
+                     xlabel='Standard normal',
+                     ylabel='Reported height (cm)')
 
 
 def NormalPlot(ys, label, color='b', jitter=0.0, **line_options):
@@ -295,26 +295,26 @@ def PlotMarginals(suite):
 
     pyplot.subplot(1, 2, 1)
     cdf_m = _13_Cdf.MakeCdfFromPmf(pmf_m, 'mu')
-    _05_myplot.Cdf(cdf_m)
+    _05_myplot._cdf(cdf_m)
     pyplot.xlabel('Mean height (cm)')
     pyplot.ylabel('CDF')
 
     pyplot.subplot(1, 2, 2)
     cdf_s = _13_Cdf.MakeCdfFromPmf(pmf_s, 'sigma')
-    _05_myplot.Cdf(cdf_s)
+    _05_myplot._cdf(cdf_s)
     pyplot.xlabel('Std Dev height (cm)')
     pyplot.ylabel('CDF')
 
-    _05_myplot.Save(root='bayes_height_marginals_%s' % suite.name)
+    _05_myplot._save(root='bayes_height_marginals_%s' % suite.name)
 
 
 def PlotAges(resp):
     """Plot the distribution of ages."""
     ages = [r.age for r in resp.records]
     cdf = _13_Cdf.MakeCdfFromList(ages)
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf)
-    _05_myplot.Show()
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf)
+    _05_myplot._show()
 
 
 def DumpHeights(data_dir='.', n=10000):

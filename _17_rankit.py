@@ -72,10 +72,10 @@ def MakeNormalPlot(ys, root=None, line_options={}, **options):
     pyplot.clf()
     pyplot.plot(sorted(xs), sorted(ys), 'b.', markersize=3, **line_options)
 
-    _05_myplot.Save(root,
-                    xlabel='Standard normal values',
-                    legend=False,
-                    **options)
+    _05_myplot._save(root,
+                     xlabel='Standard normal values',
+                     legend=False,
+                     **options)
 
 
 def main():

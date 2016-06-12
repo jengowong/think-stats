@@ -68,11 +68,11 @@ def Main(script):
 
     # make and plot the CCDF on a log scale.
     cdf = _13_Cdf.MakeCdfFromList(days, name='intervals')
-    scale = _05_myplot.Cdf(cdf, transform='exponential')
-    _05_myplot.Save(root='intervals',
-                    xlabel='days',
-                    ylabel='ccdf',
-                    **scale)
+    scale = _05_myplot._cdf(cdf, transform='exponential')
+    _05_myplot._save(root='intervals',
+                     xlabel='days',
+                     ylabel='ccdf',
+                     **scale)
 
 
 if __name__ == '__main__':

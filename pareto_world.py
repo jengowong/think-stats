@@ -37,11 +37,11 @@ def MakeParetoCdf():
 
     pyplot.clf()
     pyplot.plot(xs, ps, linewidth=2)
-    _05_myplot.Save('pareto_world1',
-                    title='Pareto CDF',
-                    xlabel='height (cm)',
-                    ylabel='CDF',
-                    legend=False)
+    _05_myplot._save('pareto_world1',
+                     title='Pareto CDF',
+                     xlabel='height (cm)',
+                     ylabel='CDF',
+                     legend=False)
 
 
 def MakeFigure(xmin=100, alpha=1.7, mu=150, sigma=25):
@@ -61,12 +61,12 @@ def MakeFigure(xmin=100, alpha=1.7, mu=150, sigma=25):
     t2 = [random.normalvariate(mu, sigma) for i in range(10000)]
     cdf2 = _13_Cdf.MakeCdfFromList(t2, name='normal')
 
-    _05_myplot.Clf()
-    _05_myplot.Cdfs([cdf1, cdf2])
-    _05_myplot.Save(root='pareto_world2',
-                    title='Pareto World',
-                    xlabel='height (cm)',
-                    ylabel='CDF')
+    _05_myplot._clf()
+    _05_myplot._cdfs([cdf1, cdf2])
+    _05_myplot._save(root='pareto_world2',
+                     title='Pareto World',
+                     xlabel='height (cm)',
+                     ylabel='CDF')
 
 
 def TallestPareto(iters=2, n=10000, xmin=100, alpha=1.7):

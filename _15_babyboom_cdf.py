@@ -29,33 +29,33 @@ def CalcTimeInterval():
 def CdfTimeInterval():
     timeInterval = CalcTimeInterval()
     pmf = _04_Pmf._make_pmf_from_list(timeInterval, 'baby birth interval')
-    _05_myplot.Clf()
-    _05_myplot.Hist(pmf)
-    _05_myplot.Save(root='baby_birth_interval_pmf',
-                    title='PMF of baby birth interval',
-                    xlabel='interval(minutes)',
-                    ylabel='probability')
+    _05_myplot._clf()
+    _05_myplot._hist(pmf)
+    _05_myplot._save(root='baby_birth_interval_pmf',
+                     title='PMF of baby birth interval',
+                     xlabel='interval(minutes)',
+                     ylabel='probability')
 
     cdf = _13_Cdf.MakeCdfFromPmf(pmf)
 
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf)
-    _05_myplot.Save(root='baby_birth_interval_cdf',
-                    title='CDF of baby birth interval',
-                    xlabel='interval(minutes)',
-                    ylabel='cumulative probability')
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf)
+    _05_myplot._save(root='baby_birth_interval_cdf',
+                     title='CDF of baby birth interval',
+                     xlabel='interval(minutes)',
+                     ylabel='cumulative probability')
 
 
 def LogCCdfTimeIntervel():
     timeInterval = CalcTimeInterval()
     pmf = _04_Pmf._make_pmf_from_list(timeInterval, 'baby birth interval')
     cdf = _13_Cdf.MakeCdfFromPmf(pmf, 'baby birth interval')
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf, complement=True, xscale='linear', yscale='log')
-    _05_myplot.Save(root='baby_birth_interval_logccdf',
-                    title='LogCCDF of baby birth interval',
-                    xlabel='interval(minutes)',
-                    ylabel='LogCCdf')
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf, complement=True, xscale='linear', yscale='log')
+    _05_myplot._save(root='baby_birth_interval_logccdf',
+                     title='LogCCDF of baby birth interval',
+                     xlabel='interval(minutes)',
+                     ylabel='LogCCdf')
 
 
 # print CalcTimeInterval()

@@ -143,11 +143,11 @@ def CheckCdf():
     t = [SimulateChi2() for i in range(1000)]
     cdf = _13_Cdf.MakeCdfFromList(t)
 
-    _05_myplot.Cdf(cdf)
-    _05_myplot.Save(root='khan3',
-                    xlabel='chi2 value',
-                    ylabel="CDF",
-                    formats=['png'])
+    _05_myplot._cdf(cdf)
+    _05_myplot._save(root='khan3',
+                     xlabel='chi2 value',
+                     ylabel="CDF",
+                     formats=['png'])
 
 
 def CheckCdf2():
@@ -157,8 +157,8 @@ def CheckCdf2():
     t2 = [scipy.stats.chi2.cdf(x, df) for x in t]
     cdf = _13_Cdf.MakeCdfFromList(t2)
 
-    _05_myplot.Cdf(cdf)
-    _05_myplot.Show()
+    _05_myplot._cdf(cdf)
+    _05_myplot._show()
 
 
 def Chi2Cdf(df=2, high=5, n=100):
@@ -217,11 +217,11 @@ def MakeSpaghetti(iters=1000, lines=100, n=300, thresh=0.05, index=2):
 
     labels = ['Difference in success rate', 'chi-squared stat', 'p-value']
 
-    _05_myplot.Save(root='khan%d' % index,
-                    xlabel='Number of trials',
-                    ylabel=labels[index],
-                    title='A-B test random walk',
-                    formats=['png'])
+    _05_myplot._save(root='khan%d' % index,
+                     xlabel='Number of trials',
+                     ylabel=labels[index],
+                     title='A-B test random walk',
+                     formats=['png'])
 
 
 def main():

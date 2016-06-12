@@ -158,47 +158,47 @@ def MakeFigures(pool, firsts, others):
     """Creates several figures for the book."""
 
     # CDF of all ages
-    _05_myplot.Clf()
-    _05_myplot.Cdf(pool.age_cdf)
-    _05_myplot.Save(root='agemodel_age_cdf',
-                    title="Distribution of mother's age",
-                    xlabel='age (years)',
-                    ylabel='CDF',
-                    legend=False)
+    _05_myplot._clf()
+    _05_myplot._cdf(pool.age_cdf)
+    _05_myplot._save(root='agemodel_age_cdf',
+                     title="Distribution of mother's age",
+                     xlabel='age (years)',
+                     ylabel='CDF',
+                     legend=False)
 
     # CDF of all weights
-    _05_myplot.Clf()
-    _05_myplot.Cdf(pool.weight_cdf)
-    _05_myplot.Save(root='agemodel_weight_cdf',
-                    title="Distribution of birth weight",
-                    xlabel='birth weight (oz)',
-                    ylabel='CDF',
-                    legend=False)
+    _05_myplot._clf()
+    _05_myplot._cdf(pool.weight_cdf)
+    _05_myplot._save(root='agemodel_weight_cdf',
+                     title="Distribution of birth weight",
+                     xlabel='birth weight (oz)',
+                     ylabel='CDF',
+                     legend=False)
 
     # plot CDFs of birth ages for first babies and others
-    _05_myplot.Clf()
-    _05_myplot.Cdfs([firsts.age_cdf, others.age_cdf])
-    _05_myplot.Save(root='agemodel_age_cdfs',
-                    title="Distribution of mother's age",
-                    xlabel='age (years)',
-                    ylabel='CDF')
+    _05_myplot._clf()
+    _05_myplot._cdfs([firsts.age_cdf, others.age_cdf])
+    _05_myplot._save(root='agemodel_age_cdfs',
+                     title="Distribution of mother's age",
+                     xlabel='age (years)',
+                     ylabel='CDF')
 
-    _05_myplot.Clf()
-    _05_myplot.Cdfs([firsts.weight_cdf, others.weight_cdf])
-    _05_myplot.Save(root='agemodel_weight_cdfs',
-                    title="Distribution of birth weight",
-                    xlabel='birth weight (oz)',
-                    ylabel='CDF')
+    _05_myplot._clf()
+    _05_myplot._cdfs([firsts.weight_cdf, others.weight_cdf])
+    _05_myplot._save(root='agemodel_weight_cdfs',
+                     title="Distribution of birth weight",
+                     xlabel='birth weight (oz)',
+                     ylabel='CDF')
 
     # make a scatterplot of ages and weights
     ages, weights = GetAgeWeight(pool)
     pyplot.clf()
     # pyplot.scatter(ages, weights, alpha=0.2)
     pyplot.hexbin(ages, weights, cmap=matplotlib.cm.gray_r)
-    _05_myplot.Save(root='agemodel_scatter',
-                    xlabel='Age (years)',
-                    ylabel='Birth weight (oz)',
-                    legend=False)
+    _05_myplot._save(root='agemodel_scatter',
+                     xlabel='Age (years)',
+                     ylabel='Birth weight (oz)',
+                     legend=False)
 
 
 def DifferenceInMeans(firsts, others, attr):
@@ -283,11 +283,11 @@ def MakeLinePlot(age_bins):
         xs.append(bin)
         ys.append(_03_thinkstats._mean(weights))
 
-    _05_myplot.Plot(xs, ys, 'bs-')
-    _05_myplot.Save(root='agemodel_line',
-                    xlabel="Mother's age (years)",
-                    ylabel='Mean birthweight (oz)',
-                    legend=False)
+    _05_myplot._plot(xs, ys, 'bs-')
+    _05_myplot._save(root='agemodel_line',
+                     xlabel="Mother's age (years)",
+                     ylabel='Mean birthweight (oz)',
+                     legend=False)
 
 
 if __name__ == '__main__':

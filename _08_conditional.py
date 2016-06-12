@@ -77,10 +77,10 @@ def MakeFigure(firsts, others):
         pyplot.plot(weeks, ps, label=name)
         print(name, ps)
 
-    _05_myplot.Save(root='conditional',
-                    xlabel='weeks',
-                    ylabel=r'Prob{x $=$ weeks | x $\geq$ weeks}',
-                    title='Conditional Probability')
+    _05_myplot._save(root='conditional',
+                     xlabel='weeks',
+                     ylabel=r'Prob{x $=$ weeks | x $\geq$ weeks}',
+                     title='Conditional Probability')
 
 
 def RelativeRisk(first, others, week=38):

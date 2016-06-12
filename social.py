@@ -107,31 +107,31 @@ def MakeFigures(pmf, biased_pmf):
     biased_cdf = _13_Cdf.MakeCdfFromPmf(biased_pmf, 'biased')
     print('biased median', biased_cdf.Percentile(50))
 
-    _05_myplot.Clf()
-    _05_myplot.Cdfs([cdf, biased_cdf])
-    _05_myplot.Save(root='slashdot.logx',
-                    xlabel='Number of friends/foes',
-                    ylabel='CDF',
-                    xscale='log')
+    _05_myplot._clf()
+    _05_myplot._cdfs([cdf, biased_cdf])
+    _05_myplot._save(root='slashdot.logx',
+                     xlabel='Number of friends/foes',
+                     ylabel='CDF',
+                     xscale='log')
 
 
 def MakeCdfs(lens):
     cdf = _13_Cdf.MakeCdfFromList(lens, 'slashdot')
 
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf)
-    _05_myplot.Save(root='slashdot.logx',
-                    xlabel='Number of friends/foes',
-                    ylabel='CDF',
-                    xscale='log')
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf)
+    _05_myplot._save(root='slashdot.logx',
+                     xlabel='Number of friends/foes',
+                     ylabel='CDF',
+                     xscale='log')
 
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf, complement=True)
-    _05_myplot.Save(root='slashdot.loglog',
-                    xlabel='Number of friends/foes',
-                    ylabel='CDF',
-                    xscale='log',
-                    yscale='log')
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf, complement=True)
+    _05_myplot._save(root='slashdot.loglog',
+                     xlabel='Number of friends/foes',
+                     ylabel='CDF',
+                     xscale='log',
+                     yscale='log')
 
 
 def PmfProbLess(pmf1, pmf2):

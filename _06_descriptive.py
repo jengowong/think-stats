@@ -101,20 +101,20 @@ def MakeFigures(firsts, others):
     # make the histogram
     axis = [23, 46, 0, 2700]
     Hists([firsts.hist, others.hist])
-    _05_myplot.Save(root='nsfg_hist',
-                    title='Histogram',
-                    xlabel='weeks',
-                    ylabel='frequency',
-                    axis=axis)
+    _05_myplot._save(root='nsfg_hist',
+                     title='Histogram',
+                     xlabel='weeks',
+                     ylabel='frequency',
+                     axis=axis)
 
     # make the PMF
     axis = [23, 46, 0, 0.6]
     Hists([firsts.pmf, others.pmf])
-    _05_myplot.Save(root='nsfg_pmf',
-                    title='PMF',
-                    xlabel='weeks',
-                    ylabel='probability',
-                    axis=axis)
+    _05_myplot._save(root='nsfg_pmf',
+                     title='PMF',
+                     xlabel='weeks',
+                     ylabel='probability',
+                     axis=axis)
 
 
 def Hists(hists):
@@ -165,11 +165,11 @@ def MakeDiffFigure(firsts, others):
 
     pyplot.clf()
     pyplot.bar(weeks, diffs, align='center')
-    _05_myplot.Save(root='nsfg_diffs',
-                    title='Difference in PMFs',
-                    xlabel='weeks',
-                    ylabel='100 (PMF$_{first}$ - PMF$_{other}$)',
-                    legend=False)
+    _05_myplot._save(root='nsfg_diffs',
+                     title='Difference in PMFs',
+                     xlabel='weeks',
+                     ylabel='100 (PMF$_{first}$ - PMF$_{other}$)',
+                     legend=False)
 
 
 def main(name, data_dir=''):

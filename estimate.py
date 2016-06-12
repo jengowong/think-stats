@@ -124,12 +124,12 @@ def main():
     # plot the posterior distributions
     for i, posterior in enumerate(t):
         pyplot.subplot(2, 2, i + 1)
-        _05_myplot.Pmf(posterior)
+        _05_myplot._pmf(posterior)
         pyplot.xlabel('lambda')
         pyplot.ylabel('Posterior probability')
         pyplot.legend()
 
-    _05_myplot.Save(root='posteriors')
+    _05_myplot._save(root='posteriors')
 
 
 if __name__ == '__main__':

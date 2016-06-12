@@ -153,7 +153,7 @@ def main(script):
 
     # display the distribution of raw scores for the population
     prior = exam.GetPrior()
-    _05_myplot.Pmf(prior, show=True)
+    _05_myplot._pmf(prior, show=True)
 
 
 if __name__ == '__main__':

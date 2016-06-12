@@ -178,11 +178,11 @@ def PlotCdf(root, cdf, delta):
     pyplot.subplots_adjust(bottom=0.11)
     pyplot.plot(xs, ys, linewidth=2, color='blue')
 
-    _05_myplot.Save(root,
-                    title='Resampled differences',
-                    xlabel='difference in means (weeks)',
-                    ylabel='CDF(x)',
-                    legend=False)
+    _05_myplot._save(root,
+                     title='Resampled differences',
+                     xlabel='difference in means (weeks)',
+                     ylabel='CDF(x)',
+                     legend=False)
 
 
 def Resample(t1, t2, n, m):

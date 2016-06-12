@@ -72,10 +72,10 @@ def main():
     results = ReadResults()
     speeds = GetSpeeds(results)
     pmf = _04_Pmf._make_pmf_from_list(speeds, 'speeds')
-    _05_myplot.Pmf(pmf)
-    _05_myplot.Show(title='PMF of running speed',
-                    xlabel='speed (mph)',
-                    ylabel='probability')
+    _05_myplot._pmf(pmf)
+    _05_myplot._show(title='PMF of running speed',
+                     xlabel='speed (mph)',
+                     ylabel='probability')
 
 
 if __name__ == '__main__':

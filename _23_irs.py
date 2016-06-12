@@ -102,22 +102,22 @@ def main(script, *args):
     hist, pmf, cdf = MakeIncomeDist(data)
 
     # plot the CDF on a log-x scale
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf)
-    _05_myplot.Save(root='income_logx',
-                    xscale='log',
-                    xlabel='income',
-                    ylabel='CDF')
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf)
+    _05_myplot._save(root='income_logx',
+                     xscale='log',
+                     xlabel='income',
+                     ylabel='CDF')
 
     # plot the complementary CDF on a log-log scale
-    _05_myplot.Clf()
-    _05_myplot.Cdf(cdf, complement=True)
-    _05_myplot.Save(root='income_loglog',
-                    complement=True,
-                    xscale='log',
-                    yscale='log',
-                    xlabel='income',
-                    ylabel='complementary CDF')
+    _05_myplot._clf()
+    _05_myplot._cdf(cdf, complement=True)
+    _05_myplot._save(root='income_loglog',
+                     complement=True,
+                     xscale='log',
+                     yscale='log',
+                     xlabel='income',
+                     ylabel='complementary CDF')
 
 
 if __name__ == "__main__":

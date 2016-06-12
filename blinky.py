@@ -125,12 +125,12 @@ def main():
     print(TotalProbability(doorA, doorC, ProbWinning))
 
     # plot the posterior distributions
-    _05_myplot.Pmfs([doorA, doorC])
-    _05_myplot.Save(root='blinky',
-                    formats=['pdf', 'png'],
-                    title='Probability of blinking',
-                    xlabel='P(blink)',
-                    ylabel='Posterior probability')
+    _05_myplot._pmfs([doorA, doorC])
+    _05_myplot._save(root='blinky',
+                     formats=['pdf', 'png'],
+                     title='Probability of blinking',
+                     xlabel='P(blink)',
+                     ylabel='Posterior probability')
 
 
 if __name__ == '__main__':
