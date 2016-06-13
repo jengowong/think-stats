@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: coin2.py
 """
 
 """
@@ -23,24 +25,24 @@ MacKay asks, "But do these data give evidence that the coin is biased
 rather than fair?"
 """
 
-from coin import *
+import coin
 
 
-def IntegrateLikelihood(evidence, suite, step):
+def _integrate_likelihood(evidence, suite, step):
     """
     Computes the integral of the likelihood over all hypothesis in suite.
 
     Args:
-      evidence: some representation of the evidence
-      suite:    Pmf object that maps possible parameters to their probabilities
-      step:     float step size between parameters in the suite
+        evidence: some representation of the evidence
+        suite:    Pmf object that maps possible parameters to their probabilities
+        step:     float step size between parameters in the suite
 
     Returns:
-      float
+        float
     """
     total = 0.0
     for hypo in suite._values():
-        likelihood = _likelihood(evidence, hypo)
+        likelihood = coin._likelihood(evidence, hypo)
         total += likelihood * suite._prob(hypo)
 
     return total
@@ -51,13 +53,13 @@ def main():
     low = 0.0
     high = 1.0
     step = (high - low) / (n - 1)
-    suite = _make_uniform_suite(low, high, n)
+    suite = coin._make_uniform_suite(low, high, n)
     evidence = 140, 110
 
-    likelihood_biased = IntegrateLikelihood(evidence, suite, step)
+    likelihood_biased = _integrate_likelihood(evidence, suite, step)
     print(likelihood_biased)
 
-    likelihood_unbiased = _likelihood(evidence, 0.5)
+    likelihood_unbiased = coin._likelihood(evidence, 0.5)
     print(likelihood_unbiased)
 
     ratio = likelihood_biased / likelihood_unbiased
