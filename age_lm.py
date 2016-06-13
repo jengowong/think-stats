@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: age_lm.py
 """
 
 """
@@ -106,7 +108,7 @@ import agemodel
 r = robjects.r
 
 
-def GetAgeWeightFirst(table):
+def _get_age_weight_first(table):
     """
     Get sequences of mother's age, birth weight, and first baby flag.
 
@@ -136,16 +138,16 @@ def GetAgeWeightFirst(table):
     return ages, weights, first_bool
 
 
-def RunModel(model, print_flag=True):
+def _run_model(model, print_flag=True):
     """Submits model to r.lm and returns the result."""
     model = r(model)
     res = r.lm(model)
     if print_flag:
-        PrintSummary(res)
+        _print_summary(res)
     return res
 
 
-def PrintSummary(res):
+def _print_summary(res):
     """Prints results from r.lm (just the parts we want)."""
     flag = False
     lines = r.summary(res)
@@ -165,14 +167,14 @@ def main(script, model_number=0):
 
     # get the data
     pool, firsts, others = agemodel.MakeTables()
-    ages, weights, first_bool = GetAgeWeightFirst(pool)
+    ages, weights, first_bool = _get_age_weight_first(pool)
     ages2 = [age ** 2 for age in ages]
 
     # put the data into the R environment
-    robjects.globalEnv['weights'] = robjects.FloatVector(weights)
-    robjects.globalEnv['ages'] = robjects.FloatVector(ages)
-    robjects.globalEnv['ages2'] = robjects.FloatVector(ages2)
-    robjects.globalEnv['first'] = robjects.FloatVector(first_bool)
+    robjects.globalenv['weights'] = robjects.FloatVector(weights)
+    robjects.globalenv['ages'] = robjects.FloatVector(ages)
+    robjects.globalenv['ages2'] = robjects.FloatVector(ages2)
+    robjects.globalenv['first'] = robjects.FloatVector(first_bool)
 
     # run the models
     models = ['weights ~ first',
@@ -183,7 +185,7 @@ def main(script, model_number=0):
 
     model = models[model_number]
     print(model)
-    RunModel(model)
+    _run_model(model)
 
 
 if __name__ == '__main__':
