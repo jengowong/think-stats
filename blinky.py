@@ -23,13 +23,15 @@ should you do, and what is your chance of winning?
 
 
 You can read a discussion of this problem at XXX
+
+NAME: blinky.py
 """
 
 import _04_Pmf
 import _05_myplot
 
 
-def MakeUniformSuite(low, high, steps, name=''):
+def _make_uniform_suite(low, high, steps, name=''):
     """
     Makes a PMF that represents a suite of hypotheses with equal p.
     
@@ -47,7 +49,7 @@ def MakeUniformSuite(low, high, steps, name=''):
     return pmf
 
 
-def Update(suite, evidence):
+def _update(suite, evidence):
     """
     Updates a suite of hypotheses based on new evidence.
 
@@ -58,12 +60,12 @@ def Update(suite, evidence):
         evidence: whatever kind of object Likelihood expects
     """
     for hypo in suite._values():
-        likelihood = Likelihood(evidence, hypo)
+        likelihood = _likelihood(evidence, hypo)
         suite._mult(hypo, likelihood)
     suite._normalize()
 
 
-def Likelihood(evidence, hypo):
+def _likelihood(evidence, hypo):
     """
     Computes the likelihood of the evidence assuming the hypothesis is true.
 
@@ -80,14 +82,15 @@ def Likelihood(evidence, hypo):
     return pow(p, heads) * pow(1 - p, tails)
 
 
-def TotalProbability(pmf1, pmf2, func):
+def _total_probability(pmf1, pmf2, func):
     """
     Enumerates pairs from the Pmfs, calls the func, and returns
     the total probability.
 
-    pmf1: Pmf object
-    pmf2: Pmf object
-    func: a callable that takes a value from each Pmf and returns probability.
+    Args:
+        pmf1: Pmf object
+        pmf2: Pmf object
+        func: a callable that takes a value from each Pmf and returns probability.
     """
     total = 0.0
     for x, px in pmf1._items():
@@ -97,12 +100,13 @@ def TotalProbability(pmf1, pmf2, func):
     return total
 
 
-def ProbWinning(pbA, pbC):
+def _prob_winning(pbA, pbC):
     """
     Computes the probability that the car is behind door A:
 
-    pbA: probability that Monty blinks if the car is behind A
-    pbC: probability that Monty blinks if the car is behind C
+    Args:
+        pbA: probability that Monty blinks if the car is behind A
+        pbC: probability that Monty blinks if the car is behind C
     """
     pea = 0.5 * pbA
     pec = pbC
@@ -114,15 +118,15 @@ def ProbWinning(pbA, pbC):
 def main():
     print('pae', 0.3 / (0.3 + 3.0 / 13))
 
-    doorA = MakeUniformSuite(0.0, 1.0, 101, name='Door A')
+    doorA = _make_uniform_suite(0.0, 1.0, 101, name='Door A')
     evidence = 3, 2
-    Update(doorA, evidence)
+    _update(doorA, evidence)
 
-    doorC = MakeUniformSuite(0.0, 1.0, 101, name='Door C')
+    doorC = _make_uniform_suite(0.0, 1.0, 101, name='Door C')
     evidence = 3, 10
-    Update(doorC, evidence)
+    _update(doorC, evidence)
 
-    print(TotalProbability(doorA, doorC, ProbWinning))
+    print(_total_probability(doorA, doorC, _prob_winning))
 
     # plot the posterior distributions
     _05_myplot._pmfs([doorA, doorC])
