@@ -97,7 +97,7 @@ def RelativeRisk(first, others, week=38):
     first_cond = ConditionOnWeeks(first.pmf, week, 'first babies')
     other_cond = ConditionOnWeeks(others.pmf, week, 'others')
 
-    _07_risk.ComputeRelativeRisk(first_cond, other_cond)
+    _07_risk._compute_relative_risk(first_cond, other_cond)
 
 
 def main():

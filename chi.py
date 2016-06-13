@@ -99,7 +99,7 @@ def ChiSquared(expected, observed):
 def Test(pool, firsts, others, num_trials=1000):
     # collect the functions from _07_risk.py that take Pmfs and compute
     # various probabilities
-    funcs = [_07_risk.ProbEarly, _07_risk.ProbOnTime, _07_risk.ProbLate]
+    funcs = [_07_risk._prob_early, _07_risk._prob_on_time, _07_risk._prob_late]
 
     # get the observed frequency in each bin
     print('observed')

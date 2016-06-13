@@ -10,7 +10,7 @@ import _04_Pmf
 import _06_descriptive
 
 
-def ProbRange(pmf, low, high):
+def _prob_range(pmf, low, high):
     """
     Computes the total probability between low and high, inclusive.
     
@@ -28,7 +28,7 @@ def ProbRange(pmf, low, high):
     return total
 
 
-def ProbEarly(pmf):
+def _prob_early(pmf):
     """
     Computes the probability of a birth in Week 37 or earlier.
     
@@ -38,10 +38,10 @@ def ProbEarly(pmf):
     Returns:
         float probability
     """
-    return ProbRange(pmf, 0, 37)
+    return _prob_range(pmf, 0, 37)
 
 
-def ProbOnTime(pmf):
+def _prob_on_time(pmf):
     """
     Computes the probability of a birth in Weeks 38, 39 and 40.
     
@@ -51,10 +51,10 @@ def ProbOnTime(pmf):
     Returns:
         float probability
     """
-    return ProbRange(pmf, 38, 40)
+    return _prob_range(pmf, 38, 40)
 
 
-def ProbLate(pmf):
+def _prob_late(pmf):
     """
     Computes the probability of a birth in Week 41 or later.
     
@@ -64,19 +64,20 @@ def ProbLate(pmf):
     Returns:
         float probability
     """
-    return ProbRange(pmf, 41, 50)
+    return _prob_range(pmf, 41, 50)
 
 
-def ComputeRelativeRisk(first_pmf, other_pmf):
+def _compute_relative_risk(first_pmf, other_pmf):
     """
     Computes relative risks for two PMFs.
 
-    first_pmf: Pmf object
-    other_pmf: Pmf object
+    Args:
+        first_pmf: Pmf object
+        other_pmf: Pmf object
     """
 
     print('Risks:')
-    funcs = [ProbEarly, ProbOnTime, ProbLate]
+    funcs = [_prob_early, _prob_on_time, _prob_late]
     risks = {}
     for func in funcs:
         for pmf in [first_pmf, other_pmf]:
@@ -96,7 +97,7 @@ def ComputeRelativeRisk(first_pmf, other_pmf):
 
 def main():
     pool, firsts, others = _06_descriptive._make_tables()
-    ComputeRelativeRisk(firsts.pmf, others.pmf)
+    _compute_relative_risk(firsts.pmf, others.pmf)
 
 
 if __name__ == "__main__":
