@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2008 Allen B. Downey.
 Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
+
+NAME: Cdf_test.py
 """
 
 import unittest
