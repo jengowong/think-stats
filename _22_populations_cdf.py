@@ -31,7 +31,7 @@ as well, or better, with lognormal models.
 
 
 def MakeFigures():
-    pops = _21_populations.ReadData()
+    pops = _21_populations._read_data()
     print(len(pops))
 
     cdf = _13_Cdf._make_cdf_from_list(pops, 'populations')

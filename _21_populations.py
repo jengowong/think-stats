@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: _21_populations.py
 """
 
 import csv
@@ -11,7 +13,7 @@ import sys
 import urllib
 
 
-def ReadData(filename='populations.csv'):
+def _read_data(filename='populations.csv'):
     """
     Reads the previously-downloaded contents of (filename), parses
     it as CSV and extracts all lines that seem to contain population
@@ -54,7 +56,7 @@ def ReadData(filename='populations.csv'):
 
 
 def main(script, *args):
-    pops = ReadData()
+    pops = _read_data()
 
     for pop in pops:
         print(pop)
