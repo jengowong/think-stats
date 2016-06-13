@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: cumulative.py
 """
 
 import matplotlib.pyplot as pyplot
@@ -17,7 +19,7 @@ import _06_descriptive
 import _13_Cdf
 
 
-def Process(table, name):
+def _process(table, name):
     """
     Runs various analyses on this table.
 
@@ -34,19 +36,19 @@ def Process(table, name):
     table.weight_cdf = _13_Cdf._make_cdf_from_list(table.weights, table.name)
 
 
-def MakeTables(data_dir='.'):
+def _make_tables(data_dir='.'):
     """Reads survey data and returns a tuple of Tables"""
     table, firsts, others = _02_first._make_tables(data_dir)
     pool = _06_descriptive._pool_records(firsts, others)
 
-    Process(pool, 'live births')
-    Process(firsts, 'first babies')
-    Process(others, 'others')
+    _process(pool, 'live births')
+    _process(firsts, 'first babies')
+    _process(others, 'others')
 
     return pool, firsts, others
 
 
-def Resample(cdf, n=10000):
+def _resample(cdf, n=10000):
     sample = cdf._sample(n)
     new_cdf = _13_Cdf._make_cdf_from_list(sample, 'resampled')
     _05_myplot._clf()
@@ -57,7 +59,7 @@ def Resample(cdf, n=10000):
                      ylabel='CDF(x)')
 
 
-def MakeExample():
+def _make_example():
     """Make a simple example CDF."""
     t = [2, 1, 3, 2, 5]
     cdf = _13_Cdf._make_cdf_from_list(t)
@@ -71,7 +73,7 @@ def MakeExample():
                      legend=False)
 
 
-def MakeFigures(pool, firsts, others):
+def _make_figures(pool, firsts, others):
     """Creates several figures for the book."""
 
     # plot PMFs of birth weights for first babies and others
@@ -95,10 +97,10 @@ def MakeFigures(pool, firsts, others):
 
 
 def main(name, data_dir=''):
-    MakeExample()
+    _make_example()
 
-    pool, firsts, others = MakeTables(data_dir)
-    MakeFigures(pool, firsts, others)
+    pool, firsts, others = _make_tables(data_dir)
+    _make_figures(pool, firsts, others)
 
 
 if __name__ == '__main__':

@@ -251,7 +251,7 @@ def main():
     random.seed(1)
 
     # get the data
-    pool, firsts, others = cumulative.MakeTables()
+    pool, firsts, others = cumulative._make_tables()
     mean_var = _03_thinkstats._mean_var(pool.lengths)
     print('(Mean, Var) of pooled data', mean_var)
 

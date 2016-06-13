@@ -62,7 +62,7 @@ def Test(actual1, actual2, model, iters=1000):
 
 def main():
     # get the data
-    pool, firsts, others = cumulative.MakeTables()
+    pool, firsts, others = cumulative._make_tables()
 
     # run the test
     Test(firsts.lengths,

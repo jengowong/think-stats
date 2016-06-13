@@ -85,7 +85,7 @@ def _process(table, name):
         weights: sequence of total weight in ounces
         weight_cdf: Cdf object
     """
-    cumulative.Process(table, name)
+    cumulative._process(table, name)
 
     table.ages = [p.agepreg for p in table.records if p.agepreg != 'NA']
     table.age_pmf = _04_Pmf._make_pmf_from_list(table.ages, table.name)

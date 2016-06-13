@@ -160,7 +160,7 @@ def main():
     _make_normal_cdf()
 
     # test the distribution of birth weights for normality
-    pool, _, _ = cumulative.MakeTables()
+    pool, _, _ = cumulative._make_tables()
 
     t = pool.weights
     _make_normal_model(t)
