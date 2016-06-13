@@ -85,9 +85,9 @@ def CredibleInterval(pmf, percentage):
     Returns:
         sequence of two floats, low and high
     """
-    cdf = _13_Cdf.MakeCdfFromDict(pmf._get_dict())
+    cdf = _13_Cdf._make_cdf_from_dict(pmf._get_dict())
     prob = (1 - percentage / 100.0) / 2
-    interval = [cdf.Value(p) for p in [prob, 1 - prob]]
+    interval = [cdf._value(p) for p in [prob, 1 - prob]]
     return interval
 
 

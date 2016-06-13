@@ -131,7 +131,7 @@ def MakeNormalModel(weights):
     pyplot.plot(xs, ps, label='model', linewidth=4, color='0.8')
 
     # plot the data
-    cdf = _13_Cdf.MakeCdfFromList(weights)
+    cdf = _13_Cdf._make_cdf_from_list(weights)
     xs, ps = cdf._render()
     pyplot.plot(xs, ps, label='data', linewidth=2, color='blue')
 

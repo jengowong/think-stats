@@ -141,7 +141,7 @@ def CheckCdf():
         pyplot.plot(xs, ys, label=df)
 
     t = [SimulateChi2() for i in range(1000)]
-    cdf = _13_Cdf.MakeCdfFromList(t)
+    cdf = _13_Cdf._make_cdf_from_list(t)
 
     _05_myplot._cdf(cdf)
     _05_myplot._save(root='khan3',
@@ -155,7 +155,7 @@ def CheckCdf2():
     df = 3
     t = [SimulateChi2() for i in range(1000)]
     t2 = [scipy.stats.chi2.cdf(x, df) for x in t]
-    cdf = _13_Cdf.MakeCdfFromList(t2)
+    cdf = _13_Cdf._make_cdf_from_list(t2)
 
     _05_myplot._cdf(cdf)
     _05_myplot._show()

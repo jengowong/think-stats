@@ -67,7 +67,7 @@ def Main(script):
     days = [inter.days for inter in deltas]
 
     # make and plot the CCDF on a log scale.
-    cdf = _13_Cdf.MakeCdfFromList(days, name='intervals')
+    cdf = _13_Cdf._make_cdf_from_list(days, name='intervals')
     scale = _05_myplot._cdf(cdf, transform='exponential')
     _05_myplot._save(root='intervals',
                      xlabel='days',

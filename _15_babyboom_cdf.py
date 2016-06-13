@@ -36,7 +36,7 @@ def CdfTimeInterval():
                      xlabel='interval(minutes)',
                      ylabel='probability')
 
-    cdf = _13_Cdf.MakeCdfFromPmf(pmf)
+    cdf = _13_Cdf._make_cdf_from_pmf(pmf)
 
     _05_myplot._clf()
     _05_myplot._cdf(cdf)
@@ -49,7 +49,7 @@ def CdfTimeInterval():
 def LogCCdfTimeIntervel():
     timeInterval = CalcTimeInterval()
     pmf = _04_Pmf._make_pmf_from_list(timeInterval, 'baby birth interval')
-    cdf = _13_Cdf.MakeCdfFromPmf(pmf, 'baby birth interval')
+    cdf = _13_Cdf._make_cdf_from_pmf(pmf, 'baby birth interval')
     _05_myplot._clf()
     _05_myplot._cdf(cdf, complement=True, xscale='linear', yscale='log')
     _05_myplot._save(root='baby_birth_interval_logccdf',

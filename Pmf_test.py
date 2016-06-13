@@ -103,7 +103,7 @@ class Test(unittest.TestCase):
         pmf = _04_Pmf._make_pmf_from_list(t)
         self.checkPmf(pmf)
 
-        cdf = _13_Cdf.MakeCdfFromPmf(pmf)
+        cdf = _13_Cdf._make_cdf_from_pmf(pmf)
         pmf2 = _04_Pmf._make_pmf_from_cdf(cdf)
         self.checkPmf(pmf2)
 

@@ -143,7 +143,7 @@ def PValue(model1, model2, n, m, delta, iters=1000):
     mean_var = _03_thinkstats._mean_var(deltas)
     print('(Mean, Var) of resampled deltas', mean_var)
 
-    cdf = _13_Cdf.MakeCdfFromList(deltas)
+    cdf = _13_Cdf._make_cdf_from_list(deltas)
 
     # compute the two tail probabilities
     left = cdf._prob(-delta)

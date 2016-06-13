@@ -93,7 +93,7 @@ def MakeIncomeDist(data):
         print(x, number)
 
     pmf = _04_Pmf._make_pmf_from_hist(hist)
-    cdf = _13_Cdf.MakeCdfFromDict(pmf._get_dict())
+    cdf = _13_Cdf._make_cdf_from_dict(pmf._get_dict())
     return hist, pmf, cdf
 
 

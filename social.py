@@ -99,13 +99,13 @@ def MakePmfs(lens):
 
 def MakeFigures(pmf, biased_pmf):
     """Makes figures showing the CDF of the biased and unbiased PMFs"""
-    cdf = _13_Cdf.MakeCdfFromPmf(pmf, 'unbiased')
-    print('unbiased median', cdf.Percentile(50))
+    cdf = _13_Cdf._make_cdf_from_pmf(pmf, 'unbiased')
+    print('unbiased median', cdf._percentile(50))
     print('percent < 100', cdf._prob(100))
     print('percent < 1000', cdf._prob(1000))
 
-    biased_cdf = _13_Cdf.MakeCdfFromPmf(biased_pmf, 'biased')
-    print('biased median', biased_cdf.Percentile(50))
+    biased_cdf = _13_Cdf._make_cdf_from_pmf(biased_pmf, 'biased')
+    print('biased median', biased_cdf._percentile(50))
 
     _05_myplot._clf()
     _05_myplot._cdfs([cdf, biased_cdf])
@@ -116,7 +116,7 @@ def MakeFigures(pmf, biased_pmf):
 
 
 def MakeCdfs(lens):
-    cdf = _13_Cdf.MakeCdfFromList(lens, 'slashdot')
+    cdf = _13_Cdf._make_cdf_from_list(lens, 'slashdot')
 
     _05_myplot._clf()
     _05_myplot._cdf(cdf)

@@ -61,7 +61,7 @@ def main():
                      xlabel='speed (mph)',
                      ylabel='probability')
 
-    cdf = _13_Cdf.MakeCdfFromPmf(biased)
+    cdf = _13_Cdf._make_cdf_from_pmf(biased)
 
     _05_myplot._clf()
     _05_myplot._cdf(cdf)

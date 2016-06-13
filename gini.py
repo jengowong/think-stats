@@ -48,7 +48,7 @@ def SummarizeData(pmf, cdf):
     mean = PmfMean(pmf)
     print('mean:', mean)
 
-    median = cdf.Percentile(50)
+    median = cdf._percentile(50)
     print('median:', median)
 
     fraction_below_mean = cdf._prob(mean)

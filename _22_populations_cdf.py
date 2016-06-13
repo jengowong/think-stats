@@ -34,7 +34,7 @@ def MakeFigures():
     pops = _21_populations.ReadData()
     print(len(pops))
 
-    cdf = _13_Cdf.MakeCdfFromList(pops, 'populations')
+    cdf = _13_Cdf._make_cdf_from_list(pops, 'populations')
 
     _05_myplot._clf()
     _05_myplot._cdf(cdf)

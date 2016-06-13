@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2008 Allen B. Downey.
 Distributed under the GNU General Public License at gnu.org/licenses/gpl.html.
+
+NAME: _13_Cdf.py
 """
 
 import bisect
@@ -29,11 +31,11 @@ class Cdf(object):
         self.ps = [] if ps is None else ps
         self.name = name
 
-    def Values(self):
+    def _values(self):
         """Returns a sorted list of values."""
         return self.xs
 
-    def Items(self):
+    def _items(self):
         """
         Returns a sorted sequence of (value, probability) pairs.
 
@@ -41,7 +43,7 @@ class Cdf(object):
         """
         return zip(self.xs, self.ps)
 
-    def Append(self, x, p):
+    def _append(self, x, p):
         """
         Add an (x, p) pair to the end of this CDF.
 
@@ -52,7 +54,7 @@ class Cdf(object):
         self.xs.append(x)
         self.ps.append(p)
 
-    def Prob(self, x):
+    def _prob(self, x):
         """
         Returns CDF(x), the probability that corresponds to value x.
 
@@ -67,7 +69,7 @@ class Cdf(object):
         p = self.ps[index - 1]
         return p
 
-    def Value(self, p):
+    def _value(self, p):
         """
         Returns InverseCDF(p), the value that corresponds to probability p.
 
@@ -88,7 +90,7 @@ class Cdf(object):
         else:
             return self.xs[index]
 
-    def Percentile(self, p):
+    def _percentile(self, p):
         """
         Returns the value that corresponds to percentile p.
 
@@ -98,22 +100,22 @@ class Cdf(object):
         Returns:
             number value
         """
-        return self.Value(p / 100.0)
+        return self._value(p / 100.0)
 
-    def Random(self):
+    def _random(self):
         """Chooses a random value from this distribution."""
-        return self.Value(random.random())
+        return self._value(random.random())
 
-    def Sample(self, n):
+    def _sample(self, n):
         """
         Generates a random sample from this distribution.
         
         Args:
             n: int length of the sample
         """
-        return [self.Random() for i in range(n)]
+        return [self._random() for i in range(n)]
 
-    def Mean(self):
+    def _mean(self):
         """
         Computes the mean of a CDF.
 
@@ -128,7 +130,7 @@ class Cdf(object):
             old_p = new_p
         return total
 
-    def _Round(self, multiplier=1000.0):
+    def _round(self, multiplier=1000.0):
         """
         An entry is added to the cdf only if the percentile differs
         from the previous value in a significant digit, where the number
@@ -138,7 +140,7 @@ class Cdf(object):
         # TODO(write this method)
         pass
 
-    def Render(self):
+    def _render(self):
         """
         Generates a sequence of points suitable for plotting.
 
@@ -161,7 +163,7 @@ class Cdf(object):
         return xs, ps
 
 
-def MakeCdfFromItems(items, name=''):
+def _make_cdf_from_items(items, name=''):
     """
     Makes a cdf from an unsorted sequence of (value, frequency) pairs.
 
@@ -188,7 +190,7 @@ def MakeCdfFromItems(items, name=''):
     return cdf
 
 
-def MakeCdfFromDict(d, name=''):
+def _make_cdf_from_dict(d, name=''):
     """
     Makes a CDF from a dictionary that maps values to frequencies.
 
@@ -199,10 +201,10 @@ def MakeCdfFromDict(d, name=''):
     Returns:
         Cdf object
     """
-    return MakeCdfFromItems(d.iteritems(), name)
+    return _make_cdf_from_items(d.iteritems(), name)
 
 
-def MakeCdfFromHist(hist, name=''):
+def _make_cdf_from_hist(hist, name=''):
     """
     Makes a CDF from a Hist object.
 
@@ -213,10 +215,10 @@ def MakeCdfFromHist(hist, name=''):
     Returns:
         Cdf object
     """
-    return MakeCdfFromItems(hist._items(), name)
+    return _make_cdf_from_items(hist._items(), name)
 
 
-def MakeCdfFromPmf(pmf, name=None):
+def _make_cdf_from_pmf(pmf, name=None):
     """
     Makes a CDF from a Pmf object.
 
@@ -229,10 +231,10 @@ def MakeCdfFromPmf(pmf, name=None):
     """
     if name == None:
         name = pmf.name
-    return MakeCdfFromItems(pmf._items(), name)
+    return _make_cdf_from_items(pmf._items(), name)
 
 
-def MakeCdfFromList(seq, name=''):
+def _make_cdf_from_list(seq, name=''):
     """
     Creates a CDF from an unsorted sequence.
 
@@ -244,4 +246,4 @@ def MakeCdfFromList(seq, name=''):
        Cdf object
     """
     hist = _04_Pmf._make_hist_from_list(seq)
-    return MakeCdfFromHist(hist, name)
+    return _make_cdf_from_hist(hist, name)

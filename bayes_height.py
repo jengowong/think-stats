@@ -209,7 +209,7 @@ def PlotCoefVariation(suites):
     pmfs = {}
     for label, suite in suites.iteritems():
         pmf = ComputeCoefVariation(suite)
-        cdf = _13_Cdf.MakeCdfFromPmf(pmf, label)
+        cdf = _13_Cdf._make_cdf_from_pmf(pmf, label)
         _05_myplot._cdf(cdf)
 
         pmfs[label] = pmf
@@ -229,7 +229,7 @@ def PlotCdfs(samples):
     for label, sample in samples.iteritems():
         outliers = [x for x in sample if x < 150]
 
-        cdf = _13_Cdf.MakeCdfFromList(outliers, label)
+        cdf = _13_Cdf._make_cdf_from_list(outliers, label)
         cdfs.append(cdf)
 
     _05_myplot._clf()
@@ -294,13 +294,13 @@ def PlotMarginals(suite):
     pyplot.figure(1, figsize=(7, 4))
 
     pyplot.subplot(1, 2, 1)
-    cdf_m = _13_Cdf.MakeCdfFromPmf(pmf_m, 'mu')
+    cdf_m = _13_Cdf._make_cdf_from_pmf(pmf_m, 'mu')
     _05_myplot._cdf(cdf_m)
     pyplot.xlabel('Mean height (cm)')
     pyplot.ylabel('CDF')
 
     pyplot.subplot(1, 2, 2)
-    cdf_s = _13_Cdf.MakeCdfFromPmf(pmf_s, 'sigma')
+    cdf_s = _13_Cdf._make_cdf_from_pmf(pmf_s, 'sigma')
     _05_myplot._cdf(cdf_s)
     pyplot.xlabel('Std Dev height (cm)')
     pyplot.ylabel('CDF')
@@ -311,7 +311,7 @@ def PlotMarginals(suite):
 def PlotAges(resp):
     """Plot the distribution of ages."""
     ages = [r.age for r in resp.records]
-    cdf = _13_Cdf.MakeCdfFromList(ages)
+    cdf = _13_Cdf._make_cdf_from_list(ages)
     _05_myplot._clf()
     _05_myplot._cdf(cdf)
     _05_myplot._show()
@@ -342,8 +342,8 @@ def LoadHeights():
 
 def Winsorize(xs, p=0.01):
     """Compresses outliers."""
-    cdf = _13_Cdf.MakeCdfFromList(xs)
-    low, high = cdf.Value(p), cdf.Value(1 - p)
+    cdf = _13_Cdf._make_cdf_from_list(xs)
+    low, high = cdf._value(p), cdf._value(1 - p)
     print(low, high)
 
     outliers = [x for x in xs if x < low or x > high]

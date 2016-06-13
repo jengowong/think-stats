@@ -30,7 +30,7 @@ class Respondents(_19_brfss.Respondents):
                         xmax=175,
                         xlabel='adult weight (kg)',
                         axis=None):
-        cdf = _13_Cdf.MakeCdfFromList(weights)
+        cdf = _13_Cdf._make_cdf_from_list(weights)
 
         pyplot.clf()
 

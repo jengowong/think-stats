@@ -31,7 +31,7 @@ def Process(table, name):
 
     table.weights = [p.totalwgt_oz for p in table.records if p.totalwgt_oz != 'NA']
     table.weight_pmf = _04_Pmf._make_pmf_from_list(table.weights, table.name)
-    table.weight_cdf = _13_Cdf.MakeCdfFromList(table.weights, table.name)
+    table.weight_cdf = _13_Cdf._make_cdf_from_list(table.weights, table.name)
 
 
 def MakeTables(data_dir='.'):
@@ -47,8 +47,8 @@ def MakeTables(data_dir='.'):
 
 
 def Resample(cdf, n=10000):
-    sample = cdf.Sample(n)
-    new_cdf = _13_Cdf.MakeCdfFromList(sample, 'resampled')
+    sample = cdf._sample(n)
+    new_cdf = _13_Cdf._make_cdf_from_list(sample, 'resampled')
     _05_myplot._clf()
     _05_myplot._cdfs([cdf, new_cdf])
     _05_myplot._save(root='resample_cdf',
@@ -60,7 +60,7 @@ def Resample(cdf, n=10000):
 def MakeExample():
     """Make a simple example CDF."""
     t = [2, 1, 3, 2, 5]
-    cdf = _13_Cdf.MakeCdfFromList(t)
+    cdf = _13_Cdf._make_cdf_from_list(t)
     _05_myplot._clf()
     _05_myplot._cdf(cdf)
     _05_myplot._save(root='example_cdf',

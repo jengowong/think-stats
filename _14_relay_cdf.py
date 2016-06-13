@@ -16,7 +16,7 @@ def main():
     speeds = _10_relay._get_speeds(results)
 
     # plot the distribution of actual speeds
-    cdf = _13_Cdf.MakeCdfFromList(speeds, 'speeds')
+    cdf = _13_Cdf._make_cdf_from_list(speeds, 'speeds')
 
     _05_myplot._cdf(cdf)
     _05_myplot._save(root='relay_cdf',

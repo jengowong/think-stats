@@ -56,10 +56,10 @@ def MakeFigure(xmin=100, alpha=1.7, mu=150, sigma=25):
     sigma: parameter of the Normal distribution
     """
     t1 = [xmin * random.paretovariate(alpha) for i in range(10000)]
-    cdf1 = _13_Cdf.MakeCdfFromList(t1, name='pareto')
+    cdf1 = _13_Cdf._make_cdf_from_list(t1, name='pareto')
 
     t2 = [random.normalvariate(mu, sigma) for i in range(10000)]
-    cdf2 = _13_Cdf.MakeCdfFromList(t2, name='normal')
+    cdf2 = _13_Cdf._make_cdf_from_list(t2, name='normal')
 
     _05_myplot._clf()
     _05_myplot._cdfs([cdf1, cdf2])

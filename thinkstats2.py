@@ -1504,7 +1504,7 @@ def CredibleInterval(pmf, percentage=90):
     """
     cdf = pmf.MakeCdf()
     prob = (1 - percentage / 100.0) / 2
-    interval = cdf.Value(prob), cdf.Value(1 - prob)
+    interval = cdf._value(prob), cdf._value(1 - prob)
     return interval
 
 
@@ -2304,7 +2304,7 @@ def Skewness(xs):
 def Median(xs):
     """Computes the median (50th percentile) of a sequence."""
     cdf = MakeCdfFromList(xs)
-    return cdf.Value(0.5)
+    return cdf._value(0.5)
 
 
 def PearsonMedianSkewness(xs):

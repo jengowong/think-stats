@@ -13,7 +13,7 @@ import _13_Cdf
 class Test(unittest.TestCase):
     def testMakeCdfFromList(self):
         t = [2, 1, 3, 2, 5]
-        cdf = _13_Cdf.MakeCdfFromList(t, 'bob')
+        cdf = _13_Cdf._make_cdf_from_list(t, 'bob')
         self.checkCdf(cdf)
 
     def checkCdf(self, cdf):
@@ -23,7 +23,7 @@ class Test(unittest.TestCase):
 
     def testProb(self):
         t = [2, 1, 3, 2, 5]
-        cdf = _13_Cdf.MakeCdfFromList(t, 'bob')
+        cdf = _13_Cdf._make_cdf_from_list(t, 'bob')
 
         self.assertEqual(cdf._prob(-1), 0.0)
         self.assertEqual(cdf._prob(1), 0.2)
@@ -35,30 +35,30 @@ class Test(unittest.TestCase):
 
     def testValue(self):
         t = [2, 1, 3, 2, 5]
-        cdf = _13_Cdf.MakeCdfFromList(t, 'bob')
+        cdf = _13_Cdf._make_cdf_from_list(t, 'bob')
 
-        self.assertEqual(cdf.Value(0.0), 1)
-        self.assertEqual(cdf.Value(0.1), 1)
-        self.assertEqual(cdf.Value(0.2), 1)
-        self.assertEqual(cdf.Value(0.3), 2)
-        self.assertEqual(cdf.Value(0.4), 2)
-        self.assertEqual(cdf.Value(0.5), 2)
-        self.assertEqual(cdf.Value(0.6), 2)
-        self.assertEqual(cdf.Value(0.7), 3)
-        self.assertEqual(cdf.Value(0.8), 3)
-        self.assertEqual(cdf.Value(0.9), 5)
-        self.assertEqual(cdf.Value(1.0), 5)
-        self.assertRaises(ValueError, cdf.Value, -0.1)
-        self.assertRaises(ValueError, cdf.Value, 1.1)
+        self.assertEqual(cdf._value(0.0), 1)
+        self.assertEqual(cdf._value(0.1), 1)
+        self.assertEqual(cdf._value(0.2), 1)
+        self.assertEqual(cdf._value(0.3), 2)
+        self.assertEqual(cdf._value(0.4), 2)
+        self.assertEqual(cdf._value(0.5), 2)
+        self.assertEqual(cdf._value(0.6), 2)
+        self.assertEqual(cdf._value(0.7), 3)
+        self.assertEqual(cdf._value(0.8), 3)
+        self.assertEqual(cdf._value(0.9), 5)
+        self.assertEqual(cdf._value(1.0), 5)
+        self.assertRaises(ValueError, cdf._value, -0.1)
+        self.assertRaises(ValueError, cdf._value, 1.1)
 
     def testMean(self):
         t = [2, 1, 3, 2, 5]
-        cdf = _13_Cdf.MakeCdfFromList(t, 'bob')
+        cdf = _13_Cdf._make_cdf_from_list(t, 'bob')
         self.assertAlmostEqual(cdf._mean(), 13.0 / 5.0)
 
     def testItems(self):
         t = [2, 1, 3, 2, 5]
-        cdf = _13_Cdf.MakeCdfFromList(t, 'bob')
+        cdf = _13_Cdf._make_cdf_from_list(t, 'bob')
 
         items = cdf._items()
         expected = [(1, 0.2), (2, 0.6), (3, 0.8), (5, 1.0)]
@@ -68,7 +68,7 @@ class Test(unittest.TestCase):
 
     def testRender(self):
         t = [2, 1, 3, 2, 5]
-        cdf = _13_Cdf.MakeCdfFromList(t, 'bob')
+        cdf = _13_Cdf._make_cdf_from_list(t, 'bob')
 
         vs, ps = cdf._render()
         self.assertEqual(vs, [1, 1, 2, 2, 3, 3, 5, 5])
