@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2011 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: _16_erf.py
 """
 
 from scipy.special import erf, erfinv
@@ -15,11 +17,11 @@ import _13_Cdf
 root2 = math.sqrt(2.0)
 
 
-def StandardNormalCdf(x):
+def _standard_normal_cdf(x):
     return (erf(x / root2) + 1) / 2
 
 
-def NormalCdf(x, mu=0, sigma=1):
+def _normal_cdf(x, mu=0, sigma=1):
     """
     Evaluates the CDF of the normal distribution.
     
@@ -31,10 +33,10 @@ def NormalCdf(x, mu=0, sigma=1):
     Returns:
         float
     """
-    return StandardNormalCdf(float(x - mu) / sigma)
+    return _standard_normal_cdf(float(x - mu) / sigma)
 
 
-def NormalCdfInverse(p, mu=0, sigma=1):
+def _normal_cdf_inverse(p, mu=0, sigma=1):
     """
     Evaluates the inverse CDF of the normal distribution.
     
@@ -53,7 +55,7 @@ def NormalCdfInverse(p, mu=0, sigma=1):
 spread = 4.0
 
 
-def MakeNormalCdf(low=-spread, high=spread, digits=2):
+def _make_normal_cdf(low=-spread, high=spread, digits=2):
     """
     Returns a Cdf object with the standard normal CDF.
 
@@ -69,7 +71,7 @@ def MakeNormalCdf(low=-spread, high=spread, digits=2):
     return cdf
 
 
-def MakeNormalPmf(low=-spread, high=spread, digits=2):
+def _make_normal_pmf(low=-spread, high=spread, digits=2):
     """
     Returns a Pmf object with the standard normal CDF.
 
@@ -78,7 +80,7 @@ def MakeNormalPmf(low=-spread, high=spread, digits=2):
         high:   how many standard deviations above the mean?
         digits:
     """
-    cdf = MakeNormalCdf(low, high, digits)
+    cdf = _make_normal_cdf(low, high, digits)
     pmf = _04_Pmf._make_pmf_from_cdf(cdf)
     return pmf
 
@@ -92,7 +94,7 @@ class FixedPointNormalPmf(_04_Pmf.Pmf):
 
     def __init__(self, spread=4, digits=2, log=False):
         """
-        Initalizes a FixedPointNormalPmf.
+        Initializes a FixedPointNormalPmf.
 
         Args:
             spread: how many standard deviations in each direction.
@@ -108,7 +110,7 @@ class FixedPointNormalPmf(_04_Pmf.Pmf):
         gap = (xs[1] - xs[0]) / 2
 
         for x in xs:
-            p = StandardNormalCdf(x + gap) - StandardNormalCdf(x - gap)
+            p = _standard_normal_cdf(x + gap) - _standard_normal_cdf(x - gap)
             self._set(round(x, self.digits), p)
 
         # save the last (smallest) probability as the default for
@@ -120,6 +122,6 @@ class FixedPointNormalPmf(_04_Pmf.Pmf):
             self._log()
             self.default = math.log(self.default)
 
-    def NormalProb(self, x):
+    def _normal_prob(self, x):
         """Looks up the probability for the value closest to x."""
         return self.d.get(round(x, self.digits), self.default)

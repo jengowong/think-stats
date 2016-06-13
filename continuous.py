@@ -98,7 +98,7 @@ def MakeParetoCdf2():
 def RenderNormalCdf(mu, sigma, max, n=50):
     """Generates sequences of xs and ps for a normal CDF."""
     xs = [max * i / n for i in range(n)]
-    ps = [_16_erf.NormalCdf(x, mu, sigma) for x in xs]
+    ps = [_16_erf._normal_cdf(x, mu, sigma) for x in xs]
     return xs, ps
 
 

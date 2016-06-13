@@ -46,8 +46,8 @@ def Test(actual1, actual2, model, iters=1000):
 
     # compute the p-value of delta in the observed distribution
     sigma = math.sqrt(var)
-    left = _16_erf.NormalCdf(-delta, mu, sigma)
-    right = 1 - _16_erf.NormalCdf(delta, mu, sigma)
+    left = _16_erf._normal_cdf(-delta, mu, sigma)
+    right = 1 - _16_erf._normal_cdf(delta, mu, sigma)
     pvalue = left + right
     print('Tails:', left, right)
     print('p-value:', pvalue)
