@@ -36,8 +36,8 @@ def BiasPmf(pmf, speed, name=None):
 
 
 def main():
-    results = _10_relay.ReadResults()
-    speeds = _10_relay.GetSpeeds(results)
+    results = _10_relay._read_results()
+    speeds = _10_relay._get_speeds(results)
 
     # plot the distribution of actual speeds
     pmf = _04_Pmf._make_pmf_from_list(speeds, 'actual speeds')

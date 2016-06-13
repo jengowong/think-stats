@@ -12,8 +12,8 @@ import _13_Cdf
 
 
 def main():
-    results = _10_relay.ReadResults()
-    speeds = _10_relay.GetSpeeds(results)
+    results = _10_relay._read_results()
+    speeds = _10_relay._get_speeds(results)
 
     # plot the distribution of actual speeds
     cdf = _13_Cdf.MakeCdfFromList(speeds, 'speeds')

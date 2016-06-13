@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: _10_relay.py
 """
 
 import urllib
@@ -21,7 +23,7 @@ Place Div/Tot  Div   Guntime Nettime  Pace  Name                   Ag S Race# Ci
 """
 
 
-def ConvertPaceToSpeed(pace):
+def _convert_pace_to_speed(pace):
     """Converts pace in MM:SS per mile to MPH."""
     m, s = [int(x) for x in pace.split(':')]
     secs = m * 60 + s
@@ -29,7 +31,7 @@ def ConvertPaceToSpeed(pace):
     return mph
 
 
-def CleanLine(line):
+def _clean_line(line):
     """Converts a line from coolrunning results to a tuple of values."""
     t = line.split()
     if len(t) < 6:
@@ -47,30 +49,30 @@ def CleanLine(line):
     return place, divtot, div, gun, net, pace
 
 
-def ReadResults(url=results):
+def _read_results(url=results):
     """Read results from coolrunning and return a list of tuples."""
     results = []
     conn = urllib.urlopen(url)
     for line in conn.fp:
-        t = CleanLine(line)
+        t = _clean_line(line)
         if t:
             results.append(t)
     return results
 
 
-def GetSpeeds(results, column=5):
+def _get_speeds(results, column=5):
     """Extract the pace column and return a list of speeds in MPH."""
     speeds = []
     for t in results:
         pace = t[column]
-        speed = ConvertPaceToSpeed(pace)
+        speed = _convert_pace_to_speed(pace)
         speeds.append(speed)
     return speeds
 
 
 def main():
-    results = ReadResults()
-    speeds = GetSpeeds(results)
+    results = _read_results()
+    speeds = _get_speeds(results)
     pmf = _04_Pmf._make_pmf_from_list(speeds, 'speeds')
     _05_myplot._pmf(pmf)
     _05_myplot._show(title='PMF of running speed',
