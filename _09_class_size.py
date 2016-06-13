@@ -10,7 +10,7 @@ import _04_Pmf
 import _05_myplot
 
 
-def BiasPmf(pmf, name, invert=False):
+def _bias_pmf(pmf, name, invert=False):
     """
     Returns the Pmf with oversampling proportional to value.
 
@@ -44,7 +44,7 @@ def BiasPmf(pmf, name, invert=False):
     return new_pmf
 
 
-def UnbiasPmf(pmf, name):
+def _unbias_pmf(pmf, name):
     """
     Returns the Pmf with oversampling proportional to 1/value.
 
@@ -55,10 +55,10 @@ def UnbiasPmf(pmf, name):
      Returns:
        Pmf object
     """
-    return BiasPmf(pmf, name, invert=True)
+    return _bias_pmf(pmf, name, invert=True)
 
 
-def ClassSizes():
+def _class_sizes():
     # start with the actual distribution of class sizes from the book
     d = {
         7: 8,
@@ -78,12 +78,12 @@ def ClassSizes():
     print('var', pmf._var())
 
     # compute the biased pmf
-    biased_pmf = BiasPmf(pmf, 'observed')
+    biased_pmf = _bias_pmf(pmf, 'observed')
     print('mean', biased_pmf._mean())
     print('var', biased_pmf._var())
 
     # unbias the biased pmf
-    unbiased_pmf = UnbiasPmf(biased_pmf, 'unbiased')
+    unbiased_pmf = _unbias_pmf(biased_pmf, 'unbiased')
     print('mean', unbiased_pmf._mean())
     print('var', unbiased_pmf._var())
 
@@ -93,7 +93,7 @@ def ClassSizes():
 
 
 def main():
-    ClassSizes()
+    _class_sizes()
 
 
 if __name__ == '__main__':
