@@ -28,7 +28,7 @@ def _compute_correlations():
     resp._read_records()
     print('Number of records:', len(resp.records))
 
-    heights, weights = resp.GetHeightWeight()
+    heights, weights = resp._get_height_weight()
     pearson = correlation.Corr(heights, weights)
     print('Pearson correlation (weights):', pearson)
 
