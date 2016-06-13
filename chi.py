@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: chi.py
 """
 
 import itertools
@@ -14,50 +16,49 @@ import _06_descriptive
 import _07_risk
 
 
-def ComputeRow(n, probs):
+def _compute_row(n, probs):
     """
     Multiplies out a row of a table.
     
     Args:
-      n:    sum of the elements in the row
-      prob: sequence of float probabilities
+        n:     sum of the elements in the row
+        probs: sequence of float probabilities
     """
     row = [n * prob for prob in probs]
     return row
 
 
-def SimulateRow(n, probs):
+def _simulate_row(n, probs):
     """
     Generates a random row of a table.
     
-    Chooses all but the last element at random, then chooses the
-    last element to make the sums work.
+    Chooses all but the last element at random, then chooses the last element to make the sums work.
     
     Args:
-      n:    sum of the elements in the row
-      prob: sequence of float probabilities
+        n:     sum of the elements in the row
+        probs: sequence of float probabilities
     """
-    row = [Binomial(n, prob) for prob in probs]
+    row = [_binomial(n, prob) for prob in probs]
     row[-1] += n - sum(row)
     return row
 
 
-def Binomial(n, prob):
+def _binomial(n, prob):
     """
     Returns a random sample from a binomial distribution.
     
     Args:
-      n:    int number of trials
-      prob: float probability
+        n:    int number of trials
+        prob: float probability
       
     Returns:
-      int: number of successes
+        int: number of successes
     """
     t = [1 for _ in range(n) if random.random() < prob]
     return sum(t)
 
 
-def ComputeRows(firsts, others, funcs, probs=None, row_func=ComputeRow):
+def _compute_rows(firsts, others, funcs, probs=None, row_func=_compute_row):
     """
     Computes a table suitable for use with chi-squared stats.
     
@@ -67,7 +68,7 @@ def ComputeRows(firsts, others, funcs, probs=None, row_func=ComputeRow):
         3) To generate random values, provide pooled probs, and row_func=SimulateRow
         
     Returns:
-      row of rows of float values
+        row of rows of float values
     """
     rows = []
     for table in [firsts, others]:
@@ -79,16 +80,16 @@ def ComputeRows(firsts, others, funcs, probs=None, row_func=ComputeRow):
     return rows
 
 
-def ChiSquared(expected, observed):
+def _chi_squared(expected, observed):
     """
     Compute the Chi-squared statistic for two tables.
     
     Args:
-      expected: row of rows of values
-      observed: row of rows of values
+        expected: row of rows of values
+        observed: row of rows of values
       
     Returns:
-      float chi-squared statistic
+        float chi-squared statistic
     """
     it = zip(itertools.chain(*expected),
              itertools.chain(*observed))
@@ -96,35 +97,35 @@ def ChiSquared(expected, observed):
     return sum(t)
 
 
-def Test(pool, firsts, others, num_trials=1000):
+def _test(pool, firsts, others, num_trials=1000):
     # collect the functions from _07_risk.py that take Pmfs and compute
     # various probabilities
     funcs = [_07_risk._prob_early, _07_risk._prob_on_time, _07_risk._prob_late]
 
     # get the observed frequency in each bin
     print('observed')
-    observed = ComputeRows(firsts, others, funcs, probs=None)
+    observed = _compute_rows(firsts, others, funcs, probs=None)
     print(observed)
 
     # compute the expected frequency in each bin
     tables = [firsts, others]
     probs = [func(pool.pmf) for func in funcs]
     print('expected')
-    expected = ComputeRows(firsts, others, funcs, probs=probs)
+    expected = _compute_rows(firsts, others, funcs, probs=probs)
     print(expected)
 
     # compute the chi-squared stat
     print('chi-squared')
-    threshold = ChiSquared(expected, observed)
+    threshold = _chi_squared(expected, observed)
     print(threshold)
 
     print('simulated %d trials' % num_trials)
     chi2s = []
     count = 0
     for _ in range(num_trials):
-        simulated = ComputeRows(firsts, others, funcs, probs=probs,
-                                row_func=SimulateRow)
-        chi2 = ChiSquared(expected, simulated)
+        simulated = _compute_rows(firsts, others, funcs, probs=probs,
+                                  row_func=_simulate_row)
+        chi2 = _chi_squared(expected, simulated)
         chi2s.append(chi2)
         if chi2 >= threshold:
             count += 1
@@ -142,7 +143,7 @@ def Test(pool, firsts, others, num_trials=1000):
 def main():
     # get the data
     pool, firsts, others = _06_descriptive._make_tables()
-    Test(pool, firsts, others, num_trials=1000)
+    _test(pool, firsts, others, num_trials=1000)
 
 
 if __name__ == "__main__":
