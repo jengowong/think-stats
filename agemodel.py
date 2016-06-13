@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: agemodel.py
 """
 
 import math
@@ -69,12 +71,10 @@ Pearson correlation 0.084795033619
 Spearman correlation 0.103080620319
 (inter, slope): 110.400666041 0.297751296651
 R^2 0.00719019772646
-
-
 """
 
 
-def Process(table, name):
+def _process(table, name):
     """
     Runs various analyses on this table.
 
@@ -95,19 +95,19 @@ def Process(table, name):
     table.weight_cdf = _13_Cdf._make_cdf_from_list(table.weights, table.name)
 
 
-def MakeTables(data_dir='.'):
+def _make_tables(data_dir='.'):
     """Reads survey data and returns a tuple of Tables"""
     table, firsts, others = _02_first._make_tables(data_dir)
     pool = _06_descriptive._pool_records(firsts, others)
 
-    Process(pool, 'live births')
-    Process(firsts, 'first babies')
-    Process(others, 'others')
+    _process(pool, 'live births')
+    _process(firsts, 'first babies')
+    _process(others, 'others')
 
     return pool, firsts, others
 
 
-def GetAgeWeight(table, low=0.0, high=20.0):
+def _get_age_weight(table, low=0.0, high=20.0):
     """
     Get sequences of mother's age and birth weight.
 
@@ -134,7 +134,7 @@ def GetAgeWeight(table, low=0.0, high=20.0):
     return ages, weights
 
 
-def Partition(ages, weights, bin_size=2):
+def _partition(ages, weights, bin_size=2):
     """
     Break ages into bins.
 
@@ -154,7 +154,7 @@ def Partition(ages, weights, bin_size=2):
     return weight_dict
 
 
-def MakeFigures(pool, firsts, others):
+def _make_figures(pool, firsts, others):
     """Creates several figures for the book."""
 
     # CDF of all ages
@@ -191,7 +191,7 @@ def MakeFigures(pool, firsts, others):
                      ylabel='CDF')
 
     # make a scatterplot of ages and weights
-    ages, weights = GetAgeWeight(pool)
+    ages, weights = _get_age_weight(pool)
     pyplot.clf()
     # pyplot.scatter(ages, weights, alpha=0.2)
     pyplot.hexbin(ages, weights, cmap=matplotlib.cm.gray_r)
@@ -201,7 +201,7 @@ def MakeFigures(pool, firsts, others):
                      legend=False)
 
 
-def DifferenceInMeans(firsts, others, attr):
+def _difference_in_means(firsts, others, attr):
     """
     Compute the difference in means between tables for a given attr.
 
@@ -220,7 +220,7 @@ def DifferenceInMeans(firsts, others, attr):
     return diff
 
 
-def ComputeLeastSquares(ages, weights):
+def _compute_least_squares(ages, weights):
     """
     Computes least squares fit for ages and weights.
 
@@ -243,21 +243,21 @@ def ComputeLeastSquares(ages, weights):
 
 
 def main(name, data_dir=''):
-    pool, firsts, others = MakeTables(data_dir)
+    pool, firsts, others = _make_tables(data_dir)
 
     for table in [pool, firsts, others]:
-        print(table.name, len(table.records), )
+        print(table.name, len(table.records),)
         print(len(table.ages), len(table.weights))
 
     # compute differences in mean age and weight
-    age_diff = DifferenceInMeans(firsts, others, 'ages')
-    weight_diff = DifferenceInMeans(firsts, others, 'weights')
+    age_diff = _difference_in_means(firsts, others, 'ages')
+    weight_diff = _difference_in_means(firsts, others, 'weights')
 
     # get ages and weights
-    ages, weights = GetAgeWeight(pool)
+    ages, weights = _get_age_weight(pool)
 
     # compute a least squares fit
-    inter, slope, R2 = ComputeLeastSquares(ages, weights)
+    inter, slope, R2 = _compute_least_squares(ages, weights)
 
     # see how much of the weight difference is explained by age
     weight_diff_explained = age_diff * slope
@@ -266,17 +266,17 @@ def main(name, data_dir=''):
     print
 
     # make a table of mean weight for 5-year age bins
-    weight_dict = Partition(ages, weights)
-    MakeLinePlot(weight_dict)
+    weight_dict = _partition(ages, weights)
+    _make_line_plot(weight_dict)
 
     # the correlations are slightly higher if we trim outliers
-    ages, weights = GetAgeWeight(pool, low=4, high=12)
-    inter, slope, R2 = ComputeLeastSquares(ages, weights)
+    ages, weights = _get_age_weight(pool, low=4, high=12)
+    inter, slope, R2 = _compute_least_squares(ages, weights)
 
-    MakeFigures(pool, firsts, others)
+    _make_figures(pool, firsts, others)
 
 
-def MakeLinePlot(age_bins):
+def _make_line_plot(age_bins):
     xs = []
     ys = []
     for bin, weights in sorted(age_bins.iteritems()):

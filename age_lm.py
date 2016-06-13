@@ -166,7 +166,7 @@ def main(script, model_number=0):
     model_number = int(model_number)
 
     # get the data
-    pool, firsts, others = agemodel.MakeTables()
+    pool, firsts, others = agemodel._make_tables()
     ages, weights, first_bool = _get_age_weight_first(pool)
     ages2 = [age ** 2 for age in ages]
 
