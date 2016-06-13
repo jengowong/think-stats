@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: coin.py
 """
 
 from math import pow
@@ -36,7 +38,7 @@ general we could use any kind of object to represent a hypothesis.
 """
 
 
-def MakeUniformSuite(low, high, steps):
+def _make_uniform_suite(low, high, steps):
     """
     Makes a PMF that represents a suite of hypotheses with equal p.
     
@@ -53,25 +55,24 @@ def MakeUniformSuite(low, high, steps):
     return pmf
 
 
-def Update(suite, evidence):
+def _update(suite, evidence):
     """
     Updates a suite of hypotheses based on new evidence.
 
-    Modifies the suite directly; if you want to keep the original, make
-    a copy.
+    Modifies the suite directly; if you want to keep the original, make a copy.
 
     Args:
         suite:    Pmf object
         evidence: whatever kind of object Likelihood expects
     """
     for hypo in suite._values():
-        likelihood = Likelihood(evidence, hypo)
+        likelihood = _likelihood(evidence, hypo)
         print(hypo, likelihood)
         suite._mult(hypo, likelihood)
     suite._normalize()
 
 
-def Likelihood(evidence, hypo):
+def _likelihood(evidence, hypo):
     """
     Computes the likelihood of the evidence assuming the hypothesis is true.
 
@@ -80,8 +81,7 @@ def Likelihood(evidence, hypo):
         hypo:     float probability of heads
 
     Returns:
-        probability of tossing the given number of heads and tails with a
-        coin that has p probability of heads
+        probability of tossing the given number of heads and tails with a coin that has p probability of heads
     """
     heads, tails = evidence
     p = hypo
@@ -89,10 +89,10 @@ def Likelihood(evidence, hypo):
 
 
 def main():
-    suite = MakeUniformSuite(0.0, 1.0, 1001)
+    suite = _make_uniform_suite(0.0, 1.0, 1001)
     evidence = 140, 110
 
-    Update(suite, evidence)
+    _update(suite, evidence)
     suite.name = 'posterior'
 
     # plot the posterior distributions

@@ -40,7 +40,7 @@ def IntegrateLikelihood(evidence, suite, step):
     """
     total = 0.0
     for hypo in suite._values():
-        likelihood = Likelihood(evidence, hypo)
+        likelihood = _likelihood(evidence, hypo)
         total += likelihood * suite._prob(hypo)
 
     return total
@@ -51,13 +51,13 @@ def main():
     low = 0.0
     high = 1.0
     step = (high - low) / (n - 1)
-    suite = MakeUniformSuite(low, high, n)
+    suite = _make_uniform_suite(low, high, n)
     evidence = 140, 110
 
     likelihood_biased = IntegrateLikelihood(evidence, suite, step)
     print(likelihood_biased)
 
-    likelihood_unbiased = Likelihood(evidence, 0.5)
+    likelihood_unbiased = _likelihood(evidence, 0.5)
     print(likelihood_unbiased)
 
     ratio = likelihood_biased / likelihood_unbiased
