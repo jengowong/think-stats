@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: _22_populations_cdf.py
 """
 
 import math
@@ -30,7 +32,7 @@ as well, or better, with lognormal models.
 """
 
 
-def MakeFigures():
+def _make_figures():
     pops = _21_populations._read_data()
     print(len(pops))
 
@@ -69,7 +71,7 @@ def MakeFigures():
 
 
 def main():
-    MakeFigures()
+    _make_figures()
 
 
 if __name__ == "__main__":
