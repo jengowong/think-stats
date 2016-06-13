@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: _23_irs.py
 """
 
 import csv
@@ -19,7 +21,7 @@ at least for people with taxable income above the median.
 """
 
 
-def ReadIncomeFile(filename='08in11si.csv'):
+def _read_income_file(filename='08in11si.csv'):
     """
     Reads a data file from the IRS and returns the first two columns.
 
@@ -45,7 +47,7 @@ def ReadIncomeFile(filename='08in11si.csv'):
     return t
 
 
-def MakeIncomeDist(data):
+def _make_income_dist(data):
     """
     Converts the strings from the IRS file to a Hist, Pmf and Cdf.
 
@@ -98,8 +100,8 @@ def MakeIncomeDist(data):
 
 
 def main(script, *args):
-    data = ReadIncomeFile()
-    hist, pmf, cdf = MakeIncomeDist(data)
+    data = _read_income_file()
+    hist, pmf, cdf = _make_income_dist(data)
 
     # plot the CDF on a log-x scale
     _05_myplot._clf()

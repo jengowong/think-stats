@@ -71,8 +71,8 @@ def SummarizeData(pmf, cdf):
 
 
 def main(script, *args):
-    data = _23_irs.ReadIncomeFile()
-    hist, pmf, cdf = _23_irs.MakeIncomeDist(data)
+    data = _23_irs._read_income_file()
+    hist, pmf, cdf = _23_irs._make_income_dist(data)
     SummarizeData(pmf, cdf)
 
 
