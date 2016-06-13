@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: birthdays.py
 """
 
 import csv
@@ -13,17 +15,17 @@ import _05_myplot
 import _13_Cdf
 
 
-def ReadBirthdays(filename='birthdays.csv'):
+def _read_birthdays(filename='birthdays.csv'):
     """
     Reads a CSV file of birthdays and returns a list of date objects.
 
     The first column of the file must contain dates in MM-DD format.
 
     Args:
-      filename: string filename
+        filename: string filename
 
     Returns:
-      list of datetime.date objects
+        list of datetime.date objects
     """
 
     fp = open(filename)
@@ -39,15 +41,15 @@ def ReadBirthdays(filename='birthdays.csv'):
     return bdays
 
 
-def Diff(t):
+def _diff(t):
     """
     Computes the differences between the adjacent elements of a sequence.
 
     Args:
-      t: sequence of anything subtractable
+        t: sequence of anything subtractable
 
     Returns:
-      list of whatever is in t
+        list of whatever is in t
     """
 
     diffs = []
@@ -57,13 +59,13 @@ def Diff(t):
     return diffs
 
 
-def Main(script):
+def main(script):
     # read 'em and sort 'em
-    birthdays = ReadBirthdays()
+    birthdays = _read_birthdays()
     birthdays.sort()
 
     # compute the intervals in days
-    deltas = Diff(birthdays)
+    deltas = _diff(birthdays)
     days = [inter.days for inter in deltas]
 
     # make and plot the CCDF on a log scale.
@@ -76,4 +78,4 @@ def Main(script):
 
 
 if __name__ == '__main__':
-    Main(*sys.argv)
+    main(*sys.argv)
