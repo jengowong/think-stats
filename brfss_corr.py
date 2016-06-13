@@ -29,21 +29,21 @@ def _compute_correlations():
     print('Number of records:', len(resp.records))
 
     heights, weights = resp._get_height_weight()
-    pearson = correlation.Corr(heights, weights)
+    pearson = correlation._corr(heights, weights)
     print('Pearson correlation (weights):', pearson)
 
     log_weights = _log(weights)
-    pearson = correlation.Corr(heights, log_weights)
+    pearson = correlation._corr(heights, log_weights)
     print('Pearson correlation (log weights):', pearson)
 
-    spearman = correlation.SpearmanCorr(heights, weights)
+    spearman = correlation._spearman_corr(heights, weights)
     print('Spearman correlation (weights):', spearman)
 
-    inter, slope = correlation.LeastSquares(heights, log_weights)
+    inter, slope = correlation._least_squares(heights, log_weights)
     print('Least squares inter, slope (log weights):', inter, slope)
 
-    res = correlation.Residuals(heights, log_weights, inter, slope)
-    R2 = correlation.CoefDetermination(log_weights, res)
+    res = correlation._residuals(heights, log_weights, inter, slope)
+    R2 = correlation._coef_determination(log_weights, res)
     print('Coefficient of determination:', R2)
     print('sqrt(R^2):', math.sqrt(R2))
 

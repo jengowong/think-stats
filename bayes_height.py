@@ -284,8 +284,8 @@ def _normal_plot(ys, label, color='b', jitter=0.0, **line_options):
     ys = [y + random.uniform(-jitter, +jitter) for y in ys]
     ys.sort()
 
-    inter, slope = correlation.LeastSquares(xs, ys)
-    fit = correlation.FitLine(xs, inter, slope)
+    inter, slope = correlation._least_squares(xs, ys)
+    fit = correlation._fit_line(xs, inter, slope)
     pyplot.plot(*fit, color=color, linewidth=0.5, alpha=0.5)
 
     pyplot.plot(sorted(xs), sorted(ys),

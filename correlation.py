@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: correlation.py
 """
 
 import math
@@ -11,7 +13,7 @@ import random
 import _03_thinkstats
 
 
-def Cov(xs, ys, mux=None, muy=None):
+def _cov(xs, ys, mux=None, muy=None):
     """
     Computes Cov(X, Y).
 
@@ -36,7 +38,7 @@ def Cov(xs, ys, mux=None, muy=None):
     return total / len(xs)
 
 
-def Corr(xs, ys):
+def _corr(xs, ys):
     """
     Computes Corr(X, Y).
 
@@ -50,17 +52,17 @@ def Corr(xs, ys):
     xbar, varx = _03_thinkstats._mean_var(xs)
     ybar, vary = _03_thinkstats._mean_var(ys)
 
-    corr = Cov(xs, ys, xbar, ybar) / math.sqrt(varx * vary)
+    corr = _cov(xs, ys, xbar, ybar) / math.sqrt(varx * vary)
 
     return corr
 
 
-def SerialCorr(xs):
+def _serial_corr(xs):
     """Computes the serial correlation of a sequence."""
-    return Corr(xs[:-1], xs[1:])
+    return _corr(xs[:-1], xs[1:])
 
 
-def SpearmanCorr(xs, ys):
+def _spearman_corr(xs, ys):
     """
     Computes Spearman's rank correlation.
 
@@ -71,12 +73,12 @@ def SpearmanCorr(xs, ys):
     Returns:
         float Spearman's correlation
     """
-    xranks = MapToRanks(xs)
-    yranks = MapToRanks(ys)
-    return Corr(xranks, yranks)
+    xranks = _map_to_ranks(xs)
+    yranks = _map_to_ranks(ys)
+    return _corr(xranks, yranks)
 
 
-def LeastSquares(xs, ys):
+def _least_squares(xs, ys):
     """
     Computes a linear least squares fit for ys as a function of xs.
 
@@ -90,26 +92,27 @@ def LeastSquares(xs, ys):
     xbar, varx = _03_thinkstats._mean_var(xs)
     ybar, vary = _03_thinkstats._mean_var(ys)
 
-    slope = Cov(xs, ys, xbar, ybar) / varx
+    slope = _cov(xs, ys, xbar, ybar) / varx
     inter = ybar - slope * xbar
 
     return inter, slope
 
 
-def FitLine(xs, inter, slope):
+def _fit_line(xs, inter, slope):
     """
     Returns the fitted line for the range of xs.
 
-    xs: x values used for the fit
-    slope: estimated slope
-    inter: estimated intercept
+    Args:
+        xs:    x values used for the fit
+        slope: estimated slope
+        inter: estimated intercept
     """
     fxs = min(xs), max(xs)
     fys = [x * slope + inter for x in fxs]
     return fxs, fys
 
 
-def Residuals(xs, ys, inter, slope):
+def _residuals(xs, ys, inter, slope):
     """
     Computes residuals for a linear fit with parameters inter and slope.
 
@@ -126,12 +129,12 @@ def Residuals(xs, ys, inter, slope):
     return res
 
 
-def CoefDetermination(ys, res):
+def _coef_determination(ys, res):
     """
     Computes the coefficient of determination (R^2) for given residuals.
 
     Args:
-        ys: dependent variable
+        ys:  dependent variable
         res: residuals
         
     Returns:
@@ -142,7 +145,7 @@ def CoefDetermination(ys, res):
     return 1 - varres / vary
 
 
-def MapToRanks(t):
+def _map_to_ranks(t):
     """
     Returns a list of ranks corresponding to the elements in t.
 
@@ -169,34 +172,38 @@ def MapToRanks(t):
     return ranks
 
 
-def CorrelatedGenerator(rho):
+def _correlated_generator(rho):
     """
     Generates standard normal variates with correlation.
 
-    rho: target coefficient of correlation
+    Args:
+        rho: target coefficient of correlation
 
-    Returns: iterable
+    Returns:
+        iterable
     """
     x = random.gauss(0, 1)
     yield x
 
-    sigma = math.sqrt(1 - rho ** 2);
+    sigma = math.sqrt(1 - rho ** 2)
     while True:
         x = random.gauss(x * rho, sigma)
         yield x
 
 
-def CorrelatedNormalGenerator(mu, sigma, rho):
+def _correlated_normal_generator(mu, sigma, rho):
     """
     Generates normal variates with correlation.
 
-    mu:    mean of variate
-    sigma: standard deviation of variate
-    rho:   target coefficient of correlation
+    Args:
+        mu:    mean of variate
+        sigma: standard deviation of variate
+        rho:   target coefficient of correlation
 
-    Returns: iterable
+    Returns:
+        iterable
     """
-    for x in CorrelatedGenerator(rho):
+    for x in _correlated_generator(rho):
         yield x * sigma + mu
 
 

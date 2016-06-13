@@ -227,15 +227,15 @@ def _compute_least_squares(ages, weights):
     Prints summary statistics.
     """
     # compute the correlation between age and weight
-    print('Pearson correlation', correlation.Corr(ages, weights))
-    print('Spearman correlation', correlation.SpearmanCorr(ages, weights))
+    print('Pearson correlation', correlation._corr(ages, weights))
+    print('Spearman correlation', correlation._spearman_corr(ages, weights))
 
     # compute least squares fit
-    inter, slope = correlation.LeastSquares(ages, weights)
+    inter, slope = correlation._least_squares(ages, weights)
     print('(inter, slope):', inter, slope)
 
-    res = correlation.Residuals(ages, weights, inter, slope)
-    R2 = correlation.CoefDetermination(weights, res)
+    res = correlation._residuals(ages, weights, inter, slope)
+    R2 = correlation._coef_determination(weights, res)
 
     print('R^2', R2)
     print
