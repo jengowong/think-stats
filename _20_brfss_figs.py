@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: _20_brfss_figs.py
 """
 
 import cPickle
@@ -24,12 +26,12 @@ import _19_brfss
 class Respondents(_19_brfss.Respondents):
     """Represents the respondent table."""
 
-    def MakeNormalModel(self,
-                        weights,
-                        root,
-                        xmax=175,
-                        xlabel='adult weight (kg)',
-                        axis=None):
+    def _make_normal_model(self,
+                           weights,
+                           root,
+                           xmax=175,
+                           xlabel='adult weight (kg)',
+                           axis=None):
         cdf = _13_Cdf._make_cdf_from_list(weights)
 
         pyplot.clf()
@@ -54,10 +56,10 @@ class Respondents(_19_brfss.Respondents):
                          ylabel='CDF',
                          axis=axis or [0, xmax, 0, 1])
 
-    def MakeFigures(self):
+    def _make_figures(self):
         """Generates CDFs and normal prob plots for weights and log weights."""
         weights = [record.wtkg2 for record in self.records if record.wtkg2 != 'NA']
-        self.MakeNormalModel(weights, root='brfss_weight_model')
+        self._make_normal_model(weights, root='brfss_weight_model')
         _17_rankit._make_normal_plot(weights,
                                      root='brfss_weight_normal',
                                      title='Adult weight',
@@ -66,11 +68,11 @@ class Respondents(_19_brfss.Respondents):
         log_weights = [math.log(weight) for weight in weights]
         xmax = math.log(175.0)
         axis = [3.5, 5.2, 0, 1]
-        self.MakeNormalModel(log_weights,
-                             root='brfss_weight_log',
-                             xmax=xmax,
-                             xlabel='adult weight (log kg)',
-                             axis=axis)
+        self._make_normal_model(log_weights,
+                                root='brfss_weight_log',
+                                xmax=xmax,
+                                xlabel='adult weight (log kg)',
+                                axis=axis)
         _17_rankit._make_normal_plot(log_weights,
                                      root='brfss_weight_lognormal',
                                      title='Adult weight',
@@ -80,7 +82,7 @@ class Respondents(_19_brfss.Respondents):
 def main(name):
     resp = Respondents()
     resp._read_records()
-    resp.MakeFigures()
+    resp._make_figures()
 
 
 if __name__ == '__main__':
