@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: _11_relay_soln.py
 """
 
 import _04_Pmf
@@ -12,7 +14,7 @@ import _10_relay
 import _13_Cdf
 
 
-def BiasPmf(pmf, speed, name=None):
+def _bias_pmf(pmf, speed, name=None):
     """
     Returns a new Pmf representing speeds observed at a given speed.
 
@@ -50,7 +52,7 @@ def main():
     #             ylabel='probability')
 
     # plot the biased distribution seen by the observer
-    biased = BiasPmf(pmf, 7.5, name='observed speeds')
+    biased = _bias_pmf(pmf, 7.5, name='observed speeds')
 
     _05_myplot._clf()
     _05_myplot._hist(biased)

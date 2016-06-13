@@ -300,7 +300,7 @@ def _cdf(cdf, complement=False, transform=None, **options):
     Returns:
         dictionary with the scale options that should be passed to myplot.Save or myplot.Show
     """
-    xs, ps = cdf._render()
+    xs, ps = cdf.Render()
     scale = dict(xscale='linear', yscale='linear')
 
     for s in ['xscale', 'yscale']:
