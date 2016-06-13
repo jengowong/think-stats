@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: continuous.py
 """
 
 import matplotlib.pyplot as pyplot
@@ -17,34 +19,34 @@ import _16_erf
 import _17_rankit
 
 
-def ExpoCdf(x, lam):
+def _expo_cdf(x, lam):
     """Evaluates CDF of the exponential distribution with parameter lam."""
     return 1 - math.exp(-lam * x)
 
 
-def ParetoCdf(x, alpha, xmin):
+def _pareto_cdf(x, alpha, xmin):
     """Evaluates CDF of the Pareto distribution with parameters alpha, xmin."""
     if x < xmin:
         return 0
     return 1 - pow(x / xmin, -alpha)
 
 
-def ParetoMedian(xmin, alpha):
+def _pareto_median(xmin, alpha):
     """Computes the median of a Pareto distribution."""
     return xmin * pow(2, 1 / alpha)
 
 
-def MakeExpoCdf():
+def _make_expo_cdf():
     """Generates a plot of the exponential CDF."""
     n = 40
     max = 2.5
     xs = [max * i / n for i in range(n)]
 
     lam = 2.0
-    ps = [ExpoCdf(x, lam) for x in xs]
+    ps = [_expo_cdf(x, lam) for x in xs]
 
     percentile = -math.log(0.05) / lam
-    print('Fraction <= ', percentile, ExpoCdf(lam, percentile))
+    print('Fraction <= ', percentile, _expo_cdf(lam, percentile))
 
     pyplot.clf()
     pyplot.plot(xs, ps, linewidth=2)
@@ -55,7 +57,7 @@ def MakeExpoCdf():
                      legend=False)
 
 
-def MakeParetoCdf():
+def _make_pareto_cdf():
     """Generates a plot of the Pareto CDF."""
     n = 50
     max = 10.0
@@ -63,8 +65,8 @@ def MakeParetoCdf():
 
     xmin = 0.5
     alpha = 1.0
-    ps = [ParetoCdf(x, alpha, xmin) for x in xs]
-    print('Fraction <= 10', ParetoCdf(xmin, alpha, 10))
+    ps = [_pareto_cdf(x, alpha, xmin) for x in xs]
+    print('Fraction <= 10', _pareto_cdf(xmin, alpha, 10))
 
     pyplot.clf()
     pyplot.plot(xs, ps, linewidth=2)
@@ -75,7 +77,7 @@ def MakeParetoCdf():
                      legend=False)
 
 
-def MakeParetoCdf2():
+def _make_pareto_cdf2():
     """Generates a plot of the CDF of height in Pareto World."""
     n = 50
     max = 1000.0
@@ -83,8 +85,8 @@ def MakeParetoCdf2():
 
     xmin = 100
     alpha = 1.7
-    ps = [ParetoCdf(x, alpha, xmin) for x in xs]
-    print('Median', ParetoMedian(xmin, alpha))
+    ps = [_pareto_cdf(x, alpha, xmin) for x in xs]
+    print('Median', _pareto_median(xmin, alpha))
 
     pyplot.clf()
     pyplot.plot(xs, ps, linewidth=2)
@@ -95,16 +97,16 @@ def MakeParetoCdf2():
                      legend=False)
 
 
-def RenderNormalCdf(mu, sigma, max, n=50):
+def _render_normal_cdf(mu, sigma, max, n=50):
     """Generates sequences of xs and ps for a normal CDF."""
     xs = [max * i / n for i in range(n)]
     ps = [_16_erf._normal_cdf(x, mu, sigma) for x in xs]
     return xs, ps
 
 
-def MakeNormalCdf():
+def _make_normal_cdf():
     """Generates a plot of the normal CDF."""
-    xs, ps = RenderNormalCdf(2.0, 0.5, 4.0)
+    xs, ps = _render_normal_cdf(2.0, 0.5, 4.0)
 
     pyplot.clf()
     pyplot.plot(xs, ps, linewidth=2)
@@ -115,7 +117,7 @@ def MakeNormalCdf():
                      legend=False)
 
 
-def MakeNormalModel(weights):
+def _make_normal_model(weights):
     """Plot the CDF of birthweights with a normal model."""
 
     # estimate parameters: trimming outliers yields a better fit
@@ -125,7 +127,7 @@ def MakeNormalModel(weights):
     # plot the model
     sigma = math.sqrt(var)
     print('Sigma', sigma)
-    xs, ps = RenderNormalCdf(mu, sigma, 200)
+    xs, ps = _render_normal_cdf(mu, sigma, 200)
 
     pyplot.clf()
     pyplot.plot(xs, ps, label='model', linewidth=4, color='0.8')
@@ -141,7 +143,7 @@ def MakeNormalModel(weights):
                      ylabel='CDF')
 
 
-def MakeNormalPlot(weights):
+def _make_normal_plot(weights):
     """Generates a normal probability plot of birth weights."""
     _17_rankit._make_normal_plot(weights,
                                  root='nsfg_birthwgt_normal',
@@ -152,17 +154,17 @@ def main():
     random.seed(17)
 
     # make the continuous CDFs
-    MakeExpoCdf()
-    MakeParetoCdf()
-    MakeParetoCdf2()
-    MakeNormalCdf()
+    _make_expo_cdf()
+    _make_pareto_cdf()
+    _make_pareto_cdf2()
+    _make_normal_cdf()
 
     # test the distribution of birth weights for normality
     pool, _, _ = cumulative.MakeTables()
 
     t = pool.weights
-    MakeNormalModel(t)
-    MakeNormalPlot(t)
+    _make_normal_model(t)
+    _make_normal_plot(t)
 
 
 if __name__ == "__main__":

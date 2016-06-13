@@ -44,7 +44,7 @@ class Respondents(_19_brfss.Respondents):
         sigma = math.sqrt(var)
         print('Sigma', sigma)
 
-        xs, ps = continuous.RenderNormalCdf(mu, sigma, xmax)
+        xs, ps = continuous._render_normal_cdf(mu, sigma, xmax)
         pyplot.plot(xs, ps, label='model', linewidth=4, color='0.7')
 
         xs, ps = cdf._render()
