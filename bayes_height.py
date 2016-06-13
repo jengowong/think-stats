@@ -320,7 +320,7 @@ def PlotAges(resp):
 def DumpHeights(data_dir='.', n=10000):
     """Read the BRFSS dataset, extract the heights and pickle them."""
     resp = _19_brfss.Respondents()
-    resp.ReadRecords(data_dir, n)
+    resp._read_records(data_dir, n)
 
     # PlotAges(resp)
 

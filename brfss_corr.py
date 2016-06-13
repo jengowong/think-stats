@@ -42,7 +42,7 @@ def Log(t):
 
 def ComputeCorrelations():
     resp = brfss_scatter.Respondents()
-    resp.ReadRecords()
+    resp._read_records()
     print('Number of records:', len(resp.records))
 
     heights, weights = resp.GetHeightWeight()

@@ -60,7 +60,7 @@ class Respondents(_19_brfss.Respondents):
 
 def MakeFigures():
     resp = Respondents()
-    resp.ReadRecords(n=1000)
+    resp._read_records(n=1000)
 
     heights, weights = resp.GetHeightWeight(jitter=0.0)
     pyplot.clf()
@@ -75,7 +75,7 @@ def MakeFigures():
 
     # read more respondents for the hexplot
     resp = Respondents()
-    resp.ReadRecords(n=10000)
+    resp._read_records(n=10000)
     heights, weights = resp.GetHeightWeight(jitter=1.3)
 
     pyplot.clf()

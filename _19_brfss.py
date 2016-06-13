@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: _19_brfss.py
 """
 
 import math
@@ -15,27 +17,26 @@ import _03_thinkstats
 class Respondents(_01_survey.Table):
     """Represents the respondent table."""
 
-    def ReadRecords(self, data_dir='.', n=None):
-        filename = self.GetFilename()
+    def _read_records(self, data_dir='.', n=None):
+        filename = self._get_filename()
         self._read_file(data_dir,
                         filename,
-                        self.GetFields(),
+                        self._get_fields(),
                         _01_survey.Respondent,
                         n)
         self._recode()
 
-    def GetFilename(self):
+    def _get_filename(self):
         """
         Get the name of the data file.
 
         This function can be overridden by child classes.
 
         The BRFSS data is available from thinkstats.com/CDBRFS08.ASC.gz
-
         """
         return 'CDBRFS08.ASC.gz'
 
-    def GetFields(self):
+    def _get_fields(self):
         """
         Returns a tuple specifying the fields to extract.
         
@@ -60,7 +61,7 @@ class Respondents(_01_survey.Table):
     def _recode(self):
         """_recode variables that need cleaning."""
 
-        def CleanWeight(weight):
+        def _clean_weight(weight):
             if weight in [7777, 9999]:
                 return 'NA'
             elif weight < 1000:
@@ -78,8 +79,8 @@ class Respondents(_01_survey.Table):
                 rec.wtkg2 /= 100.0
 
             # recode wtyrago
-            rec.weight2 = CleanWeight(rec.weight2)
-            rec.wtyrago = CleanWeight(rec.wtyrago)
+            rec.weight2 = _clean_weight(rec.weight2)
+            rec.wtyrago = _clean_weight(rec.wtyrago)
 
             # recode htm3
             if rec.htm3 == 999:
@@ -89,7 +90,7 @@ class Respondents(_01_survey.Table):
             if rec.age in [7, 9]:
                 rec.age = 'NA'
 
-    def SummarizeHeight(self):
+    def _summarize_height(self):
         """Print summary statistics for male and female height."""
 
         # make a dictionary that maps from gender code to list of heights
@@ -107,7 +108,7 @@ class Respondents(_01_survey.Table):
 
         return d
 
-    def SummarizeWeight(self):
+    def _summarize_weight(self):
         """Print summary statistics for male and female weight."""
 
         # make a dictionary that maps from gender code to list of weights
@@ -123,7 +124,7 @@ class Respondents(_01_survey.Table):
             cv = sigma / mu
             print(key, len(t), mu, var, sigma, cv)
 
-    def SummarizeWeightChange(self):
+    def _summarize_weight_change(self):
         """Print the mean reported change in weight in kg."""
 
         data = [(r.weight2, r.wtyrago) for r in self.records if r.weight2 != 'NA' and r.wtyrago != 'NA']
@@ -135,10 +136,10 @@ class Respondents(_01_survey.Table):
 
 def main(name, data_dir='.'):
     resp = Respondents()
-    resp.ReadRecords(data_dir)
-    resp.SummarizeHeight()
-    resp.SummarizeWeight()
-    resp.SummarizeWeightChange()
+    resp._read_records(data_dir)
+    resp._summarize_height()
+    resp._summarize_weight()
+    resp._summarize_weight_change()
 
 
 if __name__ == '__main__':

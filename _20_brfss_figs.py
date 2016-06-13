@@ -79,7 +79,7 @@ class Respondents(_19_brfss.Respondents):
 
 def main(name):
     resp = Respondents()
-    resp.ReadRecords()
+    resp._read_records()
     resp.MakeFigures()
 
 
