@@ -13,7 +13,7 @@ import _06_descriptive
 import _07_risk
 
 
-def ConditionPmf(pmf, filter_func, name='conditional'):
+def _condition_pmf(pmf, filter_func, name='conditional'):
     """
     Computes a conditional PMF based on a filter function.
     
@@ -35,7 +35,7 @@ def ConditionPmf(pmf, filter_func, name='conditional'):
     return cond_pmf
 
 
-def ConditionOnWeeks(pmf, week=39, name='conditional'):
+def _condition_on_weeks(pmf, week=39, name='conditional'):
     """
     Computes a PMF conditioned on the given number of weeks.
     
@@ -51,11 +51,11 @@ def ConditionOnWeeks(pmf, week=39, name='conditional'):
     def filter_func(x):
         return x < week
 
-    cond = ConditionPmf(pmf, filter_func, name)
+    cond = _condition_pmf(pmf, filter_func, name)
     return cond
 
 
-def MakeFigure(firsts, others):
+def _make_figure(firsts, others):
     """Makes a figure showing..."""
 
     weeks = range(35, 46)
@@ -66,14 +66,15 @@ def MakeFigure(firsts, others):
         name = table.pmf.name
         probs[name] = []
         for week in weeks:
-            cond = ConditionOnWeeks(table.pmf, week)
+            cond = _condition_on_weeks(table.pmf, week)
             prob = cond._prob(week)
             print(week, prob, table.pmf.name)
             probs[name].append(prob)
 
     # make a plot with one line for each table
     pyplot.clf()
-    for name, ps in probs.iteritems():
+    # for name, ps in probs.iteritems():
+    for name, ps in probs.items():
         pyplot.plot(weeks, ps, label=name)
         print(name, ps)
 
@@ -83,7 +84,7 @@ def MakeFigure(firsts, others):
                      title='Conditional Probability')
 
 
-def RelativeRisk(first, others, week=38):
+def _relative_risk(first, others, week=38):
     """
     Computes relative risk of the conditional prob of having
     a baby for each week, first babies compared to others.
@@ -94,16 +95,16 @@ def RelativeRisk(first, others, week=38):
         week:
     """
     print(type(first))
-    first_cond = ConditionOnWeeks(first.pmf, week, 'first babies')
-    other_cond = ConditionOnWeeks(others.pmf, week, 'others')
+    first_cond = _condition_on_weeks(first.pmf, week, 'first babies')
+    other_cond = _condition_on_weeks(others.pmf, week, 'others')
 
     _07_risk._compute_relative_risk(first_cond, other_cond)
 
 
 def main():
     pool, firsts, others = _06_descriptive._make_tables()
-    RelativeRisk(firsts, others)
-    MakeFigure(firsts, others)
+    _relative_risk(firsts, others)
+    _make_figure(firsts, others)
 
 
 if __name__ == "__main__":
