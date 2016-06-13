@@ -26,9 +26,9 @@ between them and the rest of the population.
 def main():
     results = _10_relay._read_results()
     speeds = _10_relay._get_speeds(results)
-    _17_rankit.MakeNormalPlot(speeds,
-                              root='relay_normal',
-                              ylabel='Speed (MPH)')
+    _17_rankit._make_normal_plot(speeds,
+                                 root='relay_normal',
+                                 ylabel='Speed (MPH)')
 
 
 if __name__ == '__main__':

@@ -65,7 +65,7 @@ def MakeFigures():
 
     t = [math.log(x) for x in pops]
     t.sort()
-    _17_rankit.MakeNormalPlot(t, 'populations_rankit')
+    _17_rankit._make_normal_plot(t, 'populations_rankit')
 
 
 def main():

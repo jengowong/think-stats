@@ -143,9 +143,9 @@ def MakeNormalModel(weights):
 
 def MakeNormalPlot(weights):
     """Generates a normal probability plot of birth weights."""
-    _17_rankit.MakeNormalPlot(weights,
-                              root='nsfg_birthwgt_normal',
-                              ylabel='Birth weights (oz)', )
+    _17_rankit._make_normal_plot(weights,
+                                 root='nsfg_birthwgt_normal',
+                                 ylabel='Birth weights (oz)', )
 
 
 def main():

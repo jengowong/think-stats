@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: _17_rankit.py
 """
 
 import matplotlib.pyplot as pyplot
@@ -12,7 +14,7 @@ import _03_thinkstats
 import _05_myplot
 
 
-def Sample(n=6):
+def _sample(n=6):
     """
     Generates a sample from a standard normal variate.
 
@@ -26,7 +28,7 @@ def Sample(n=6):
     return t
 
 
-def Samples(n=6, m=1000):
+def _samples(n=6, m=1000):
     """
     Generates m samples with size n each.
 
@@ -36,11 +38,11 @@ def Samples(n=6, m=1000):
 
     Returns: list of m samples
     """
-    t = [Sample(n) for i in range(m)]
+    t = [_sample(n) for i in range(m)]
     return t
 
 
-def EstimateRankits(n=6, m=1000):
+def _estimate_rankits(n=6, m=1000):
     """
     Estimates the expected values of sorted random samples.
 
@@ -50,13 +52,13 @@ def EstimateRankits(n=6, m=1000):
 
     Returns: list of n rankits
     """
-    t = Samples(n, m)
+    t = _samples(n, m)
     t = zip(*t)
     means = [_03_thinkstats._mean(x) for x in t]
     return means
 
 
-def MakeNormalPlot(ys, root=None, line_options={}, **options):
+def _make_normal_plot(ys, root=None, line_options={}, **options):
     """
     Makes a normal probability plot.
     
@@ -79,7 +81,7 @@ def MakeNormalPlot(ys, root=None, line_options={}, **options):
 
 
 def main():
-    means = EstimateRankits(84)
+    means = _estimate_rankits(84)
     print(means)
 
 

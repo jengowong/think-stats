@@ -58,10 +58,10 @@ class Respondents(_19_brfss.Respondents):
         """Generates CDFs and normal prob plots for weights and log weights."""
         weights = [record.wtkg2 for record in self.records if record.wtkg2 != 'NA']
         self.MakeNormalModel(weights, root='brfss_weight_model')
-        _17_rankit.MakeNormalPlot(weights,
-                                  root='brfss_weight_normal',
-                                  title='Adult weight',
-                                  ylabel='Weight (kg)')
+        _17_rankit._make_normal_plot(weights,
+                                     root='brfss_weight_normal',
+                                     title='Adult weight',
+                                     ylabel='Weight (kg)')
 
         log_weights = [math.log(weight) for weight in weights]
         xmax = math.log(175.0)
@@ -71,10 +71,10 @@ class Respondents(_19_brfss.Respondents):
                              xmax=xmax,
                              xlabel='adult weight (log kg)',
                              axis=axis)
-        _17_rankit.MakeNormalPlot(log_weights,
-                                  root='brfss_weight_lognormal',
-                                  title='Adult weight',
-                                  ylabel='Weight (log kg)')
+        _17_rankit._make_normal_plot(log_weights,
+                                     root='brfss_weight_lognormal',
+                                     title='Adult weight',
+                                     ylabel='Weight (log kg)')
 
 
 def main(name):
