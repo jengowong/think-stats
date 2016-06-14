@@ -27,7 +27,7 @@ def Test(actual1, actual2, model, iters=1000):
     m = len(actual2)
 
     # compute delta
-    mu1, mu2, delta = hypothesis.DifferenceInMean(actual1, actual2)
+    mu1, mu2, delta = hypothesis._difference_in_mean(actual1, actual2)
     delta = abs(delta)
 
     print('n:', n)
@@ -53,7 +53,7 @@ def Test(actual1, actual2, model, iters=1000):
     print('p-value:', pvalue)
 
     # compare the mean and variance of resamples differences
-    deltas = [hypothesis.Resample(model, model, n, m) for i in range(iters)]
+    deltas = [hypothesis._resample(model, model, n, m) for i in range(iters)]
     mean_var = _03_thinkstats._mean_var(deltas)
     print('(Mean, Var) of resampled deltas', mean_var)
 

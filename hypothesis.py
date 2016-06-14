@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+Name: hypothesis.py
 """
 
 import matplotlib.pyplot as pyplot
@@ -15,13 +17,13 @@ import _05_myplot
 import _13_Cdf
 
 
-def RunTest(root,
-            pool,
-            actual1,
-            actual2,
-            iters=1000,
-            trim=False,
-            partition=False):
+def _run_test(root,
+              pool,
+              actual1,
+              actual2,
+              iters=1000,
+              trim=False,
+              partition=False):
     """
     Computes the distributions of delta under H0 and HA.
     
@@ -45,29 +47,29 @@ def RunTest(root,
     if partition:
         n = len(actual1)
         m = len(actual2)
-        actual1, model1 = Partition(actual1, n / 2)
-        actual2, model2 = Partition(actual2, m / 2)
+        actual1, model1 = _partition(actual1, n / 2)
+        actual2, model2 = _partition(actual2, m / 2)
         pool = model1 + model2
     else:
         model1 = actual1
         model2 = actual2
 
     # P(E|H0)
-    peh0 = Test(root + '_deltas_cdf',
-                actual1,
-                actual2,
-                pool,
-                pool,
-                iters,
-                plot=True)
+    peh0 = _test(root + '_deltas_cdf',
+                 actual1,
+                 actual2,
+                 pool,
+                 pool,
+                 iters,
+                 plot=True)
 
     # P(E|Ha)
-    peha = Test(root + '_deltas_ha_cdf',
-                actual1,
-                actual2,
-                model1,
-                model2,
-                iters)
+    peha = _test(root + '_deltas_ha_cdf',
+                 actual1,
+                 actual2,
+                 model1,
+                 model2,
+                 iters)
 
     prior = 0.5
     pe = prior * peha + (1 - prior) * peh0
@@ -75,7 +77,7 @@ def RunTest(root,
     print('Posterior', posterior)
 
 
-def Test(root, actual1, actual2, model1, model2, iters=1000, plot=False):
+def _test(root, actual1, actual2, model1, model2, iters=1000, plot=False):
     """
     Estimates p-values based on differences in the mean.
     
@@ -91,10 +93,10 @@ def Test(root, actual1, actual2, model1, model2, iters=1000, plot=False):
     n = len(actual1)
     m = len(actual2)
 
-    mu1, mu2, delta = DifferenceInMean(actual1, actual2)
+    mu1, mu2, delta = _difference_in_mean(actual1, actual2)
     delta = abs(delta)
 
-    cdf, pvalue = PValue(model1, model2, n, m, delta, iters)
+    cdf, pvalue = _p_value(model1, model2, n, m, delta, iters)
     print('n:', n)
     print('m:', m)
     print('mu1', mu1)
@@ -103,12 +105,12 @@ def Test(root, actual1, actual2, model1, model2, iters=1000, plot=False):
     print('p-value', pvalue)
 
     if plot:
-        PlotCdf(root, cdf, delta)
+        _plot_cdf(root, cdf, delta)
 
     return pvalue
 
 
-def DifferenceInMean(actual1, actual2):
+def _difference_in_mean(actual1, actual2):
     """
     Computes the difference in mean between two groups.
 
@@ -125,7 +127,7 @@ def DifferenceInMean(actual1, actual2):
     return mu1, mu2, delta
 
 
-def PValue(model1, model2, n, m, delta, iters=1000):
+def _p_value(model1, model2, n, m, delta, iters=1000):
     """
     Computes the distribution of deltas with the model distributions.
 
@@ -139,7 +141,7 @@ def PValue(model1, model2, n, m, delta, iters=1000):
         delta:  the observed difference in the means
         iters:  how many samples to generate
     """
-    deltas = [Resample(model1, model2, n, m) for i in range(iters)]
+    deltas = [_resample(model1, model2, n, m) for i in range(iters)]
     mean_var = _03_thinkstats._mean_var(deltas)
     print('(Mean, Var) of resampled deltas', mean_var)
 
@@ -155,24 +157,24 @@ def PValue(model1, model2, n, m, delta, iters=1000):
     return cdf, pvalue
 
 
-def PlotCdf(root, cdf, delta):
+def _plot_cdf(root, cdf, delta):
     """
     Draws a Cdf with vertical lines at the observed delta.
 
     Args:
-       root:  string used to generate filenames
-       cdf:   Cdf object
-       delta: float observed difference in means    
+        root:  string used to generate filenames
+        cdf:   Cdf object
+        delta: float observed difference in means
     """
 
-    def VertLine(x):
+    def _vert_line(x):
         """Draws a vertical line at x."""
         xs = [x, x]
         ys = [0, 1]
         pyplot.plot(xs, ys, linewidth=2, color='0.7')
 
-    VertLine(-delta)
-    VertLine(delta)
+    _vert_line(-delta)
+    _vert_line(delta)
 
     xs, ys = cdf._render()
     pyplot.subplots_adjust(bottom=0.11)
@@ -185,24 +187,23 @@ def PlotCdf(root, cdf, delta):
                      legend=False)
 
 
-def Resample(t1, t2, n, m):
+def _resample(t1, t2, n, m):
     """
     Draws samples and computes the difference in mean.
     
     Args:
         t1: sequence of values
         t2: sequence of values
-        
         n:  size of the sample to draw from t1
         m:  size of the sample to draw from t2
     """
-    sample1 = SampleWithReplacement(t1, n)
-    sample2 = SampleWithReplacement(t2, m)
-    mu1, mu2, delta = DifferenceInMean(sample1, sample2)
+    sample1 = _sample_with_replacement(t1, n)
+    sample2 = _sample_with_replacement(t2, m)
+    mu1, mu2, delta = _difference_in_mean(sample1, sample2)
     return delta
 
 
-def Partition(t, n):
+def _partition(t, n):
     """
     Splits a sequence into two random partitions.
     
@@ -219,7 +220,7 @@ def Partition(t, n):
     return t[:n], t[n:]
 
 
-def SampleWithReplacement(t, n):
+def _sample_with_replacement(t, n):
     """
     Generates a sample with replacement.
     
@@ -233,7 +234,7 @@ def SampleWithReplacement(t, n):
     return [random.choice(t) for i in range(n)]
 
 
-def SampleWithoutReplacement(t, n):
+def _sample_without_replacement(t, n):
     """
     Generates a sample without replacement.
     
@@ -256,13 +257,13 @@ def main():
     print('(Mean, Var) of pooled data', mean_var)
 
     # run the test
-    RunTest('length',
-            pool.lengths,
-            firsts.lengths,
-            others.lengths,
-            iters=1000,
-            trim=False,
-            partition=False)
+    _run_test('length',
+              pool.lengths,
+              firsts.lengths,
+              others.lengths,
+              iters=1000,
+              trim=False,
+              partition=False)
 
 
 if __name__ == "__main__":
