@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: khan.py
 """
 
 import matplotlib.pyplot as pyplot
@@ -17,16 +19,16 @@ import _05_myplot
 import _13_Cdf
 
 
-def ChiSquared(expected, observed):
+def _chi_squared(expected, observed):
     """
     Compute the Chi-squared statistic for two tables.
     
     Args:
-      expected: Hist of expected values
-      observed: Hist of observed values
+        expected: Hist of expected values
+        observed: Hist of observed values
       
     Returns:
-      float chi-squared statistic
+        float chi-squared statistic
     """
     total = 0.0
     for x, exp in expected._items():
@@ -35,18 +37,19 @@ def ChiSquared(expected, observed):
     return total
 
 
-def Simulate(pa, q, n):
+def _simulate(pa, q, n):
     """
     Run a simulation.
 
-    pa: probability of showing version A
-    q:  probability of success for both A and B
-    n:  number of trials
+    Args:
+        pa: probability of showing version A
+        q:  probability of success for both A and B
+        n:  number of trials
     
     Returns: tuple of
-       diff_list: simulated differences
-       chi2_list: simulated chi-square values
-       pvalue_list: simulated p-values
+        diff_list:   simulated differences
+        chi2_list:   simulated chi-square values
+        pvalue_list: simulated p-values
     """
     hist = _04_Pmf.Hist()
     diff_list = []
@@ -54,16 +57,16 @@ def Simulate(pa, q, n):
     pvalue_list = []
 
     for i in range(1, n + 1):
-        version = Flip(pa, 'A', 'B')
-        outcome = Flip(q, 'Y', 'N')
+        version = _flip(pa, 'A', 'B')
+        outcome = _flip(q, 'Y', 'N')
         hist._incr((version, outcome))
 
-        expected = Expected(pa, q, i)
+        expected = _expected(pa, q, i)
         try:
-            rate_a, rate_b = ComputeRates(hist)
+            rate_a, rate_b = _compute_rates(hist)
             diff = rate_b - rate_a
-            chi2 = ChiSquared(expected, hist)
-            pvalue = Pvalue(chi2, df=3)
+            chi2 = _chi_squared(expected, hist)
+            pvalue = _pvalue(chi2, df=3)
 
             diff_list.append((i, diff))
             chi2_list.append((i, chi2))
@@ -74,12 +77,12 @@ def Simulate(pa, q, n):
     return diff_list, chi2_list, pvalue_list
 
 
-def Flip(p, y='Y', n='N'):
+def _flip(p, y='Y', n='N'):
     """Returns y with probability p; otherwise n."""
     return y if random.random() <= p else n
 
 
-def ComputeRates(hist):
+def _compute_rates(hist):
     """Returns a sequence of success rates, one for each version."""
     rates = []
     for version in ['A', 'B']:
@@ -91,17 +94,18 @@ def ComputeRates(hist):
     return rates
 
 
-def Expected(pa, q, n):
+def _expected(pa, q, n):
     """
     Makes a Pmf with the expected number of trials in each of four bins.
 
-    pa: probability of offering version A
-    q:  probability of success for both A and B
-    n:  number of trials
+    Args:
+        pa: probability of offering version A
+        q:  probability of success for both A and B
+        n:  number of trials
 
     Returns:
-      hist that maps (version, outcome) to expected number, where version
-      is string A or B and outcome is string Y or N.
+        hist that maps (version, outcome) to expected number,
+        where version is string A or B and outcome is string Y or N.
     """
     versions = _04_Pmf._make_pmf_from_dict(dict(A=pa, B=1 - pa))
     outcomes = _04_Pmf._make_pmf_from_dict(dict(Y=q, N=1 - q))
@@ -113,17 +117,18 @@ def Expected(pa, q, n):
     return hist
 
 
-def Pvalue(chi2, df):
+def _pvalue(chi2, df):
     """
     Returns the p-value of getting chi2 from a chi-squared distribution.
 
-    chi2: observed chi-squared statistic
-    df:   degrees of freedom
+    Args:
+        chi2: observed chi-squared statistic
+        df:   degrees of freedom
     """
     return 1 - scipy.stats.chi2.cdf(chi2, df)
 
 
-def Crosses(ps, thresh):
+def _crosses(ps, thresh):
     """Tests whether a sequence of p-values ever drops below thresh."""
     if thresh is None:
         return False
@@ -134,13 +139,13 @@ def Crosses(ps, thresh):
     return False
 
 
-def CheckCdf():
+def _check_cdf():
     """Compare chi2 values from simulation with chi2 distributions."""
     for df in [1, 2, 3]:
-        xs, ys = Chi2Cdf(df=df, high=15)
+        xs, ys = _chi2_cdf(df=df, high=15)
         pyplot.plot(xs, ys, label=df)
 
-    t = [SimulateChi2() for i in range(1000)]
+    t = [_simulate_chi2() for i in range(1000)]
     cdf = _13_Cdf._make_cdf_from_list(t)
 
     _05_myplot._cdf(cdf)
@@ -150,10 +155,10 @@ def CheckCdf():
                      formats=['png'])
 
 
-def CheckCdf2():
+def _check_cdf2():
     """Compare chi2 values from the simulation with a chi-squared dist."""
     df = 3
-    t = [SimulateChi2() for i in range(1000)]
+    t = [_simulate_chi2() for i in range(1000)]
     t2 = [scipy.stats.chi2.cdf(x, df) for x in t]
     cdf = _13_Cdf._make_cdf_from_list(t2)
 
@@ -161,42 +166,44 @@ def CheckCdf2():
     _05_myplot._show()
 
 
-def Chi2Cdf(df=2, high=5, n=100):
+def _chi2_cdf(df=2, high=5, n=100):
     """
     Evaluates the chi-squared CDF.
 
-    df:   degrees of freedom
-    high: high end of the range of x
-    n:    number of values between 0 and high
+    Args:
+        df:   degrees of freedom
+        high: high end of the range of x
+        n:    number of values between 0 and high
     """
     xs = numpy.linspace(0, high, n)
     ys = scipy.stats.chi2.cdf(xs, df)
     return xs, ys
 
 
-def SimulateChi2(pa=0.5, q=0.5, n=100):
+def _simulate_chi2(pa=0.5, q=0.5, n=100):
     """Run a simulation and return the chi2 statistic."""
-    expected = Expected(pa, q, n)
+    expected = _expected(pa, q, n)
 
     simulated = _04_Pmf.Hist()
 
     for i in range(1, n + 1):
-        version = Flip(pa, 'A', 'B')
-        outcome = Flip(q, 'Y', 'N')
+        version = _flip(pa, 'A', 'B')
+        outcome = _flip(q, 'Y', 'N')
         simulated._incr((version, outcome))
 
-    chi2 = ChiSquared(expected, simulated)
+    chi2 = _chi_squared(expected, simulated)
     return chi2
 
 
-def MakeSpaghetti(iters=1000, lines=100, n=300, thresh=0.05, index=2):
+def _make_spaghetti(iters=1000, lines=100, n=300, thresh=0.05, index=2):
     """
     Makes a spaghetti plot of random-walk lines.
-    
-    iters:  number of simulations to run
-    lines:  number of lines to plot
-    n:      number of trials to simulate
-    thresh: threshold p-value
+
+    Args:
+        iters:  number of simulations to run
+        lines:  number of lines to plot
+        n:      number of trials to simulate
+        thresh: threshold p-value
     """
     pyplot.clf()
     if thresh is not None:
@@ -204,10 +211,10 @@ def MakeSpaghetti(iters=1000, lines=100, n=300, thresh=0.05, index=2):
 
     count = 0.0
     for i in range(iters):
-        lists = Simulate(0.5, 0.5, n)
+        lists = _simulate(0.5, 0.5, n)
         pairs = lists[index]
         xs, ys = zip(*pairs)
-        if Crosses(ys, thresh):
+        if _crosses(ys, thresh):
             count += 1
 
         if i < lines:
@@ -225,13 +232,13 @@ def MakeSpaghetti(iters=1000, lines=100, n=300, thresh=0.05, index=2):
 
 
 def main():
-    CheckCdf()
+    _check_cdf()
     return
 
     random.seed(17)
-    MakeSpaghetti(10, 10, 200, index=0, thresh=None)
-    MakeSpaghetti(10, 10, 1000, index=1, thresh=None)
-    MakeSpaghetti(20, 20, 1000, index=2, thresh=0.05)
+    _make_spaghetti(10, 10, 200, index=0, thresh=None)
+    _make_spaghetti(10, 10, 1000, index=1, thresh=None)
+    _make_spaghetti(20, 20, 1000, index=2, thresh=0.05)
 
 
 if __name__ == "__main__":
