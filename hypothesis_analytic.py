@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: hypothesis_analytic.py
 """
 
 import matplotlib.pyplot as pyplot
@@ -14,7 +16,7 @@ import _03_thinkstats
 import _16_erf
 
 
-def Test(actual1, actual2, model, iters=1000):
+def _test(actual1, actual2, model, iters=1000):
     """
     Estimates p-values based on differences in the mean.
     
@@ -65,10 +67,10 @@ def main():
     pool, firsts, others = cumulative._make_tables()
 
     # run the test
-    Test(firsts.lengths,
-         others.lengths,
-         pool.lengths,
-         iters=1000)
+    _test(firsts.lengths,
+          others.lengths,
+          pool.lengths,
+          iters=1000)
 
 
 if __name__ == "__main__":
