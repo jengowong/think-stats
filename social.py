@@ -4,6 +4,8 @@ by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: social.py
 """
 
 import gzip
@@ -16,7 +18,7 @@ import _05_myplot
 import _13_Cdf
 
 
-def BiasPmf(pmf, name, invert=False):
+def _bias_pmf(pmf, name, invert=False):
     """
     Returns the Pmf with oversampling proportional to value.
 
@@ -30,11 +32,11 @@ def BiasPmf(pmf, name, invert=False):
     unbiasing a sample collected from students.
 
     Args:
-      pmf:    Pmf object.
-      invert: boolean
+        pmf:    Pmf object.
+        invert: boolean
 
-     Returns:
-       Pmf object
+    Returns:
+        Pmf object
     """
     new_pmf = pmf._copy()
     new_pmf.name = name
@@ -49,7 +51,7 @@ def BiasPmf(pmf, name, invert=False):
     return new_pmf
 
 
-def ReadFile(filename='soc-Slashdot0902.txt.gz', n=None):
+def _read_file(filename='soc-Slashdot0902.txt.gz', n=None):
     """
     Reads a compressed data file.
 
@@ -78,7 +80,7 @@ def ReadFile(filename='soc-Slashdot0902.txt.gz', n=None):
     return srcs
 
 
-def Summarize(srcs):
+def _summarize(srcs):
     """Computes the number of edges for each source."""
     lens = [len(t) for t in srcs.itervalues()]
     mu, sigma2 = _03_thinkstats._mean_var(lens)
@@ -86,18 +88,18 @@ def Summarize(srcs):
     return lens
 
 
-def MakePmfs(lens):
+def _make_pmfs(lens):
     """Computes the PMF of the given list and the biased PMF."""
     pmf = _04_Pmf._make_pmf_from_list(lens, 'slashdot')
     print('unbiased mean', pmf._mean())
 
-    biased_pmf = BiasPmf(pmf, 'biased')
+    biased_pmf = _bias_pmf(pmf, 'biased')
     print('biased mean', biased_pmf._mean())
 
     return pmf, biased_pmf
 
 
-def MakeFigures(pmf, biased_pmf):
+def _make_figures(pmf, biased_pmf):
     """Makes figures showing the CDF of the biased and unbiased PMFs"""
     cdf = _13_Cdf._make_cdf_from_pmf(pmf, 'unbiased')
     print('unbiased median', cdf._percentile(50))
@@ -115,7 +117,7 @@ def MakeFigures(pmf, biased_pmf):
                      xscale='log')
 
 
-def MakeCdfs(lens):
+def _make_cdfs(lens):
     cdf = _13_Cdf._make_cdf_from_list(lens, 'slashdot')
 
     _05_myplot._clf()
@@ -134,7 +136,7 @@ def MakeCdfs(lens):
                      yscale='log')
 
 
-def PmfProbLess(pmf1, pmf2):
+def _pmf_prob_less(pmf1, pmf2):
     """
     Probability that a value from pmf1 is less than a value from pmf2.
 
@@ -154,11 +156,11 @@ def PmfProbLess(pmf1, pmf2):
 
 
 def main(name):
-    srcs = ReadFile(n=100000)
-    lens = Summarize(srcs)
-    pmf, biased_pmf = MakePmfs(lens)
-    MakeFigures(pmf, biased_pmf)
-    prob = PmfProbLess(pmf, biased_pmf)
+    srcs = _read_file(n=100000)
+    lens = _summarize(srcs)
+    pmf, biased_pmf = _make_pmfs(lens)
+    _make_figures(pmf, biased_pmf)
+    prob = _pmf_prob_less(pmf, biased_pmf)
     print(prob)
 
 
