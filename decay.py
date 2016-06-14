@@ -40,10 +40,10 @@ class Decay(thinkbayes.Suite):
         Returns:
             probability density of the data under the hypothesis
         """
-        return ExpoCondPdf(data, hypo)
+        return _expo_cond_pdf(data, hypo)
 
 
-def ExpoCondPdf(x, lam, low=1.0, high=20.0):
+def _expo_cond_pdf(x, lam, low=1.0, high=20.0):
     """
     Evaluates the conditional exponential PDF.
 
