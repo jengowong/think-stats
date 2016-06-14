@@ -236,7 +236,7 @@ def _plot(obj, ys=None, style='', **options):
     xs = obj
     if ys is None:
         if hasattr(obj, 'Render'):
-            xs, ys = obj.Render()
+            xs, ys = obj._render()
         if isinstance(obj, pandas.Series):
             ys = obj.values
             xs = obj.index
@@ -348,7 +348,7 @@ def _pdf(pdf, **options):
     """
     low, high = options.pop('low', None), options.pop('high', None)
     n = options.pop('n', 101)
-    xs, ps = pdf.Render(low=low, high=high, n=n)
+    xs, ps = pdf._render(low=low, high=high, n=n)
     options = _underride(options, label=pdf.label)
     _plot(xs, ps, **options)
 
@@ -382,7 +382,7 @@ def _hist(hist, **options):
         options: keyword args passed to pyplot.bar
     """
     # find the minimum distance between adjacent values
-    xs, ys = hist.Render()
+    xs, ys = hist._render()
 
     if 'width' not in options:
         try:
@@ -508,7 +508,7 @@ def _cdf(cdf, complement=False, transform=None, **options):
     Returns:
         dictionary with the scale options that should be passed to Config, Show or Save.
     """
-    xs, ps = cdf.Render()
+    xs, ps = cdf._render()
     xs = np.asarray(xs)
     ps = np.asarray(ps)
 
@@ -574,7 +574,7 @@ def _contour(obj, pcolor=False, contour=True, imshow=False, **options):
         options: keyword args passed to pyplot.pcolor and/or pyplot.contour
     """
     try:
-        d = obj.GetDict()
+        d = obj._get_dict()
     except AttributeError:
         d = obj
 
