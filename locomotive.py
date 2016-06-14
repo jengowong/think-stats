@@ -11,6 +11,8 @@ Mosteller, Fifty Challenging Problems in Probability:
 "A railroad numbers its locomotives in order 1..N.  One day you see a 
 locomotive with the number 60.  Estimate how many locomotives the 
 railroad has."
+
+NAME: locomotive.py
 """
 
 import matplotlib.pyplot as pyplot
@@ -20,7 +22,7 @@ import _05_myplot
 import _13_Cdf
 
 
-def MakeUniformSuite(low, high, steps):
+def _make_uniform_suite(low, high, steps):
     """
     Makes a PMF that represents a suite of hypotheses with equal p.
     
@@ -37,7 +39,7 @@ def MakeUniformSuite(low, high, steps):
     return pmf
 
 
-def Update(suite, evidence):
+def _update(suite, evidence):
     """
     Updates a suite of hypotheses based on new evidence.
 
@@ -48,12 +50,12 @@ def Update(suite, evidence):
         evidence: whatever kind of object Likelihood expects
     """
     for hypo in suite._values():
-        likelihood = Likelihood(evidence, hypo)
+        likelihood = _likelihood(evidence, hypo)
         suite._mult(hypo, likelihood)
     suite._normalize()
 
 
-def Likelihood(evidence, hypo):
+def _likelihood(evidence, hypo):
     """
     Computes the likelihood of the evidence assuming the hypothesis is true.
 
@@ -72,7 +74,7 @@ def Likelihood(evidence, hypo):
         return 1.0 / num_trains
 
 
-def CredibleInterval(pmf, percentage):
+def _credible_interval(pmf, percentage):
     """
     Computes a credible interval for a given distribution.
 
@@ -93,15 +95,15 @@ def CredibleInterval(pmf, percentage):
 
 def main():
     upper_bound = 200
-    prior = MakeUniformSuite(1, upper_bound, upper_bound)
+    prior = _make_uniform_suite(1, upper_bound, upper_bound)
     prior.name = 'prior'
 
     evidence = 60
     posterior = prior._copy()
-    Update(posterior, evidence)
+    _update(posterior, evidence)
     posterior.name = 'posterior'
 
-    print(CredibleInterval(posterior, 90))
+    print(_credible_interval(posterior, 90))
 
     # plot the posterior distribution
     pyplot.subplots_adjust(wspace=0.4, left=0.15)
