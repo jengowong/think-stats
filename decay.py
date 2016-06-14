@@ -1,8 +1,11 @@
-"""This file contains code used in "Think Stats",
+"""
+This file contains code used in "Think Stats",
 by Allen B. Downey, available from greenteapress.com
 
 Copyright 2010 Allen B. Downey
 License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+
+NAME: decay.py
 """
 
 import thinkbayes
@@ -26,7 +29,7 @@ cm.  What is $\lambda$?
 class Decay(thinkbayes.Suite):
     """Represents hypotheses about the emission rate, lam."""
 
-    def Likelihood(self, data, hypo):
+    def _likelihood(self, data, hypo):
         """
         Likelihood of the data given the hypothesis.
 
@@ -67,14 +70,14 @@ def main():
     suite = Decay(hypos)
     data = [1.5, 2, 3, 4, 5, 12]
 
-    suite.UpdateSet(data)
-    print('Mean of the posterior distribution:', suite.Mean())
+    suite._update_set(data)
+    print('Mean of the posterior distribution:', suite._mean())
 
     # plot the posterior distribution
-    thinkplot.Pmf(suite)
-    thinkplot.Show(title='Decay parameter',
-                   xlabel='Parameter (inverse cm)',
-                   ylabel='Posterior probability')
+    thinkplot._pmf(suite)
+    thinkplot._show(title='Decay parameter',
+                    xlabel='Parameter (inverse cm)',
+                    ylabel='Posterior probability')
 
 
 if __name__ == '__main__':
